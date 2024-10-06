@@ -25,7 +25,7 @@
             </a>
         </h2>
         <ul>
-            <a href="/admin/movie_management/ad_movie.html">
+            <a href="./movie_management/ad_movie.php">
                 <li>
                     <i class="fas fa-film"></i>
                     Quản lý phim

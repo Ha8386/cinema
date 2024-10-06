@@ -52,35 +52,33 @@ function toggleSidebar() {
      }
  }
 
- // Add movie to the list
-document.getElementById("addMovieBtn").onclick = function() {
-    var name = document.getElementById("name").value;
-    var age = document.getElementById("age").value;
-    var trailer = document.getElementById("trailer").value;
-    var image = document.getElementById("image").files[0];
-    var date = document.getElementById("date").value;
-    var description = document.getElementById("description").value;
-    var duration = document.getElementById("duration").value;
-    var genres = document.getElementById("genres").value;
-    var status = document.getElementById("status").value;
-    var directors = document.getElementById("directors").value;
-    var country = document.getElementById("country").value;
-
-    var table = document.getElementById("movieList");
-    var row = table.insertRow();
-    row.insertCell(0).innerHTML = name;
-    row.insertCell(1).innerHTML = date;
-    row.insertCell(2).innerHTML = genres;
-    row.insertCell(3).innerHTML = status;
-    row.insertCell(4).innerHTML = '<a href="' + trailer + '">Trailer</a>';
-
-    // Hiển thị ảnh trong bảng danh sách phim
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        row.insertCell(5).innerHTML = '<img src="' + event.target.result + '" alt="Movie Image" style="width: 40px; height: 50px;">';
-        row.insertCell(6).innerHTML = '<button class="update-btn">Cập nhật</button>';
-        row.insertCell(7).innerHTML = '<button class="delete-btn">Xoá</button>';
-        modal.style.display = "none";
-    };
-    reader.readAsDataURL(image);
+//  xoá phim
+ function deleteMovie(movie_id) {
+    if (confirm("Bạn có chắc chắn muốn xóa phim này không?")) {
+        window.location.href = "ad_movie.php?delete=" + movie_id;
+    }
 }
+
+// sửa phim
+function openEditModal(movieId) {
+    // Gọi API hoặc thực hiện AJAX để lấy thông tin phim theo ID
+    fetch(`get_movie.php?id=${movieId}`)
+        .then(response => response.json())
+        .then(movie => {
+            document.getElementById("edit_movie_id").value = movie.id;
+            document.getElementById("edit_title").value = movie.title;
+            document.getElementById("edit_age_rating").value = movie.age_rating;
+            document.getElementById("edit_release_date").value = movie.release_date;
+            document.getElementById("edit_description").value = movie.description;
+            document.getElementById("edit_subtitle").value = movie.subtitle;
+            document.getElementById("edit_genre").value = movie.genre;
+            document.getElementById("edit_status").value = movie.status;
+            document.getElementById("edit_duration").value = movie.duration;
+            document.getElementById("edit_country").value = movie.country;
+
+            document.getElementById("editMovieModal").style.display = "block"; // Mở modal
+        });
+        console.log(`get_movie.php?id=${movieId}`);
+
+}
+
