@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 06, 2024 lúc 06:44 AM
+-- Thời gian đã tạo: Th10 06, 2024 lúc 10:42 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -49,6 +49,18 @@ CREATE TABLE `customers` (
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `customers`
+--
+
+INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `password`) VALUES
+(4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
+(5, 'Nguyễn Đức Hà', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$yCp3CVF7fjW8gOC6ENNIcOkZyx.kz/9nKqnt11FUavVF8ZUZUTz0y'),
+(6, 'Nguyễn', 'hadeptrai@gmail.com', '123', 'ha', '$2y$10$RcMWkw6IPii.yJJGM2CSJOmV5ZDWi8kA39sPJL4q7569RGhasiQnO'),
+(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
+(10, 'Nam', 'abc@gmail.com', '12345', 'nam', '$2y$10$xPGKYogrBachOvnygRldYeSNGQDIzLnPBsRkZuxUM/2C.AUNpjr8e');
+
+-- --------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `employees`
@@ -80,9 +92,8 @@ CREATE TABLE `movies` (
   `release_date` date NOT NULL,
   `country` varchar(100) NOT NULL,
   `subtitle` varchar(50) DEFAULT NULL,
-  `status` varchar(50) NOT NULL,
-  `actors` text DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `status_mv` varchar(50) NOT NULL,
+  `description_mv` text DEFAULT NULL,
   `trailer_url` varchar(255) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -248,7 +259,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT cho bảng `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
