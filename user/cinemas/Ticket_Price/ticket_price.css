@@ -1,0 +1,141 @@
+
+
+/* Phần thân trang web */
+.main__container{
+    background: radial-gradient(rgb(95, 71, 171) 0%, rgba(15,23,42,1) 70%, rgb(2, 2, 37) 80%, rgb(2, 2, 37) 100%);
+    display: flex;
+    justify-content: center;
+    font: 16px  'Josefin Sans', sans-serif;
+    color: var(--white-color);
+}
+
+
+
+/* Phần banner web */
+.cinemas__banner{
+    display: flex;
+}
+
+.cinemas__banner-left{
+    width: 25%;
+}
+
+.cinemas__banner-img{
+    width: 100%;
+    height: 100%;
+}
+
+.cinemas__banner-right{
+    width: 75%;
+    background: linear-gradient(to right, rgb(87, 64, 166, 1), rgb(59, 89, 188, 1));
+    display: flex;
+}
+
+.cinemas__banner-right-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5%;
+}
+
+.fa-solid {
+    color: var(--icon-color);
+    padding-right: 5px;
+}
+
+.fa-location-dot{
+    margin-right: 10px;
+}
+
+.cinemas__banner-name{
+    text-transform: uppercase;
+    font-size: 46px;
+    font-family: var(--font-title);
+    margin-bottom: 20px;
+    
+}
+
+.cinemas__banner-location{
+    display: flex;
+}
+
+.cinemas__banner-menu-bar{
+    background: linear-gradient(to right, rgb(55, 42, 92), rgb(12, 23, 44) 50%, rgb(23, 42, 80));
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.banner__menu-list{
+    text-transform: uppercase;
+    font-size: 22px;
+    font-family: var(--font-title);
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.banner__menu-link{
+    text-decoration: none;
+    color: var(--white-color);
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.banner__menu-link:active{
+    color: yellow;
+    border-color: solid 2px yellow;
+}
+
+/* Tiêu đề */
+.ticket__price-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 40px 0 50px;
+}
+
+.ticket__price-img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.price-img{
+    width: 90%;
+}
+
+/* Khuyến mãi */
+.ticket__price-offer-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 40px 0 50px;
+}
+
+.ticket__price-offer-img{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.offer-img-block{
+    width: 31%;
+    
+}
+
+.offer-img{
+   width: 100%;
+   border-radius: 4px ;
+}
+
+
+
+
+
+
+
+
+

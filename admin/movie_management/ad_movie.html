@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/admin/css/mainadmin.css">
+    <link rel="stylesheet" href="/admin/movie_management/ad_movie.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>
+            <a href="/admin/admin.html">
+
+                <i class="fas fa-user-circle"></i>
+                Chức năng admin
+            </a>
+        </h2>
+        <ul>
+            <a href="#">
+                <li>
+                    <i class="fas fa-film"></i>
+                    Quản lý phim
+                </li>
+            </a>
+            
+            <li class="active" onclick="toggleSubmenu(this)">
+                <i class="fas fa-cube"></i>
+                Quản lý rạp phim
+                <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
+            </li>
+            
+            <a href="">
+                <li class="submenu-item">
+                    <i class="fas fa-caret-right"></i>
+                    Quản lý rạp chiếu
+                </li>
+            </a>
+            <a href="">
+                <li class="submenu-item">
+                    <i class="fas fa-caret-right"></i>
+                    Quản lý phòng chiếu
+                </li>
+            </a>
+            <a href="">
+                <li class="submenu-item">
+                    <i class="fas fa-caret-right"></i>
+                    Quản lý lịch chiếu
+                </li>
+            </a>
+            <a href="">
+                <li class="submenu-item">
+                    <i class="fas fa-caret-right"></i>
+                    Quản lý suất chiếu
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-ticket-alt"></i>
+                    Quản lý đơn đặt vé
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-tags"></i>
+                    Quản lý ưu đãi
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-users"></i>
+                    Quản lý khách hàng
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-user-tie"></i>
+                    Quản lý nhân viên
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-chart-line"></i>
+                    Quản lý doanh thu
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <i class="fas fa-sign-out-alt"></i>
+                    Đăng xuất
+                </li>
+            </a>
+        </ul>
+    </div>
+    
+
+  
+    
+
+
+    <div class="header">
+        <div class="menu-icon" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+            Home
+        </div>
+        <div class="user-info">
+            <img src="/assets/img/admin.jpg" alt="admin">
+            <span>Nguyen Duc Ha</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <div class="main-header">
+                <h1> Danh sách phim</h1>
+                <div>
+                    <button class="add" id="createMovieBtn">
+                        <i class="fas fa-plus"></i> 
+                        Tạo phim
+                    </button>
+                    
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên phim</th>
+                        <th>Ngày chiếu</th>
+                        <th>Thể loại</th>
+                        <th>Trạng thái</th>
+                        <th>Trailer</th>
+                        <th>Ảnh</th>
+                        <th>Cập nhật</th>
+                        <th>Xoá</th>
+                    </tr>
+                </thead>
+                <tbody id="movieList">
+                    <!-- Rows will be added here -->
+                </tbody>
+            </table>
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+            </div>
+        </div>
+    </div>
+           
+     <!-- The Modal -->
+     <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="container">
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="name">* Tên phim</label>
+                        <input type="text" id="name" placeholder="Enter name">
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="age">* Độ tuổi xem phim</label>
+                        <input type="text" id="age" placeholder="Enter age">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="trailer">* Trailer</label>
+                        <input type="file" id="trailer">
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="date">* Ngày chiếu</label>
+                        <input type="date" id="date">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="image">* Ảnh</label>
+                        <input type="file" id="image">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="description">* Mô tả</label>
+                        <textarea id="description" placeholder="Enter description"></textarea>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="duration">* Thời lượng phim (phút)</label>
+                        <input type="text" id="duration" placeholder="Enter duration">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="genres">Thể loại</label>
+                        <select id="genres">
+                            <option>Chọn thể loại</option>
+                            <option>Hành động</option>
+                            <option>Kinh dị</option>
+                            <option>Khoa học viễn tưởng</option>
+                            <option>Hài kịch</option>
+                        </select>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="status">* Trạng thái</label>
+                        <select id="status">
+                            <option>Chọn trạng thái</option>
+                            <option>Đang chiếu</option>
+                            <option>Sắp chiếu</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="directors">Đạo diễn</label>
+                        <input type="text" id="directors" placeholder="Enter directors">
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="country">* Quốc gia</label>
+                        <input type="text" id="country" placeholder="Enter country">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="submit-btn" id="addMovieBtn">Thêm phim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/js/admin.js"></script>
+</body>
+</html>

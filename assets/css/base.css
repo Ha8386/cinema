@@ -1,0 +1,124 @@
+:root{
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color:#f8fafc;
+    --hover-color:#f3ea28;
+    --btn-color: #f3ea28;
+    --hover-button-color: #484699;
+    --font-large: 1.8rem;
+    --font-medium: 1.6rem;
+    --font-small: 1.4rem;
+    --border-bottom: solid 0.667px darkgray;
+    --font-title: 'Anton', sans-serif; 
+    --icon-color: yellow;
+}
+
+*{
+    box-sizing: inherit;
+}
+.font-Anton{
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+}
+
+html{
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family:  'Josefin Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.grid {
+    width: 80%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+
+.grid__full-width {
+    width: 100%;
+}
+
+.grid_row {
+    display: flex;
+    flex-wrap: wrap;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+/* button style */
+.btn {
+    border: none;
+    height: 40px;
+    line-height: 30px;
+    border-radius: .6rem;
+    cursor: pointer;
+    padding: .8rem 1.2rem;
+    font-size: 1.6rem;
+    background-size: 200%; /* Đặt kích thước background lớn hơn để có thể di chuyển */
+    background-image: linear-gradient(to right,  rgb(94, 40, 175), rgb(57, 14, 227) 50%, var(--btn-color) 50%);
+    background-position: left center;
+    transition: background-position 0.5s ease-in-out; /* Thời gian và kiểu chuyển đổi */
+}
+
+.btn:hover {
+    background-position: left center;
+    color: var(--white-color); 
+}
+
+.btn.btn--primary {
+    width: 100%;
+    font-size: 1.6rem;
+    background-color: var(--btn-color);
+}
+.btn {
+    background-position: right center;
+}
+/* nút xem thêm */
+.btn-more {
+    background: transparent;
+    border-radius: 6px;
+    border: 2px solid var(--btn-color);
+    padding: 10px 20px;
+    font-size: 16px;
+    height: 40px;
+    line-height: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out;
+}
+.btn-more::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(90deg, #eb7111 50%, #f3ea28);
+    z-index: -1;
+    transition: all 0.8s ease-in-out;
+    transform: translateX(-100%);
+}
+.btn-more:hover::before {
+    transform: translateX(0);
+}
+
+/* Tablet: width >= 740px and width < 1024px */
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em){
+    
+}
