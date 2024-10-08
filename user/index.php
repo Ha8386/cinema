@@ -20,44 +20,44 @@
 </head>
 <body>
     <div class="app">
-        <header class="hd">
+    <header class="hd">
             <div class="grid">
                 <div class="hd__main">
         
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="/index.html" class="hd__logo-link">
+                            <a href="index.php" class="hd__logo-link">
                                 <img src="../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
                         <li class="hd__nav-item hd__nav-item--local ">
                             Rạp phim
                             <div class="hd__local">
-                                <a href="../user/cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
                                     4SCinema Cầu Giấy
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_HaiBaTrung.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_HaiBaTrung.php" class="hd__local-link">
                                     4SCinema Hai Bà Trưng
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_LongBien.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_LongBien.php" class="hd__local-link">
                                     4SCinema Long Biên
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_MyDinh.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_MyDinh.php" class="hd__local-link">
                                     4SCinema Mỹ Đình
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_TayHo.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_TayHo.php" class="hd__local-link">
                                     4SCinema Tây Hồ
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_ThanhXuan.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_ThanhXuan.php" class="hd__local-link">
                                     4SCinema Thanh Xuân
                                 </a>                           
                             </div>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/showtimes.html" class="hd__nav-link">Lịch chiếu</a>
+                            <a href="showtimes.php" class="hd__nav-link">Lịch chiếu</a>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/promotion.html" class="hd__nav-link">Ưu đãi</a>
+                            <a href="promotion.php" class="hd__nav-link">Ưu đãi</a>
                         </li>
                     </ul>
 
@@ -71,7 +71,7 @@
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="../user/login.php" class="hd__login-link">
+                            <a href="login.php" class="hd__login-link">
                                     
                                 Đăng nhập
                             </a>
@@ -778,8 +778,8 @@
                                 <div class="footer-menu-column footer-column-account">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Tài khoản</p>
-                                        <a class="footer-column-link" href="/login.html"><li class="footer-column-menu">Đăng nhập</li></a>
-                                        <a class="footer-column-link" href="/login.html"><li class="footer-column-menu">Đăng ký</li></a>
+                                        <a class="footer-column-link" href="login.php"><li class="footer-column-menu">Đăng nhập</li></a>
+                                        <a class="footer-column-link" href="login.php"><li class="footer-column-menu">Đăng ký</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
                                     </ul>
                                 </div>
@@ -788,8 +788,8 @@
                                 <div class="footer-menu-column footer-column-watching-movie">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Xem phim</p>
-                                        <a class="footer-column-link" href="/cinemas/Showing_Movies/Showing_Movies.html"><li class="footer-column-menu">Phim đang chiếu</li></a>
-                                        <a class="footer-column-link" href="/cinemas/Upcoming_Movies/Upcoming_Movies.html"><li class="footer-column-menu">Phim sắp chiếu</li></a>
+                                        <a class="footer-column-link" href="cinemas/Showing_Movies/Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
+                                        <a class="footer-column-link" href="cinemas/Showing_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>
@@ -810,12 +810,12 @@
                         <div class="footer-menu-column footer-column-cinemas-system">
                             <ul class="footer-menu-list">
                                 <p class="footer-column-title">Hệ thống rạp</p>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_CauGiay.html"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_HaiBaTrung.html"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_LongBien.html"><li class="footer-column-menu">4SCinema Long Biên</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_MyDinh.html"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
+                                <a class="footer-column-link" href="cinemas/Showing_Movies/4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
                             </ul>
                         </div>
                     </div>
@@ -829,7 +829,7 @@
                 </div>
 
                 <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="/policy.html">Chính sách bảo mật</a>
+                    <a class="footer-bottom-right-items" href="policy.php">Chính sách bảo mật</a>
                     <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
                     <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
                 </div>

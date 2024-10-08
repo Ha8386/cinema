@@ -19,12 +19,13 @@
 </head>
 <body>
     <div class="app">
-        <header class="hd">
+    <header class="hd">
             <div class="grid">
                 <div class="hd__main">
+        
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="/index.php" class="hd__logo-link">
+                            <a href="index.php" class="hd__logo-link">
                                 <img src="../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
@@ -52,10 +53,10 @@
                             </div>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/showtimes.php" class="hd__nav-link">Lịch chiếu</a>
+                            <a href="showtimes.php" class="hd__nav-link">Lịch chiếu</a>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/promotion.php" class="hd__nav-link">Ưu đãi</a>
+                            <a href="promotion.php" class="hd__nav-link">Ưu đãi</a>
                         </li>
                     </ul>
 
@@ -69,7 +70,7 @@
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="../login.php" class="hd__login-link">
+                            <a href="login.php" class="hd__login-link">
                                     
                                 Đăng nhập
                             </a>

@@ -25,7 +25,7 @@
                 <div class="hd__main">       
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="/index.php" class="hd__logo-link">
+                            <a href="../../index.php" class="hd__logo-link">
                                 <img src="../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
@@ -1243,8 +1243,8 @@
                                 <div class="footer-menu-column footer-column-account">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Tài khoản</p>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng nhập</li></a>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng ký</li></a>
+                                        <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng nhập</li></a>
+                                        <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng ký</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
                                     </ul>
                                 </div>

@@ -129,13 +129,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="app">
-        <header class="hd">
+    <header class="hd">
             <div class="grid">
                 <div class="hd__main">
         
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="/index.html" class="hd__logo-link">
+                            <a href="index.php" class="hd__logo-link">
                                 <img src="../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
@@ -145,28 +145,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <a href="cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
                                     4SCinema Cầu Giấy
                                 </a>
-                                <a href="cinemas/Showing_Movies/4SCinema_HaiBaTrung.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_HaiBaTrung.php" class="hd__local-link">
                                     4SCinema Hai Bà Trưng
                                 </a>
-                                <a href="cinemas/Showing_Movies/4SCinema_LongBien.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_LongBien.php" class="hd__local-link">
                                     4SCinema Long Biên
                                 </a>
-                                <a href="cinemas/Showing_Movies/4SCinema_MyDinh.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_MyDinh.php" class="hd__local-link">
                                     4SCinema Mỹ Đình
                                 </a>
-                                <a href="cinemas/Showing_Movies/4SCinema_TayHo.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_TayHo.php" class="hd__local-link">
                                     4SCinema Tây Hồ
                                 </a>
-                                <a href="cinemas/Showing_Movies/4SCinema_ThanhXuan.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_ThanhXuan.php" class="hd__local-link">
                                     4SCinema Thanh Xuân
                                 </a>                           
                             </div>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/showtimes.html" class="hd__nav-link">Lịch chiếu</a>
+                            <a href="showtimes.php" class="hd__nav-link">Lịch chiếu</a>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/promotion.html" class="hd__nav-link">Ưu đãi</a>
+                            <a href="promotion.php" class="hd__nav-link">Ưu đãi</a>
                         </li>
                     </ul>
 
@@ -180,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="./login.html" class="hd__login-link">
+                            <a href="login.php" class="hd__login-link">
                                     
                                 Đăng nhập
                             </a>
