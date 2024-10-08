@@ -89,13 +89,13 @@
                     </div>
                     <div class="cinemas__banner-right">
                         <div class="cinemas__banner-right-box">
-                            <div class="cinemas__banner-name">4SCinema Cầu Giấy</div>
+                            <div class="cinemas__banner-name">4SCinema Tây Hồ</div>
                             
                             <div class="cinemas__banner-location">
                                 <span class="icon">
                                     <i class="fa-solid fa-location-dot"></i>
                                 </span>
-                                <span class="cinemas__banner-location">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</span>
+                                <span class="cinemas__banner-location">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</span>
                             </div>
                         </div>
                     </div>
@@ -1254,7 +1254,7 @@
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Xem phim</p>
                                         <a class="footer-column-link" href="Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
-                                        <a class="footer-column-link" href="Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
+                                        <a class="footer-column-link" href="/cinemas/Upcoming_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>

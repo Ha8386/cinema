@@ -89,13 +89,13 @@
                     </div>
                     <div class="cinemas__banner-right">
                         <div class="cinemas__banner-right-box">
-                            <div class="cinemas__banner-name">4SCinema Cầu Giấy</div>
+                            <div class="cinemas__banner-name">4SCinema Mỹ Đình</div>
                             
                             <div class="cinemas__banner-location">
                                 <span class="icon">
                                     <i class="fa-solid fa-location-dot"></i>
                                 </span>
-                                <span class="cinemas__banner-location">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</span>
+                                <span class="cinemas__banner-location">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</span>
                             </div>
                         </div>
                     </div>

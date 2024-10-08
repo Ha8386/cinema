@@ -142,22 +142,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <li class="hd__nav-item hd__nav-item--local ">
                             Rạp phim
                             <div class="hd__local">
-                                <a href="/cinemas/Showing_Movies/4SCinema_CauGiay.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
                                     4SCinema Cầu Giấy
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_HaiBaTrung.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_HaiBaTrung.html" class="hd__local-link">
                                     4SCinema Hai Bà Trưng
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_LongBien.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_LongBien.html" class="hd__local-link">
                                     4SCinema Long Biên
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_MyDinh.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_MyDinh.html" class="hd__local-link">
                                     4SCinema Mỹ Đình
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_TayHo.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_TayHo.html" class="hd__local-link">
                                     4SCinema Tây Hồ
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_ThanhXuan.html" class="hd__local-link">
+                                <a href="cinemas/Showing_Movies/4SCinema_ThanhXuan.html" class="hd__local-link">
                                     4SCinema Thanh Xuân
                                 </a>                           
                             </div>
