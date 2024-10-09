@@ -24,7 +24,7 @@
                     <ul class="hd__left">
                         <li class="hd__logo">
                             <a href="/index.php" class="hd__logo-link">
-                                <img src="../../../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
+                                <img src="../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
                         <li class="hd__nav-item hd__nav-item--local ">

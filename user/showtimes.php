@@ -173,10 +173,45 @@
                             <div class="information-row first-row">
                                 <div class="location-row first-row-text">
                                     <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Cầu Giấy</p>
+                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row first-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                        <div class="showtimes-hour">00:30</div>
+                                        <div class="showtimes-hour">01:45</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hàng phim 2 -->
+                            <div class="information-row second-row">
+                                <div class="location-row second-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
+                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row second-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                        <div class="showtimes-hour">00:30</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hàng phim 3 -->
+                            <div class="information-row third-row">
+                                <div class="location-row third-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
                                     <p class="row-cinemas-district">Long Biên</p>
                                     <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
                                 </div>
-                                <div class="showtimes-row first-row-showtimes">
+                                <div class="showtimes-row third-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">22:45</div>
@@ -185,39 +220,7 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <!-- Hàng phim 2 -->
-                            <div class="information-row second-row">
-                                <div class="location-row second-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Tây Hồ</p>
-                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row second-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 3 -->
-                            <div class="information-row third-row">
-                                <div class="location-row third-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Thanh Xuân</p>
-                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row third-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-        
+
                             <!-- Hàng phim 4 -->
                             <div class="information-row fourth-row">
                                 <div class="location-row fourth-row-text">
@@ -240,15 +243,14 @@
                             <div class="information-row fifth-row">
                                 <div class="location-row fifth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
-                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                    <p class="row-cinemas-district">Tây Hồ</p>
+                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row fifth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
                                     </div>
                                 </div>
                             </div>
@@ -257,20 +259,17 @@
                             <div class="information-row sixth-row">
                                 <div class="location-row sixth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Cầu Giấy</p>
-                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                                    <p class="row-cinemas-district">Thanh Xuân</p>
+                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row sixth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">01:45</div>
                                     </div>
                                 </div>
                             </div>
-        
                         </div>
                     </div>
                     <!-- *******************Hết******************* -->
@@ -315,10 +314,45 @@
                             <div class="information-row first-row">
                                 <div class="location-row first-row-text">
                                     <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Cầu Giấy</p>
+                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row first-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                        <div class="showtimes-hour">00:30</div>
+                                        <div class="showtimes-hour">01:45</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hàng phim 2 -->
+                            <div class="information-row second-row">
+                                <div class="location-row second-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
+                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row second-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                        <div class="showtimes-hour">00:30</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hàng phim 3 -->
+                            <div class="information-row third-row">
+                                <div class="location-row third-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
                                     <p class="row-cinemas-district">Long Biên</p>
                                     <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
                                 </div>
-                                <div class="showtimes-row first-row-showtimes">
+                                <div class="showtimes-row third-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">22:45</div>
@@ -327,42 +361,7 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <!-- Hàng phim 2 -->
-                            <div class="information-row second-row">
-                                <div class="location-row second-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Tây Hồ</p>
-                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row second-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:45</div>
-                                        <div class="showtimes-hour">00:15</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">00:45</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 3 -->
-                            <div class="information-row third-row">
-                                <div class="location-row third-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Thanh Xuân</p>
-                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row third-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-        
+
                             <!-- Hàng phim 4 -->
                             <div class="information-row fourth-row">
                                 <div class="location-row fourth-row-text">
@@ -385,15 +384,14 @@
                             <div class="information-row fifth-row">
                                 <div class="location-row fifth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
-                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                    <p class="row-cinemas-district">Tây Hồ</p>
+                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row fifth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
                                     </div>
                                 </div>
                             </div>
@@ -402,20 +400,17 @@
                             <div class="information-row sixth-row">
                                 <div class="location-row sixth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Cầu Giấy</p>
-                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                                    <p class="row-cinemas-district">Thanh Xuân</p>
+                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row sixth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">01:45</div>
                                     </div>
                                 </div>
                             </div>
-        
                         </div>
                     </div>
                     <!-- *******************Hết******************* -->
@@ -460,61 +455,54 @@
                             <div class="information-row first-row">
                                 <div class="location-row first-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Long Biên</p>
-                                    <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
+                                    <p class="row-cinemas-district">Cầu Giấy</p>
+                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row first-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">22:45</div>
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:15</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 2 -->
-                            <div class="information-row second-row">
-                                <div class="location-row second-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Tây Hồ</p>
-                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row second-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">19:00</div>
-                                        <div class="showtimes-hour">19:30</div>
-                                        <div class="showtimes-hour">20:45</div>
-                                        <div class="showtimes-hour">21:00</div>
-                                        <div class="showtimes-hour">21:15</div>
-                                        <div class="showtimes-hour">22:00</div>
-                                        <div class="showtimes-hour">22:30</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 3 -->
-                            <div class="information-row third-row">
-                                <div class="location-row third-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Thanh Xuân</p>
-                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row third-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
                                         <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">00:45</div>
-                                        <div class="showtimes-hour">01:25</div>
                                         <div class="showtimes-hour">01:45</div>
                                     </div>
                                 </div>
                             </div>
-        
+
+                            <!-- Hàng phim 2 -->
+                            <div class="information-row second-row">
+                                <div class="location-row second-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
+                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row second-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                        <div class="showtimes-hour">00:30</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hàng phim 3 -->
+                            <div class="information-row third-row">
+                                <div class="location-row third-row-text">
+                                    <p class="row-cinemas">4SCinema</p>
+                                    <p class="row-cinemas-district">Long Biên</p>
+                                    <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
+                                </div>
+                                <div class="showtimes-row third-row-showtimes">
+                                    <div class="showtimes-title">Standard</div>
+                                    <div class="showtimes-box">
+                                        <div class="showtimes-hour">22:45</div>
+                                        <div class="showtimes-hour">23:30</div>
+                                        <div class="showtimes-hour">23:59</div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Hàng phim 4 -->
                             <div class="information-row fourth-row">
                                 <div class="location-row fourth-row-text">
@@ -537,15 +525,14 @@
                             <div class="information-row fifth-row">
                                 <div class="location-row fifth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
-                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                                    <p class="row-cinemas-district">Tây Hồ</p>
+                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row fifth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
                                     </div>
                                 </div>
                             </div>
@@ -554,16 +541,14 @@
                             <div class="information-row sixth-row">
                                 <div class="location-row sixth-row-text">
                                     <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Cầu Giấy</p>
-                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                                    <p class="row-cinemas-district">Thanh Xuân</p>
+                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
                                 </div>
                                 <div class="showtimes-row sixth-row-showtimes">
                                     <div class="showtimes-title">Standard</div>
                                     <div class="showtimes-box">
                                         <div class="showtimes-hour">23:30</div>
                                         <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">01:45</div>
                                     </div>
                                 </div>
                             </div>

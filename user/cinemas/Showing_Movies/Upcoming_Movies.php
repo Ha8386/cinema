@@ -24,7 +24,7 @@
                     <ul class="hd__left">
                         <li class="hd__logo">
                             <a href="index.php" class="hd__logo-link">
-                                <img src="../../../../../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
+                                <img src="../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
                         <li class="hd__nav-item hd__nav-item--local ">
@@ -94,10 +94,10 @@
                             <a href="" class="rest-poster-name">Thế thân: Dòng chảy của nước (t13)</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">
+                                    <a class="trailer-link" href="../../../assets/trailer/Avatar.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Avatar.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -116,10 +116,10 @@
                             <a href="" class="rest-poster-name">Logan (t17)</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=o2SnQCzoy8Q">
+                                    <a class="trailer-link" href="../../../assets/trailer/Logan.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=o2SnQCzoy8Q">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Logan.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -137,10 +137,10 @@
                             <a href="" class="rest-poster-name">Đại chiến thái bình dương (t13)</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=RkIWmEuETk0">
+                                    <a class="trailer-link" href="../../../assets/trailer/PacificRim.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=RkIWmEuETk0">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/PacificRim.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -154,13 +154,13 @@
                             <img class="rest-poster-img" src="../../../assets/img/Transformer_poster.jpg" alt="movie4">
                         </a>
                         <div class="rest-poster-infor">
-                            <a href="" class="rest-poster-name">Người máy biến hình: Thời kỳ tuyệt chủng (t13)</a>
+                            <a href="" class="rest-poster-name">Người máy biến hình: Kỷ nguyên hủy diệt (t13)</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">
+                                    <a class="trailer-link" href="../../../assets/trailer/Transformer.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Transformer.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -178,10 +178,10 @@
                             <a href="" class="rest-poster-name">Tên cậu là gì</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=B_chCyJClAw">
+                                    <a class="trailer-link" href="../../../assets/trailer/YourName.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=B_chCyJClAw">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/YourName.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -200,10 +200,10 @@
                             <a href="" class="rest-poster-name">Thiếu niên và chim diệc (T13) </a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=MjxPoqCvvVs">
+                                    <a class="trailer-link" href="../../../assets/trailer/TheBoyAndTheHeron.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=MjxPoqCvvVs">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/TheBoyAndTheHeron.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -222,10 +222,10 @@
                             <a href="" class="rest-poster-name">Moana</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=MzJ8z_DDYYI">
+                                    <a class="trailer-link" href="../../../assets/trailer/Moana.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=MzJ8z_DDYYI">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Moana.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -244,10 +244,10 @@
                             <a href="" class="rest-poster-name">Kẻ cắp mặt trăng</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=ixsP1KPmiKA">
+                                    <a class="trailer-link" href="../../../assets/trailer/DespicableMe.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=ixsP1KPmiKA">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/DespicableMe.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -266,10 +266,10 @@
                             <a href="" class="rest-poster-name">Búp bê Annabelle</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=LJABoiuBl7Q">
+                                    <a class="trailer-link" href="../../../assets/trailer/Annabelle.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=LJABoiuBl7Q">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Annabelle.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -288,10 +288,10 @@
                             <a href="" class="rest-poster-name">Di truyền</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">
+                                    <a class="trailer-link" href="../../../assets/trailer/Hereditary.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Hereditary.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -310,10 +310,10 @@
                             <a href="" class="rest-poster-name">Thứ 6 ngày 13</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">
+                                    <a class="trailer-link" href="../../../assets/trailer/FridayThe13th.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/FridayThe13th.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -332,10 +332,10 @@
                             <a href="" class="rest-poster-name">Quỷ quyệt: Chương 3</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/Incidious.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Incidious.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -354,10 +354,10 @@
                             <a href="" class="rest-poster-name">Venom: Đối mặt tử thù</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/Venom.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Venom.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -376,10 +376,10 @@
                             <a href="" class="rest-poster-name">Vùng đất câm lặng</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/AQuietPlace.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/AQuietPlace.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -398,10 +398,10 @@
                             <a href="" class="rest-poster-name">Godzilla vs Kong</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/GodvsKong.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/GodvsKong.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -420,10 +420,10 @@
                             <a href="" class="rest-poster-name">Hố sâu đói khát</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/thePlatform.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/thePlatform.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -442,10 +442,10 @@
                             <a href="" class="rest-poster-name">Hố đen tử thần</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/Interstella.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Interstella.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -464,10 +464,10 @@
                             <a href="" class="rest-poster-name">Chúa tể của những chiếc nhẫn: Nghĩa tình huynh đệ</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/LOTR.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/LOTR.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -486,10 +486,10 @@
                             <a href="" class="rest-poster-name">Nhà tù Shawshank</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/SSRedemption.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/SSRedemption.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -508,10 +508,10 @@
                             <a href="" class="rest-poster-name">Kẻ đánh cắp giấc mơ</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/Inception.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/Inception.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 
@@ -530,10 +530,10 @@
                             <a href="" class="rest-poster-name">Quá nhanh quá nguy hiểm 8</a>
                             <div class="trailer-and-order-ticket">
                                 <div class="trailer-container">
-                                    <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
+                                    <a class="trailer-link" href="../../../assets/trailer/FF8.mp4">
                                         <img src="../../../assets/img/icon-play-vid.svg" alt="">
                                     </a>
-                                    <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
+                                    <a class="trailer-link-text" href="../../../assets/trailer/FF8.mp4">Xem Trailer</a>
                                 </div>
                                 <a href="">
                                     <button class="btn btn-ticket">Đặt vé</button> 

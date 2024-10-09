@@ -1304,6 +1304,7 @@
 
     </footer>
     </div>
-    <script src="choose_cinemas.js"></script>    
+    <script src="choose_cinemas.js"></script>
+    <script src="../../script.js"></script>      
 </body>
 </html>
