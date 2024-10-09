@@ -1,6 +1,16 @@
 <?php 
 include '../../user/db_connection.php';
 
+function handleFileUpload($file, $destination) {
+    if (isset($file) && $file['error'] == UPLOAD_ERR_OK) {
+        $tmp_name = $file['tmp_name'];
+        $file_name = basename($file['name']);
+        move_uploaded_file($tmp_name, $destination . $file_name);
+        return $file_name;
+    }
+    return null;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
     $title = $_POST['title'];
     $age_rating = $_POST['age_rating'];
@@ -12,14 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
     $status_mv = $_POST['status'];
     $subtitle = $_POST['subtitle'];
     $country = $_POST['country'];
+    $duration = $_POST['duration'];
+    $vietsub  = $_POST['vietsub'];
+
 
     // Xử lý upload file (trailer và image)
     move_uploaded_file($_FILES['trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
     move_uploaded_file($_FILES['image_url']['tmp_name'], "../../assets/img/" . $image_url);
     
     // Chuẩn bị câu truy vấn SQL
-    $stmt = $conn->prepare("INSERT INTO movies (title, genre, age_rating, release_date, country, subtitle, status_mv, description_mv, trailer_url, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssssss", $title, $genre, $age_rating, $release_date, $country, $subtitle, $status_mv, $description_mv, $trailer_url, $image_url);
+    $stmt = $conn->prepare("INSERT INTO movies (title, genre, age_rating, release_date, country, subtitle, status_mv, description_mv, trailer_url, image_url, duration, vietsub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssssss", $title, $genre, $age_rating, $release_date, $country, $subtitle, $status_mv, $description_mv, $trailer_url, $image_url, $duration, $vietsub);
 
     // Thực hiện câu truy vấn
     if ($stmt->execute()) {
@@ -35,54 +48,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
 if (isset($_GET['delete'])) {
     $id_to_delete = intval($_GET['delete']);
 
-    // Chuẩn bị câu truy vấn xóa
-    $stmt = $conn->prepare("DELETE FROM movies WHERE movie_id = ?");
+    // xoá lịch chiếu liên quan
+    $stmt_showtimes = $conn->prepare("DELETE FROM showtimes WHERE movie_id = ?");
 
-    if ($stmt === false) {
+    if ($stmt_showtimes === false) {
         die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
     }
 
-    $stmt->bind_param("i", $id_to_delete);
-
-    // Thực hiện câu truy vấn
-    if ($stmt->execute()) {
-        echo "Xóa phim thành công!";
-    } else {
-        echo "Lỗi: " . $stmt->error;
+    $stmt_showtimes->bind_param("i", $id_to_delete);
+    if (!$stmt_showtimes->execute()) {
+        echo "Lỗi xóa lịch chiếu: " . $stmt_showtimes->error;
     }
 
-    $stmt->close();
+    $stmt_showtimes->close();
+
+    //  xóa phim
+    $stmt_movie = $conn->prepare("DELETE FROM movies WHERE movie_id = ?");
+
+    if ($stmt_movie === false) {
+        die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
+    }
+
+    $stmt_movie->bind_param("i", $id_to_delete);
+    if ($stmt_movie->execute()) {
+        echo "Xóa phim thành công!";
+    } else {
+        echo "Lỗi xóa phim: " . $stmt_movie->error;
+    }
+
+    $stmt_movie->close();
 }
 
 // sửa phim
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
-    $movie_id = intval($_POST['movie_id']);
-    $title = $_POST['title'];
-    $age_rating = $_POST['age_rating'];
-    $release_date = $_POST['release_date'];
-    $description = $_POST['description'];
-    $subtitle = $_POST['subtitle'];
-    $genre = $_POST['genre'];
-    $status = $_POST['status'];
-    $duration = $_POST['duration'];
-    $country = $_POST['country'];
-
-    // Chuẩn bị câu lệnh SQL
-    $stmt = $conn->prepare("UPDATE movies SET title = ?, age_rating = ?, release_date = ?, 
-        description_mv = ?, subtitle = ?, genre = ?, status_mv = ?, duration = ?, country = ? WHERE movie_id = ?");
-    
-    $stmt->bind_param("ssssssssi", $title, $age_rating, $release_date, 
-        $description, $subtitle, $genre, $status, $duration, $country, $movie_id);
-
-    if ($stmt->execute()) {
-        echo "Cập nhật phim thành công!";
-    } else {
-        echo "Lỗi: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
 
 
 ?>
@@ -128,18 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
             
-            <a href="">
+            <a href="../cinemas_management/cinemas.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
                     Quản lý rạp chiếu
                 </li>
             </a>
-            <a href="">
-                <li class="submenu-item">
-                    <i class="fas fa-caret-right"></i>
-                    Quản lý phòng chiếu
-                </li>
-            </a>
+           
             <a href="">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
@@ -221,6 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
             <table>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Tên phim</th>
                         <th>Thể loại</th>
                         <th>Ngày chiếu</th>
@@ -238,22 +231,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
                     // Lấy danh sách phim
                     $query = "SELECT * FROM movies"; 
                     $result = $conn->query($query);
+                    $count = 1;
 
                     // Kiểm tra và hiển thị dữ liệu
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
+                            echo '<td>' . $count++ .  '</td>';
                             echo '<td>' . $row['title'] . '</td>';
                             echo '<td>' . $row['genre'] . '</td>';
                             echo '<td>' . $row['release_date'] . '</td>';
                             echo '<td>' . $row['status_mv'] . '</td>';
                             echo '<td><a href="../../assets/trailer/' . $row['trailer_url'] . '">Xem Trailer</a></td>';
                             echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
-                            echo '<td><button class="edit" onclick="openEditModal(' . $row['movie_id'] . ')" >Sửa</button> <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
-                            echo '</tr>';
+                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['movie_id'] . ')">Sửa</button>
+                             <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
+                            echo '</td>';
                         }
                     } else {
-                        echo '<tr><td colspan="7">Không có dữ liệu nào.</td></tr>';
+                        echo '<tr><td colspan="8">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -271,15 +267,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
            
      <!-- The Modal -->
      <form action="ad_movie.php" method="POST" enctype="multipart/form-data">
-    
          <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
+                <h1>Thêm phim</h1>
                 <div class="container">
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="name">* Tên phim</label>
-                            <input type="text" name="title" placeholder="Enter name">
+                            <input type="text" name="title" placeholder="Enter name" >
                         </div>
                         <div class="form-group half-width">
                             <label for="age">* Độ tuổi xem phim</label>
@@ -301,6 +297,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
                             <label for="image">* Ảnh</label>
                             <input type="file" name="image_url">
                         </div>
+                        <div class="form-group half-width">
+                            <label for="vietsub">Phụ đề</label>
+                            <input type="text" name="vietsub" placeholder="Enter sub">
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
@@ -316,13 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="genres">Thể loại</label>
-                            <select name="genre">
-                                <option>Chọn thể loại</option>
-                                <option>Hành động</option>
-                                <option>Kinh dị</option>
-                                <option>Khoa học viễn tưởng</option>
-                                <option>Hài kịch</option>
-                            </select>
+                            <input type="text" name="genre" id="editGenre" placeholder="Enter genres">
                         </div>
                         <div class="form-group half-width">
                             <label for="status">* Trạng thái</label>
@@ -351,63 +345,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_movie'])) {
         </div>
     </form>
 
-    <!-- Modal Sửa Thông Tin Phim -->
-    <div id="editMovieModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
-            <h2>Sửa Thông Tin Phim</h2>
-            <form id="editMovieForm" method="POST" enctype="multipart/form-data" action="ad_movie.php">
-                <input type="hidden" name="movie_id" id="edit_movie_id">
-                <div class="form-group">
-                    <label for="edit_title">* Tên phim</label>
-                    <input type="text" name="title" id="edit_title" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_age_rating">* Độ tuổi xem phim</label>
-                    <input type="text" name="age_rating" id="edit_age_rating" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_release_date">* Ngày chiếu</label>
-                    <input type="date" name="release_date" id="edit_release_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_description">* Mô tả</label>
-                    <textarea name="description" id="edit_description" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="edit_subtitle">* Nội dung phim</label>
-                    <textarea name="subtitle" id="edit_subtitle" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="edit_genre">Thể loại</label>
-                    <select name="genre" id="edit_genre">
-                        <option value="Hành động">Hành động</option>
-                        <option value="Kinh dị">Kinh dị</option>
-                        <option value="Khoa học viễn tưởng">Khoa học viễn tưởng</option>
-                        <option value="Hài kịch">Hài kịch</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="edit_status">* Trạng thái</label>
-                    <select name="status" id="edit_status" required>
-                        <option value="Đang chiếu">Đang chiếu</option>
-                        <option value="Sắp chiếu">Sắp chiếu</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="edit_duration">* Thời lượng phim (phút)</label>
-                    <input type="text" name="duration" id="edit_duration" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit_country">* Quốc gia</label>
-                    <input type="text" name="country" id="edit_country" required>
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="update_movie">Cập nhật</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    
+
+    <!-- Sửa phim -->
+    
+
+    
+
 
 
 
