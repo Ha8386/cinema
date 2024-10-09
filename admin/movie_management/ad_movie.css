@@ -116,6 +116,9 @@ table th {
     background-color: rgba(0,0,0,0.4);
     
 }
+.modal h1 {
+    text-align: center;
+}
 .modal-content {
     background-color: #fefefe;
     margin: 5% auto;
