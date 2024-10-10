@@ -16,6 +16,10 @@
 }
 
 /* Phần banner web */
+.web-title{
+    color: #fff;
+}
+
 .cinemas__banner{
     display: flex;
 }
@@ -58,36 +62,62 @@
     display: flex;
 }
 
-.cinemas__banner-menu-bar{
+.tabs{
     background: linear-gradient(to right, rgb(55, 42, 92), rgb(12, 23, 44) 50%, rgb(23, 42, 80));
     display: flex;
     justify-content: space-between;
-    padding: 15px 0;
+    position: relative;
 }
 
-.banner__menu-list{
+.tab-item{
+    display: inline-block;
     text-transform: uppercase;
-    font-size: 22px;
+    padding: 1.5rem 0;
+    font-size: 2rem;
     font-family: var(--font-title);
     width: 25%;
+    color: #fff;
     text-align: center;
-
+    border-bottom: 5px solid transparent;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: border 0.5s ease, color 0.2 ease;
 }
 
-.banner__menu-link{
-    text-decoration: none;
-    color: var(--white-color);
-    transition: color 0.3s, border-color 0.3s;
+.tab-item:hover {
+    opacity: 1;
+    color: rgba(255, 242, 0, 0.874);
+    border-color: rgba(255, 242, 0, 0.874);
+  }
+
+.tab-item.active {
+    opacity: 1;
+    color: rgba(255, 242, 0, 0.874);
 }
 
-.banner__menu-link:active{
-    color: yellow;
-    border-color: solid 2px yellow;
+.tabs .line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 4px;
+    background-color: rgba(255, 242, 0, 0.874);
+    transition: all 0.2s ease;
+  }
+
+/* Hiệu ứng chuyển tab onclick */
+.tab-pane {
+    display: none; 
 }
 
-/* .banner__menu-list:hover{
-    border-bottom: solid 2px yellow;
-} */
+.tab-pane.active {
+    display: block;
+}
+
+
+
+
+
 
 
 /* Khối thông tin */
@@ -242,8 +272,201 @@
     color: var(--white-color);
 }
 
+/* css Phim sắp chiếu */
+/* Tiêu đề */
+.cinemas__upcoming-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 30px 0;
+}
+
+/* Khối chứa phim đang chiếu */
+.cinemas__upcoming-movies-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+
+.upcoming__movies{
+    width: 49%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.upcoming__movies-img{
+    width: 53%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Khối thông tin phim */
+.upcoming__movies-infor{
+    width: 46%;
+}
+
+.upcoming__movies-name{
+    font-size: 24px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    
+}
+
+.upcoming__movies-attribute{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+
+.upcoming__movies-label{
+    display: flex;
+
+}
+
+.fa-solid{
+    color: var(--icon-color);
+    padding-right: 5px;
+}
+
+.fa-regular{
+    color: var(--icon-color);
+    padding-right: 5px;
+    
+}
+
+.movies__list-content{
+    padding-bottom: 10px;
+    font-size: var(--font-small);
+}
+
+/* Khối thời gian chiếu */
+.upcoming__movies-showtimes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 0.667px darkgray;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.upcoming_movies-showtimes-container{
+    width: 100%;
+}
+
+.upcoming_txt{
+    font-size: var(--font-small);
+}
 
 
+.upcoming__showtimes-link{
+    padding-top: 10px;
+    font-size: var(--font-small);
+}
+
+.showtimes-link{
+    color: yellow;
+    overflow: hidden; /* Ẩn phần hiệu ứng vượt ra ngoài */
+    transition: color 1s;
+}
+
+@keyframes linkEffect {
+    0% {
+        color: yellow; /* Màu nền ban đầu */
+    }
+    50% {
+        color: rgb(139, 138, 147); /* Màu nền khi gợn sóng */
+    }
+    100% {
+        color: yellow; /* Quay về màu nền ban đầu */
+    }
+}
+
+/* Khi hover vào nút */
+.showtimes-link:hover {
+    animation: linkEffect 1s infinite; /* Gọi hiệu ứng, lặp lại vô hạn */
+}
+
+.upcoming__movies-ticket-class{
+    font-size: var(--font-small);
+    text-transform: uppercase;
+}
+
+.upcoming__movies-time-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.movies__time-box{
+    width: 22%;
+    border: solid 0.667px darkgray;
+    border-radius: 4px;
+    text-align: center;
+    padding: 5px;
+    margin:0 4px 5px; 
+
+}
+
+.movies__box-link{
+    text-decoration: none;
+    color: var(--white-color);
+}
+
+/* Giá vé css  */
+/* Tiêu đề */
+.ticket__price-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 30px 0 50px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.ticket__price-img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.price-img{
+    width: 90%;
+}
+
+/* Khuyến mãi */
+.ticket__price-offer-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 40px 0 50px;
+}
+
+.ticket__price-offer-img{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.offer-img-block{
+    width: 31%;
+    
+}
+
+.offer-img{
+   width: 100%;
+   border-radius: 4px ;
+}
 
 
 
