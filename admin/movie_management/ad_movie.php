@@ -125,12 +125,7 @@ if (isset($_GET['delete'])) {
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
             
-            <a href="../cinemas_management/cinemas.php">
-                <li class="submenu-item">
-                    <i class="fas fa-caret-right"></i>
-                    Quản lý rạp chiếu
-                </li>
-            </a>
+         
            
             <a href="">
                 <li class="submenu-item">

@@ -81,4 +81,10 @@ function deleteShowtime(showtime_id ) {
         window.location.href = "showtime.php?delete=" + showtime_id ;
     }
 }
-console.log("admin.js đã được tải!");
+// xoá ưu đãi
+function deletePromotion(id ) {
+    if (confirm("Bạn có chắc chắn muốn xóa ưu đãi này không?")) {
+        window.location.href = "ad_promotion.php?delete=" + id ;
+    }
+}
+
