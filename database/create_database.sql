@@ -1,38 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 06, 2024 lúc 10:42 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
 -- Cơ sở dữ liệu: `quanly_4scinema`
 --
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `cinemas`
---
-
-CREATE TABLE `cinemas` (
-  `cinema_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `capacity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -78,6 +46,15 @@ CREATE TABLE `employees` (
   `salary` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `employees`
+--
+
+INSERT INTO `employees` (`id`, `employee_name`, `email`, `phone`, `date_of_birth`, `address`, `position`, `hire_date`, `salary`) VALUES
+(1, 'Nguyễn Văn An', 'nguyenvana@gmail.com', '0901234567', '1990-01-01', 'Hà Nội', 'Nhân viên', '2020-05-15', 10000000.00),
+(2, 'Trần Thị Tuyền', 'tranthib@gmail.com', '0912345678', '1985-03-20', 'TP.HCM', 'Quản lý', '2018-07-10', 15000000.00),
+(3, 'Lê Văn Luyện', 'levanc@gmail.com', '0923456789', '1992-11-30', 'Đà Nẵng', 'Kỹ sư', '2021-01-20', 12000000.00);
+
 -- --------------------------------------------------------
 
 --
@@ -85,7 +62,7 @@ CREATE TABLE `employees` (
 --
 
 CREATE TABLE `movies` (
-  `movie_id` int(11) NOT NULL,
+  `movie_id` int(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `genre` varchar(100) NOT NULL,
   `age_rating` varchar(10) NOT NULL,
@@ -95,8 +72,19 @@ CREATE TABLE `movies` (
   `status_mv` varchar(50) NOT NULL,
   `description_mv` text DEFAULT NULL,
   `trailer_url` varchar(255) DEFAULT NULL,
-  `image_url` varchar(255) DEFAULT NULL
+  `image_url` varchar(255) DEFAULT NULL,
+  `duration` int(11) NOT NULL,
+  `vietsub` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `movies`
+--
+
+INSERT INTO `movies` (`movie_id`, `title`, `genre`, `age_rating`, `release_date`, `country`, `subtitle`, `status_mv`, `description_mv`, `trailer_url`, `image_url`, `duration`, `vietsub`) VALUES
+(13, 'A', 'Hành động, Khoa học viễn tưởng', '18', '2024-10-15', 'VN', 'v', 'Đang chiếu', 'a', 'Avatar 3_ Fire And Ash  Trailer .mp4', 'AquietPlace_poster.jpg', 120, 'EN'),
+(15, 'Avatar', 'Hành động, Khoa học viễn tưởng, Phiêu lưu', '18', '2024-10-11', 'EN', 'aaaaaaaaaaaaa', 'Sắp chiếu', 'bbbbbbbbbbbb', 'Avatar 3_ Fire And Ash  Trailer .mp4', 'Avatar_poster.jpg', 120, 'EN'),
+(16, 'Avenger', 'Khoa học viễn tưởng', '18', '2024-10-01', 'EN', 'a', 'Đang chiếu', 'a', 'Transformers_ Rise of the Beasts .mp4', 'Avengers_EndGame_poster.jpg', 120, 'EN');
 
 -- --------------------------------------------------------
 
@@ -115,6 +103,15 @@ CREATE TABLE `promotion` (
   `end_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `promotion`
+--
+
+INSERT INTO `promotion` (`id`, `promotion_name`, `details`, `notes`, `conditions`, `discount_image`, `start_time`, `end_time`) VALUES
+(1, 'Giảm giá vé cuối tuần', 'Giảm 20% cho vé xem phim vào thứ 7 và Chủ nhật', 'Áp dụng cho tất cả các phim', 'Không áp dụng cho phim 3D', 'image1.jpg', '2024-10-01 00:00:00', '2024-10-31 00:00:00'),
+(2, 'Thẻ thành viên', 'Giảm 30% cho vé cho thành viên mới đăng ký', 'Chỉ áp dụng cho lần đặt vé đầu tiên', 'Cần xuất trình thẻ thành viên', 'image2.jpg', '2024-10-05 00:00:00', '2025-01-05 00:00:00'),
+(3, 'Khuyến mãi phim mới', 'Mua 2 vé, tặng 1 nước uống', 'Chỉ áp dụng cho phim mới ra mắt', 'Chỉ áp dụng tại rạp X', 'image3.jpg', '2024-10-10 00:00:00', '2024-11-10 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -123,10 +120,19 @@ CREATE TABLE `promotion` (
 
 CREATE TABLE `revenue_summary` (
   `id` int(11) NOT NULL,
-  `total_amount` decimal(10,2) NOT NULL,
+  `total_amount` decimal(12,2) NOT NULL,
   `transaction_count` int(11) NOT NULL,
   `report_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `revenue_summary`
+--
+
+INSERT INTO `revenue_summary` (`id`, `total_amount`, `transaction_count`, `report_date`) VALUES
+(1, 15000000.99, 300, '2024-10-01'),
+(2, 20000000.50, 450, '2024-10-02'),
+(3, 17500000.75, 350, '2024-10-03');
 
 -- --------------------------------------------------------
 
@@ -137,8 +143,7 @@ CREATE TABLE `revenue_summary` (
 CREATE TABLE `screenings` (
   `screening_id` int(11) NOT NULL,
   `showtime_id` int(11) DEFAULT NULL,
-  `screening_time` time DEFAULT NULL,
-  `status` enum('available','sold out','coming soon') DEFAULT NULL
+  `screening_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -150,10 +155,17 @@ CREATE TABLE `screenings` (
 CREATE TABLE `showtimes` (
   `showtime_id` int(11) NOT NULL,
   `movie_id` int(11) DEFAULT NULL,
-  `cinema_id` int(11) DEFAULT NULL,
-  `show_date` date DEFAULT NULL,
-  `show_time` time DEFAULT NULL
+  `show_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `showtimes`
+--
+
+INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
+(38, 13, '2024-10-14'),
+(42, 15, '2024-10-16'),
+(44, 16, '2024-09-30');
 
 -- --------------------------------------------------------
 
@@ -171,14 +183,17 @@ CREATE TABLE `ticket_orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Đang đổ dữ liệu cho bảng `ticket_orders`
 --
 
+INSERT INTO `ticket_orders` (`id`, `movie_name`, `customer_name`, `price`, `order_date`, `quantity`) VALUES
+(1, 'Avengers: Endgame', 'Nguyễn Văn A', 150000.00, '2024-10-01 00:00:00', 2),
+(2, 'Titanic', 'Trần Thị B', 120000.00, '2024-10-02 00:00:00', 1),
+(3, 'Fast & Furious 9', 'Lê Văn C', 200000.00, '2024-10-03 00:00:00', 3);
+
 --
--- Chỉ mục cho bảng `cinemas`
+-- Chỉ mục cho các bảng đã đổ
 --
-ALTER TABLE `cinemas`
-  ADD PRIMARY KEY (`cinema_id`);
 
 --
 -- Chỉ mục cho bảng `customers`
@@ -224,8 +239,7 @@ ALTER TABLE `screenings`
 --
 ALTER TABLE `showtimes`
   ADD PRIMARY KEY (`showtime_id`),
-  ADD KEY `movie_id` (`movie_id`),
-  ADD KEY `cinema_id` (`cinema_id`);
+  ADD UNIQUE KEY `movie_id` (`movie_id`) USING BTREE;
 
 --
 -- Chỉ mục cho bảng `ticket_orders`
@@ -238,12 +252,6 @@ ALTER TABLE `ticket_orders`
 --
 
 --
--- AUTO_INCREMENT cho bảng `cinemas`
---
-ALTER TABLE `cinemas`
-  MODIFY `cinema_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT cho bảng `customers`
 --
 ALTER TABLE `customers`
@@ -253,43 +261,43 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT cho bảng `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `revenue_summary`
 --
 ALTER TABLE `revenue_summary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `showtimes`
 --
 ALTER TABLE `showtimes`
-  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT cho bảng `ticket_orders`
 --
 ALTER TABLE `ticket_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -305,8 +313,7 @@ ALTER TABLE `screenings`
 -- Các ràng buộc cho bảng `showtimes`
 --
 ALTER TABLE `showtimes`
-  ADD CONSTRAINT `showtimes_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`),
-  ADD CONSTRAINT `showtimes_ibfk_2` FOREIGN KEY (`cinema_id`) REFERENCES `cinemas` (`cinema_id`);
+  ADD CONSTRAINT `showtimes_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
