@@ -23,7 +23,7 @@
                 <div class="hd__main">       
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="index.php" class="hd__logo-link">
+                            <a href="../../index.php" class="hd__logo-link">
                                 <img src="../../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
