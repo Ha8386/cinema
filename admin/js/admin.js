@@ -70,11 +70,12 @@ function deleteCinemas(cinema_id) {
     }
 }
 // xoá suất chiếu
-function deleteSceen(screening_id) {
+function deleteScreen(screeningId) {
     if (confirm("Bạn có chắc chắn muốn xóa suất chiếu này không?")) {
-        window.location.href = "screening.php?delete=" + screening_id;
+        window.location.href = "screening.php?delete=" + screeningId;
     }
 }
+
 // xoá lịch chiếu
 function deleteShowtime(showtime_id ) {
     if (confirm("Bạn có chắc chắn muốn xóa lịch chiếu này không?")) {
@@ -86,6 +87,28 @@ function deletePromotion(id ) {
     if (confirm("Bạn có chắc chắn muốn xóa ưu đãi này không?")) {
         window.location.href = "ad_promotion.php?delete=" + id ;
     }
+}
+// xoá nhân viên
+function deleteEmployee(id ) {
+    if (confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
+        window.location.href = "employees.php?delete=" + id ;
+    }
+}
+// xoá user
+function deleteUser(id ) {
+    if (confirm("Bạn có chắc chắn muốn xóa khách hàng này không?")) {
+        window.location.href = "customer.php?delete=" + id ;
+    }
+}
+
+
+// thêm suất chiếu 
+function addScreeningInput() {
+    const container = document.getElementById('screeningInputs');
+    const inputGroup = document.createElement('div');
+    // inputGroup.className = 'form-group';
+    inputGroup.innerHTML = `<input style="width:100px" type="time" name="screening_time[]" required>`;
+    container.appendChild(inputGroup);
 }
 
 

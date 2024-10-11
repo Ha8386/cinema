@@ -95,3 +95,16 @@ body {
 .content.shifted {
     margin-left: 0;
 }
+.screen-hd {
+    display: flex;
+    justify-content: space-between;
+}
+.screening-button {
+    width: 90px;
+    padding: 5px; 
+    margin: 5px 0; 
+    border: 1px solid gray; 
+    border-radius: 5px; 
+    
+}
+

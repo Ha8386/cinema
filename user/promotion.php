@@ -89,7 +89,7 @@
                         <div class="promotion-it col">
                             <div class="promotion-content">
                                 <div class="head-content">
-                                    <h4 class="sub-tittle">C'STUDENT -  45K CHO HỌC SINH SINH VIÊN&nbsp;</h4>
+                                    <h1 class="sub-tittle">C'STUDENT -  45K CHO HỌC SINH SINH VIÊN&nbsp;</h1>
                                     <p class="desc">Đồng giá 45K/2D cho HSSV/GV/U22 cả tuần tại mọi cụm rạp Cinestar</p>
                                 </div>
                                 <div class="inner-content">
@@ -123,7 +123,7 @@
                         <div class="promotion-it col">
                             <div class="promotion-content">
                                 <div class="head-content">
-                                    <h4 class="sub-tittle">C'TEN - HAPPY HOUR - 45K/ 2D MỐC 10H  </h4>
+                                    <h1 class="sub-tittle">C'TEN - HAPPY HOUR - 45K/ 2D MỐC 10H  </h1>
                                     <p class="desc">Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng xem phim trước 10h sáng và sau 10h tối.</p>
                                 </div>
                                 <div class="inner-content">
@@ -156,7 +156,7 @@
                         <div class="promotion-it col">
                             <div class="promotion-content">
                                 <div class="head-content">
-                                    <h4 class="sub-tittle">C'MONDAY - HAPPY DAY - ĐỒNG GIÁ 45K/ 2D </h4>
+                                    <h1 class="sub-tittle">C'MONDAY - HAPPY DAY - ĐỒNG GIÁ 45K/ 2D </h1>
                                     <p class="desc">Đồng giá 45K/2D, 55K/3D vào thứ 2 hàng tuần</p>
                                 </div>
                                 <div class="inner-content">
@@ -190,7 +190,7 @@
                         <div class="promotion-it col">
                             <div class="promotion-content">
                                 <div class="head-content">
-                                    <h4 class="sub-tittle">HAPPY MEMBER'S DAY - GIÁ CHỈ 45K/ 2DDDD </h4>
+                                    <h1 class="sub-tittle">HAPPY MEMBER'S DAY - GIÁ CHỈ 45K/ 2DDDD </h1>
                                     <p class="desc">Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng là thành viên Cinestar vào ngày thứ 4 hàng tuần.</p>
                                 </div>
                                 <div class="inner-content">

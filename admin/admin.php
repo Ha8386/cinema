@@ -37,62 +37,50 @@
                 Quản lý rạp phim
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
-            
-            <a href="">
-                <li class="submenu-item">
-                    <i class="fas fa-caret-right"></i>
-                    Quản lý rạp chiếu
-                </li>
-            </a>
-            <a href="">
-                <li class="submenu-item">
-                    <i class="fas fa-caret-right"></i>
-                    Quản lý phòng chiếu
-                </li>
-            </a>
-            <a href="">
+           
+            <a href="./showtime_management/showtime.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
                     Quản lý lịch chiếu
                 </li>
             </a>
-            <a href="">
+            <a href="./screening_management/screening.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
                     Quản lý suất chiếu
                 </li>
             </a>
-            <a href="">
+            <a href="./ticket_order/order.php">
                 <li>
                     <i class="fas fa-ticket-alt"></i>
                     Quản lý đơn đặt vé
                 </li>
             </a>
-            <a href="">
+            <a href="./promotion/ad_promotion.php">
                 <li>
                     <i class="fas fa-tags"></i>
                     Quản lý ưu đãi
                 </li>
             </a>
-            <a href="">
+            <a href="./customer/customer.php">
                 <li>
                     <i class="fas fa-users"></i>
                     Quản lý khách hàng
                 </li>
             </a>
-            <a href="">
+            <a href="./employees/employees.php">
                 <li>
                     <i class="fas fa-user-tie"></i>
                     Quản lý nhân viên
                 </li>
             </a>
-            <a href="">
+            <a href="./revenue/revenue.php">
                 <li>
                     <i class="fas fa-chart-line"></i>
                     Quản lý doanh thu
                 </li>
             </a>
-            <a href="">
+            <a href="../user/login.php">
                 <li>
                     <i class="fas fa-sign-out-alt"></i>
                     Đăng xuất

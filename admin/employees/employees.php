@@ -1,33 +1,39 @@
 <?php 
 include '../../user/db_connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addcinema'])) {
-    $name_cinemas = $_POST['name_cinemas'];
-    $address_cinemas = $_POST['address_cinemas'];
-    $quantity = intval($_POST['quantity']);
 
-   
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addemployee'])) {
     
-    // Chuẩn bị câu truy vấn SQL
-    $stmt = $conn->prepare("INSERT INTO cinemas (name_cinemas, address_cinemas, quantity) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name_cinemas, $address_cinemas, $quantity);
 
-    // Thực hiện câu truy vấn
-    if ($stmt->execute()) {
-        echo "Thêm rạp thành công!";
-    } else {
-        echo "Lỗi: " . $stmt->error;
-    }
+     $employee_name = $_POST['employee_name'];
+     $email = $_POST['email'];
+     $phone = $_POST['phone'];
+     $address = $_POST['address_nv'];
+     $position = $_POST['position'];
+     $hire_date = $_POST['hire_date'];
+     $salary = $_POST['salary'];
+ 
+     // Chuẩn bị câu lệnh SQL để thêm nhân viên
+     $stmt = $conn->prepare("INSERT INTO employees (employee_name, email, phone, address_nv, position, hire_date, salary) VALUES (?, ?, ?, ?, ?, ?, ?)");
+     $stmt->bind_param("ssssssi", $employee_name, $email, $phone, $address, $position, $hire_date, $salary); // "ssssssi" là định dạng cho các tham số
+ 
+     // Thực thi câu lệnh và kiểm tra
+     if ($stmt->execute()) {
+         echo "Nhân viên đã được thêm thành công!";
+     } else {
+         echo "Lỗi: " . $stmt->error;
+     }
 
-    $stmt->close();
+        $stmt->close();
+        
+    
 }
-
-// Xoá phim
+// xoá ưu đãi
 if (isset($_GET['delete'])) {
-    $id_to_delete = intval($_GET['delete']);
+    $id_to_delete = intval(trim($_GET['delete']));
 
     // Chuẩn bị câu truy vấn xóa
-    $stmt = $conn->prepare("DELETE FROM cinemas WHERE cinema_id = ?");
+    $stmt = $conn->prepare("DELETE FROM employees WHERE id = ?");
 
     if ($stmt === false) {
         die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
@@ -37,7 +43,7 @@ if (isset($_GET['delete'])) {
 
     // Thực hiện câu truy vấn
     if ($stmt->execute()) {
-        echo "Xóa rạp thành công!";
+        echo "Xóa nhân viên thành công!";
     } else {
         echo "Lỗi: " . $stmt->error;
     }
@@ -45,7 +51,6 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-// sửa phim
 
 
 
@@ -70,7 +75,7 @@ if (isset($_GET['delete'])) {
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <h2>
             <a href="../admin.php">
 
@@ -79,7 +84,7 @@ if (isset($_GET['delete'])) {
             </a>
         </h2>
         <ul>
-            <a href="./ad_movie.php">
+            <a href="../movie_management/ad_movie.php">
                 <li>
                     <i class="fas fa-film"></i>
                     Quản lý phim
@@ -92,56 +97,51 @@ if (isset($_GET['delete'])) {
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
             
-            <a href="">
-                <li class="submenu-item">
-                    <i class="fas fa-caret-right"></i>
-                    Quản lý rạp chiếu
-                </li>
-            </a>
-            
-            <a href="">
+         
+           
+            <a href="../showtime_management/showtime.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
                     Quản lý lịch chiếu
                 </li>
             </a>
-            <a href="">
+            <a href="../screening_management/screening.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>
                     Quản lý suất chiếu
                 </li>
             </a>
-            <a href="">
+            <a href="../ticket_order/order.php">
                 <li>
                     <i class="fas fa-ticket-alt"></i>
                     Quản lý đơn đặt vé
                 </li>
             </a>
-            <a href="">
+            <a href="../promotion/ad_promotion.php">
                 <li>
                     <i class="fas fa-tags"></i>
                     Quản lý ưu đãi
                 </li>
             </a>
-            <a href="">
+            <a href="../customer/customer.php">
                 <li>
                     <i class="fas fa-users"></i>
                     Quản lý khách hàng
                 </li>
             </a>
-            <a href="">
+            <a href="../employees/employees.php">
                 <li>
                     <i class="fas fa-user-tie"></i>
                     Quản lý nhân viên
                 </li>
             </a>
-            <a href="">
+            <a href="../revenue/revenue.php">
                 <li>
                     <i class="fas fa-chart-line"></i>
                     Quản lý doanh thu
                 </li>
             </a>
-            <a href="/4scinema/user/login.php">
+            <a href="../../user/login.php">
                 <li>
                     <i class="fas fa-sign-out-alt"></i>
                     Đăng xuất
@@ -168,11 +168,10 @@ if (isset($_GET['delete'])) {
     <div class="content">
         <div class="container">
             <div class="main-header">
-                <h1> Danh sách rạp</h1>
+                <h1> Danh sách nhân viên</h1>
                 <div>
                     <button class="add" id="createMovieBtn">
-                        <i class="fas fa-plus"></i> 
-                        Tạo rạp chiếu
+                        Tạo ưu đãi
                     </button>
                     
                 </div>
@@ -181,20 +180,24 @@ if (isset($_GET['delete'])) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Tên rạp</th>
+                        <th>Tên nhân viên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại </th>
                         <th>Địa chỉ</th>
-                        <th>Số lượng ghế</th>
+                        <th>Phân quyền</th>
+                        <th>Ngày vào làm</th>
+                        <th>Tiền lương</th>
                         <th>Hành động</th>
                         
                     </tr>
                 </thead>
-                <tbody id="cinemasList">
+                <tbody id="promotionList">
                     <?php
                     // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
                     include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
 
-                    // Lấy danh sách rạp
-                    $query = "SELECT * FROM cinemas"; 
+                    // Lấy danh sách ưu đãi
+                    $query = "SELECT * FROM employees"; 
                     $result = $conn->query($query);
                     $count = 1;
 
@@ -203,15 +206,19 @@ if (isset($_GET['delete'])) {
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
                             echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['name_cinemas'] . '</td>';
-                            echo '<td>' . $row['address_cinemas'] . '</td>';
-                            echo '<td>' . $row['quantity'] . '</td>';
-                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['cinema_id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deleteCinemas(' . $row['cinema_id'] . ')">Xóa</button></td>';
+                            echo '<td>' . $row['employee_name'] . '</td>';
+                            echo '<td>' . $row['email'] . '</td>';
+                            echo '<td>' . $row['phone'] . '</td>';
+                            echo '<td>' . $row['address_nv'] . '</td>';
+                            echo '<td>' . $row['position'] . '</td>';
+                            echo '<td>' . $row['hire_date'] . '</td>';
+                            echo '<td>' . $row['salary'] . '</td>';
+                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                            <button class="delete" onclick="deleteEmployee(' . $row['id'] . ')">Xóa</button></td>';
                             echo '</td>';
                         }
                     } else {
-                        echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
+                        echo '<tr><td colspan="9">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -228,49 +235,69 @@ if (isset($_GET['delete'])) {
     </div>
            
      <!-- The Modal -->
-     <form action="cinemas.php" method="POST" enctype="multipart/form-data">
-         <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h1>Thêm rạp</h1>
-                <div class="container">
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="name">* Tên rạp</label>
-                            <input type="text" name="name_cinemas" placeholder="Enter name" >
+        <form action="employees.php" method="POST" enctype="multipart/form-data">
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1>Thêm nhân viên</h1>
+                    <div class="container">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Tên nhân viên</label>
+                                <input type="text" name="employee_name" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label >* Email</label>
+                                <input type="email" name="email"  required>
+                            </div>
                         </div>
-                        <div class="form-group half-width">
-                            <label for="address">* Địa chỉ</label>
-                            <input type="text" name="address_cinemas" placeholder="Enter address">
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Số điện thoại</label>
+                                <input type="text" name="phone" required></input>
+                            </div>
+                            <div class="form-group half-width">
+                                <label >* Địa chỉ</label>
+                                <input type="text" name="address_nv" required></input>
+                            </div>
                         </div>
-                    </div>
-                    
-                    
-                
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="quantity">* Số lượng ghế</label>
-                            <input type="text" name="quantity" placeholder="Enter quantity">
-                        </div>
+
+
                         
-                    </div>
-                    <div class="form-group">
-                        <button class="submit-btn" id="addMovieBtn" name ="addcinema">Thêm rạp</button>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Phân quyền</label>
+                                <input type="text" name="position" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="end_time">* Ngày vào làm</label>
+                                <input type="date" name="hire_date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            
+                            <div class="form-group half-width">
+                                <label for="end_time">* Tiền lương</label>
+                                <input type="number" name="salary" required>
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
     
 
     <!-- Sửa phim -->
-    
+    <script src="http://localhost/4scinema/admin/js/admin.js"></script>
 
     
-
-
-
-    <script src="../js/admin.js"></script>
 </body>
 </html>

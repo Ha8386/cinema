@@ -1,42 +1,14 @@
 <?php 
 include '../../user/db_connection.php';
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addpromotion'])) {
     
 
-    $promotion_name = $_POST['promotion_name'];
-    $details = $_POST['details'];
-    $notes = $_POST['notes'];
-    $image_url = $_FILES['image_url']['name']; // Lưu tên file hình ảnh
-    $start_time = $_POST['start_time'];
-    $end_time = $_POST['end_time'];
-
-    // Upload file hình ảnh
-    move_uploaded_file($_FILES['image_url']['tmp_name'], "../../assets/img/" . $image_url);
-    
-    
-        // Chuẩn bị câu truy vấn SQL
-        $stmt = $conn->prepare("INSERT INTO promotion (promotion_name, details, notes, discount_image, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss",  $promotion_name, $details, $notes, $image_url, $start_time, $end_time);
-
-        // Thực hiện câu truy vấn
-        if ($stmt->execute()) {
-            echo "Thêm ưu đãi thành công!";
-        } else {
-            echo "Lỗi: " . $stmt->error;
-        }
-
-        $stmt->close();
-        
-    
-}
 // xoá ưu đãi
 if (isset($_GET['delete'])) {
     $id_to_delete = intval(trim($_GET['delete']));
 
     // Chuẩn bị câu truy vấn xóa
-    $stmt = $conn->prepare("DELETE FROM promotion WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM customers WHERE id = ?");
 
     if ($stmt === false) {
         die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
@@ -46,7 +18,7 @@ if (isset($_GET['delete'])) {
 
     // Thực hiện câu truy vấn
     if ($stmt->execute()) {
-        echo "Xóa ưu đãi thành công!";
+        echo "Xóa nhân viên thành công!";
     } else {
         echo "Lỗi: " . $stmt->error;
     }
@@ -152,6 +124,7 @@ if (isset($_GET['delete'])) {
             </a>
         </ul>
     </div>
+    
 
   
     
@@ -170,35 +143,29 @@ if (isset($_GET['delete'])) {
     <div class="content">
         <div class="container">
             <div class="main-header">
-                <h1> Danh sách ưu đãi</h1>
-                <div>
-                    <button class="add" id="createMovieBtn">
-                        <i class="fas fa-plus"></i> 
-                        Tạo ưu đãi
-                    </button>
-                    
-                </div>
+                <h1> Danh sách khách hàng</h1>
+
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Tên ưu đãi</th>
-                        <th>Chi tiết</th>
-                        <th>Ảnh </th>
-                        <th>Bắt đầu</th>
-                        <th>Kết thúc</th>
+                        <th>Tên </th>
+                        <th>Email</th>
+                        <th>Số điện thoại </th>
+                        <th>Username</th>
+                        <th>Password</th>
                         <th>Hành động</th>
                         
                     </tr>
                 </thead>
-                <tbody id="promotionList">
+                <tbody id="customerList">
                     <?php
                     // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
                     include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
 
                     // Lấy danh sách ưu đãi
-                    $query = "SELECT * FROM promotion"; 
+                    $query = "SELECT * FROM customers"; 
                     $result = $conn->query($query);
                     $count = 1;
 
@@ -207,17 +174,17 @@ if (isset($_GET['delete'])) {
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
                             echo '<td>' . $count++ .  '</td>';
-                            echo '<td style="width:250px">' . $row['promotion_name'] . '</td>';
-                            echo '<td style="width:280px">' . $row['details'] . '</td>';
-                            echo '<td><img src="../../assets/img/' . $row['discount_image'] . '" alt="Image" width="60"></td>';
-                            echo '<td>' . $row['start_time'] . '</td>';
-                            echo '<td>' . $row['end_time'] . '</td>';
+                            echo '<td>' . $row['customer_name'] . '</td>';
+                            echo '<td>' . $row['email'] . '</td>';
+                            echo '<td>' . $row['phone'] . '</td>';
+                            echo '<td>' . $row['username'] . '</td>';
+                            echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password'] . '</td>';
                             echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deletePromotion(' . $row['id'] . ')">Xóa</button></td>';
+                            <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
                             echo '</td>';
                         }
                     } else {
-                        echo '<tr><td colspan="8">Không có dữ liệu nào.</td></tr>';
+                        echo '<tr><td colspan="7">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -234,31 +201,31 @@ if (isset($_GET['delete'])) {
     </div>
            
      <!-- The Modal -->
-        <form action="ad_promotion.php" method="POST" enctype="multipart/form-data">
+        <form action="employees.php" method="POST" enctype="multipart/form-data">
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h1>Thêm ưu đãi</h1>
+                    <h1>Thêm nhân viên</h1>
                     <div class="container">
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <label for="promotion_name">* Tên ưu đãi</label>
-                                <input type="text" name="promotion_name" required>
+                                <label >* Tên nhân viên</label>
+                                <input type="text" name="employee_name" required>
                             </div>
                             <div class="form-group half-width">
-                                <label for="image_url">* Hình ảnh</label>
-                                <input type="file" name="image_url"  required>
+                                <label >* Email</label>
+                                <input type="email" name="email"  required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <label for="details">* Chi tiết</label>
-                                <textarea name="details" required></textarea>
+                                <label >* Số điện thoại</label>
+                                <input type="text" name="phone" required></input>
                             </div>
                             <div class="form-group half-width">
-                                <label for="notes">Ghi chú</label>
-                                <textarea name="notes"></textarea>
+                                <label >* Địa chỉ</label>
+                                <input type="text" name="address_nv" required></input>
                             </div>
                         </div>
 
@@ -267,18 +234,25 @@ if (isset($_GET['delete'])) {
 
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <label for="start_time">* Thời gian bắt đầu</label>
-                                <input type="date" name="start_time" required>
+                                <label >* Phân quyền</label>
+                                <input type="text" name="position" required>
                             </div>
                             <div class="form-group half-width">
-                                <label for="end_time">* Thời gian kết thúc</label>
-                                <input type="date" name="end_time" required>
+                                <label for="end_time">* Ngày vào làm</label>
+                                <input type="date" name="hire_date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            
+                            <div class="form-group half-width">
+                                <label for="end_time">* Tiền lương</label>
+                                <input type="number" name="salary" required>
                             </div>
                         </div>
 
                         
                         <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addpromotion">Thêm ưu đãi</button>
+                            <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
                         </div>
                     </div>
                 </div>
