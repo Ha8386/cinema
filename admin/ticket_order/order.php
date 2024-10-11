@@ -1,12 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
-
-    
-
-
-
-
-
+$search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 
 ?>
 
@@ -123,7 +117,21 @@ include '../../user/db_connection.php';
         <div class="container">
             <div class="main-header">
                 <h1> Danh sách đơn đặt vé</h1>
+                <div class="ad_nav">
+                    <div class="ad_nav_item">
 
+                        
+                        <a href="order.php" class="reset-button">
+                            <button>Hiển thị tất cả</button>
+                        </a>
+                    </div>
+                    
+                    <form action="order.php" method="get">
+                        <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
+                        <input type="submit" name="ok" value="search" />
+                    </form>
+                    
+                </div>
             </div>
             <table>
                 <thead>
@@ -139,29 +147,48 @@ include '../../user/db_connection.php';
                 </thead>
                 <tbody id="customerList">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                    // Lấy danh sách ưu đãi
-                    $query = "SELECT * FROM ticket_orders"; 
-                    $result = $conn->query($query);
-                    $count = 1;
-
-                    // Kiểm tra và hiển thị dữ liệu
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['movie_name'] . '</td>';
-                            echo '<td>' . $row['customer_name'] . '</td>';
-                            echo '<td>' . $row['quantity'] . '</td>';
-                            echo '<td>' . $row['price'] . '</td>';
-                            echo '<td>' . $row['order_date'] . '</td>';
-                            echo '</td>';
+                     if (!empty($search)) {
+                        // Nếu có tìm kiếm, thực hiện truy vấn
+                        $query = "SELECT * FROM ticket_orders WHERE movie_name LIKE '%$search%'";
+                        $result = $conn->query($query);
+                        $count=1;
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['movie_name'] . '</td>';
+                                echo '<td>' . $row['customer_name'] . '</td>';
+                                echo '<td>' . $row['quantity'] . '</td>';
+                                echo '<td>' . $row['price'] . '</td>';
+                                echo '<td>' . $row['order_date'] . '</td>';
+                                echo '</td>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="6">Không có dữ liệu nào.</td></tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="6">Không có dữ liệu nào.</td></tr>';
-                    }
+                     }else {
+
+                         // Lấy danh sách ưu đãi
+                         $query = "SELECT * FROM ticket_orders"; 
+                         $result = $conn->query($query);
+                         $count = 1;
+     
+                         // Kiểm tra và hiển thị dữ liệu
+                         if ($result->num_rows > 0) {
+                             while ($row = $result->fetch_assoc()) {
+                                 echo '<tr>';
+                                 echo '<td>' . $count++ .  '</td>';
+                                 echo '<td>' . $row['movie_name'] . '</td>';
+                                 echo '<td>' . $row['customer_name'] . '</td>';
+                                 echo '<td>' . $row['quantity'] . '</td>';
+                                 echo '<td>' . $row['price'] . '</td>';
+                                 echo '<td>' . $row['order_date'] . '</td>';
+                                 echo '</td>';
+                             }
+                         } else {
+                             echo '<tr><td colspan="6">Không có dữ liệu nào.</td></tr>';
+                         }
+                     }
                     ?>
                 </tbody>
 

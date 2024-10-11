@@ -1,7 +1,7 @@
 <?php 
 include '../../user/db_connection.php';
 
-
+$search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addshowtime'])) {
     $movie_id = trim($_POST['movie_id']); 
     $show_date = trim($_POST['show_date']);
@@ -174,11 +174,22 @@ if (isset($_GET['delete'])) {
         <div class="container">
             <div class="main-header">
                 <h1> Danh sách lịch chiếu</h1>
-                <div>
-                    <button class="add" id="createMovieBtn">
-                        <i class="fas fa-plus"></i> 
-                        Tạo lịch chiếu
-                    </button>
+                <div class="ad_nav">
+                    <div class="ad_nav_item">
+
+                        <button class="add" id="createMovieBtn">
+                            <i class="fas fa-plus"></i> 
+                            Tạo lịch chiếu
+                        </button>
+                        <a href="showtime.php" class="reset-button">
+                            <button>Hiển thị tất cả</button>
+                        </a>
+                    </div>
+                    
+                    <form action="showtime.php" method="get">
+                        <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
+                        <input type="submit" name="ok" value="search" />
+                    </form>
                     
                 </div>
             </div>
@@ -194,14 +205,14 @@ if (isset($_GET['delete'])) {
                 </thead>
                 <tbody id="showtimeList">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                    // Lấy danh sách lịch chiếu
+                   if (!empty($search)) {
+                    // Nếu có tìm kiếm, thực hiện truy vấn
                     $query = "SELECT showtimes.showtime_id, movies.title, showtimes.show_date 
-                              FROM showtimes 
-                              JOIN movies ON showtimes.movie_id = movies.movie_id"; 
+                                FROM showtimes 
+                                JOIN movies ON showtimes.movie_id = movies.movie_id 
+                                WHERE movies.title LIKE '%$search%'"; 
                     $result = $conn->query($query);
+                  
                     $count = 1;
 
                     // Kiểm tra và hiển thị dữ liệu
@@ -218,6 +229,30 @@ if (isset($_GET['delete'])) {
                     } else {
                         echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
                     }
+                   }else {
+
+                       // Lấy danh sách lịch chiếu
+                       $query = "SELECT showtimes.showtime_id, movies.title, showtimes.show_date 
+                                 FROM showtimes 
+                                 JOIN movies ON showtimes.movie_id = movies.movie_id"; 
+                       $result = $conn->query($query);
+                       $count = 1;
+   
+                       // Kiểm tra và hiển thị dữ liệu
+                       if ($result->num_rows > 0) {
+                           while ($row = $result->fetch_assoc()) {
+                               echo '<tr>';
+                               echo '<td>' . $count++ .  '</td>';
+                               echo '<td>' . $row['title'] . '</td>';
+                               echo '<td>' . $row['show_date'] . '</td>';
+                               echo '<td><button  class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
+                               <button class="delete" onclick="deleteShowtime(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                               echo '</td>';
+                           }
+                       } else {
+                           echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
+                       }
+                   }
                     ?>
                 </tbody>
 

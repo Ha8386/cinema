@@ -1,6 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
-
+$search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addemployee'])) {
     
@@ -169,10 +169,22 @@ if (isset($_GET['delete'])) {
         <div class="container">
             <div class="main-header">
                 <h1> Danh sách nhân viên</h1>
-                <div>
-                    <button class="add" id="createMovieBtn">
-                        Tạo ưu đãi
-                    </button>
+                <div class="ad_nav">
+                    <div class="ad_nav_item">
+
+                        <button class="add" id="createMovieBtn">
+                            <i class="fas fa-plus"></i> 
+                            Tạo nhân viên
+                        </button>
+                        <a href="employees.php" class="reset-button">
+                            <button>Hiển thị tất cả</button>
+                        </a>
+                    </div>
+                    
+                    <form action="employees.php" method="get">
+                        <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
+                        <input type="submit" name="ok" value="search" />
+                    </form>
                     
                 </div>
             </div>
@@ -193,33 +205,57 @@ if (isset($_GET['delete'])) {
                 </thead>
                 <tbody id="promotionList">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                    // Lấy danh sách ưu đãi
-                    $query = "SELECT * FROM employees"; 
-                    $result = $conn->query($query);
-                    $count = 1;
-
-                    // Kiểm tra và hiển thị dữ liệu
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['employee_name'] . '</td>';
-                            echo '<td>' . $row['email'] . '</td>';
-                            echo '<td>' . $row['phone'] . '</td>';
-                            echo '<td>' . $row['address_nv'] . '</td>';
-                            echo '<td>' . $row['position'] . '</td>';
-                            echo '<td>' . $row['hire_date'] . '</td>';
-                            echo '<td>' . $row['salary'] . '</td>';
-                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deleteEmployee(' . $row['id'] . ')">Xóa</button></td>';
-                            echo '</td>';
+                    
+                     if (!empty($search)) {
+                        // Nếu có tìm kiếm, thực hiện truy vấn
+                        $query = "SELECT * FROM employees WHERE employee_name LIKE '%$search%'";
+                        $result = $conn->query($query);
+                        $count=1;
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['employee_name'] . '</td>';
+                                echo '<td>' . $row['email'] . '</td>';
+                                echo '<td>' . $row['phone'] . '</td>';
+                                echo '<td>' . $row['address_nv'] . '</td>';
+                                echo '<td>' . $row['position'] . '</td>';
+                                echo '<td>' . $row['hire_date'] . '</td>';
+                                echo '<td>' . $row['salary'] . '</td>';
+                                echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                <button class="delete" onclick="deleteEmployee(' . $row['id'] . ')">Xóa</button></td>';
+                                echo '</td>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="9">Không có dữ liệu nào.</td></tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="9">Không có dữ liệu nào.</td></tr>';
-                    }
+                     }else {
+
+                         // Lấy danh sách ưu đãi
+                         $query = "SELECT * FROM employees"; 
+                         $result = $conn->query($query);
+                         $count = 1;
+     
+                         // Kiểm tra và hiển thị dữ liệu
+                         if ($result->num_rows > 0) {
+                             while ($row = $result->fetch_assoc()) {
+                                 echo '<tr>';
+                                 echo '<td>' . $count++ .  '</td>';
+                                 echo '<td>' . $row['employee_name'] . '</td>';
+                                 echo '<td>' . $row['email'] . '</td>';
+                                 echo '<td>' . $row['phone'] . '</td>';
+                                 echo '<td>' . $row['address_nv'] . '</td>';
+                                 echo '<td>' . $row['position'] . '</td>';
+                                 echo '<td>' . $row['hire_date'] . '</td>';
+                                 echo '<td>' . $row['salary'] . '</td>';
+                                 echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                 <button class="delete" onclick="deleteEmployee(' . $row['id'] . ')">Xóa</button></td>';
+                                 echo '</td>';
+                             }
+                         } else {
+                             echo '<tr><td colspan="9">Không có dữ liệu nào.</td></tr>';
+                         }
+                     }
                     ?>
                 </tbody>
 

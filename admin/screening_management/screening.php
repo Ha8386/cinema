@@ -1,7 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
-
-
+$search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addscreen'])) {
     $showtime_id = $_POST['showtime_id'];
     $screening_times = $_POST['screening_time']; // Lưu ý đây là một mảng
@@ -164,12 +163,23 @@ if (isset($_GET['delete'])) {
     <div class="content">
         <div class="container">
             <div class="main-header">
-                <h1> Danh sách lịch chiếu</h1>
-                <div>
-                    <button class="add" id="createMovieBtn">
-                        <i class="fas fa-plus"></i> 
-                        Tạo lịch chiếu
-                    </button>
+                <h1> Danh sách suất chiếu</h1>
+                <div class="ad_nav">
+                    <div class="ad_nav_item">
+
+                        <button class="add" id="createMovieBtn">
+                            <i class="fas fa-plus"></i> 
+                            Tạo suất chiếu
+                        </button>
+                        <a href="screening.php" class="reset-button">
+                            <button>Hiển thị tất cả</button>
+                        </a>
+                    </div>
+                    
+                    <form action="screening.php" method="get">
+                        <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
+                        <input type="submit" name="ok" value="search" />
+                    </form>
                     
                 </div>
             </div>
@@ -185,39 +195,73 @@ if (isset($_GET['delete'])) {
                 </thead>
                 <tbody id="showtimeList">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                    // Lấy danh sách suất chiếu
-                    $query = "
-                            SELECT showtimes.showtime_id, showtimes.show_date, GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
+                    if (!empty($search)) {
+                        // Nếu có tìm kiếm, thực hiện truy vấn
+                       
+                        $query = "
+                            SELECT showtimes.showtime_id, showtimes.show_date, 
+                                GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
                             FROM showtimes
                             LEFT JOIN screenings ON screenings.showtime_id = showtimes.showtime_id
+                            WHERE showtimes.show_date LIKE '%$search%'
                             GROUP BY showtimes.showtime_id
                             HAVING COUNT(screenings.screening_time) > 0
                         "; 
-                    $result = $conn->query($query); 
-                    $count = 1;
-                    // Kiểm tra và hiển thị dữ liệu
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['show_date'] . '</td>';
-                             // Tách các suất chiếu và thêm border
-                            $screening_times = explode(', ', $row['screening_times']);
-                            echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px">';
-                            foreach ($screening_times as $time) {
-                                echo '<div class="screening-button">' . $time . '</div>';
+                        $result = $conn->query($query); 
+                        $count = 1;
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['show_date'] . '</td>';
+                                 // Tách các suất chiếu và thêm border
+                                $screening_times = explode(', ', $row['screening_times']);
+                                echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px">';
+                                foreach ($screening_times as $time) {
+                                    echo '<div class="screening-button">' . $time . '</div>';
+                                }
+                                echo '</td>';
+                                echo '<td><button class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
+                                    <button class="delete" onclick="deleteScreen(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                                echo '</tr>';
                             }
-                            echo '</td>';
-                            echo '<td><button class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
-                                <button class="delete" onclick="deleteScreen(' . $row['showtime_id'] . ')">Xóa</button></td>';
-                            echo '</tr>';
+                        } else {
+                            echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
+                    }else {
+
+                        // Lấy danh sách suất chiếu
+                        $query = "
+                                SELECT showtimes.showtime_id, showtimes.show_date, GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
+                                FROM showtimes
+                                LEFT JOIN screenings ON screenings.showtime_id = showtimes.showtime_id
+                                GROUP BY showtimes.showtime_id
+                                HAVING COUNT(screenings.screening_time) > 0
+                            "; 
+                        $result = $conn->query($query); 
+                        $count = 1;
+                        // Kiểm tra và hiển thị dữ liệu
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['show_date'] . '</td>';
+                                 // Tách các suất chiếu và thêm border
+                                $screening_times = explode(', ', $row['screening_times']);
+                                echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px">';
+                                foreach ($screening_times as $time) {
+                                    echo '<div class="screening-button">' . $time . '</div>';
+                                }
+                                echo '</td>';
+                                echo '<td><button class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
+                                    <button class="delete" onclick="deleteScreen(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                                echo '</tr>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
+                        }
                     }
+
                     ?>
                 </tbody>
 

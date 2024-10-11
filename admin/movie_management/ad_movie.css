@@ -178,3 +178,17 @@ table th {
 .submit-btn:hover {
     background-color: #0056b3;
 }
+.main-header {
+    margin-bottom: 20px;
+}
+.ad_nav {
+    display: flex;
+    justify-content: space-between;
+}
+.reset-button {
+    list-style: none;
+}
+.ad_nav_item {
+    display: flex;
+    gap: 20px;
+}

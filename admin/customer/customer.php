@@ -1,6 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
-
+$search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
     
 
 // xoá ưu đãi
@@ -144,7 +144,21 @@ if (isset($_GET['delete'])) {
         <div class="container">
             <div class="main-header">
                 <h1> Danh sách khách hàng</h1>
+                <div class="ad_nav">
+                    <div class="ad_nav_item">
 
+            
+                        <a href="customer.php" class="reset-button">
+                            <button>Hiển thị tất cả</button>
+                        </a>
+                    </div>
+                    
+                    <form action="customer.php" method="get">
+                        <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
+                        <input type="submit" name="ok" value="search" />
+                    </form>
+                    
+                </div>
             </div>
             <table>
                 <thead>
@@ -162,30 +176,55 @@ if (isset($_GET['delete'])) {
                 <tbody id="customerList">
                     <?php
                     // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                    // Lấy danh sách ưu đãi
-                    $query = "SELECT * FROM customers"; 
-                    $result = $conn->query($query);
-                    $count = 1;
-
-                    // Kiểm tra và hiển thị dữ liệu
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['customer_name'] . '</td>';
-                            echo '<td>' . $row['email'] . '</td>';
-                            echo '<td>' . $row['phone'] . '</td>';
-                            echo '<td>' . $row['username'] . '</td>';
-                            echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password'] . '</td>';
-                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
-                            echo '</td>';
+                    if (!empty($search)) {
+                        // Nếu có tìm kiếm, thực hiện truy vấn
+                        $query = "SELECT * FROM customers WHERE customer_name LIKE '%$search%'";
+                        $result = $conn->query($query);
+                        $count=1;
+                         // Kiểm tra và hiển thị dữ liệu
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['customer_name'] . '</td>';
+                                echo '<td>' . $row['email'] . '</td>';
+                                echo '<td>' . $row['phone'] . '</td>';
+                                echo '<td>' . $row['username'] . '</td>';
+                                echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password'] . '</td>';
+                                echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
+                                echo '</td>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="7">Không có dữ liệu nào.</td></tr>';
                         }
-                    } else {
-                        echo '<tr><td colspan="7">Không có dữ liệu nào.</td></tr>';
+                    }else {
+
+                        // Lấy danh sách ưu đãi
+                        $query = "SELECT * FROM customers"; 
+                        $result = $conn->query($query);
+                        $count = 1;
+    
+                        // Kiểm tra và hiển thị dữ liệu
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count++ .  '</td>';
+                                echo '<td>' . $row['customer_name'] . '</td>';
+                                echo '<td>' . $row['email'] . '</td>';
+                                echo '<td>' . $row['phone'] . '</td>';
+                                echo '<td>' . $row['username'] . '</td>';
+                                echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password'] . '</td>';
+                                echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
+                                echo '</td>';
+                            }
+                        } else {
+                            echo '<tr><td colspan="7">Không có dữ liệu nào.</td></tr>';
+                        }
                     }
+
+
                     ?>
                 </tbody>
 
