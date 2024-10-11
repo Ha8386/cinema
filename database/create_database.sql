@@ -1,4 +1,23 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 11, 2024 lúc 05:22 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.0.30
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
 -- Cơ sở dữ liệu: `quanly_4scinema`
 --
 
@@ -25,8 +44,7 @@ INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `p
 (4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
 (5, 'Nguyễn Đức Hà', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$yCp3CVF7fjW8gOC6ENNIcOkZyx.kz/9nKqnt11FUavVF8ZUZUTz0y'),
 (6, 'Nguyễn', 'hadeptrai@gmail.com', '123', 'ha', '$2y$10$RcMWkw6IPii.yJJGM2CSJOmV5ZDWi8kA39sPJL4q7569RGhasiQnO'),
-(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
-(10, 'Nam', 'abc@gmail.com', '12345', 'nam', '$2y$10$xPGKYogrBachOvnygRldYeSNGQDIzLnPBsRkZuxUM/2C.AUNpjr8e');
+(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi');
 
 -- --------------------------------------------------------
 
@@ -39,8 +57,7 @@ CREATE TABLE `employees` (
   `employee_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
+  `address_nv` varchar(255) DEFAULT NULL,
   `position` varchar(100) DEFAULT NULL,
   `hire_date` date DEFAULT NULL,
   `salary` decimal(10,2) DEFAULT NULL
@@ -50,10 +67,9 @@ CREATE TABLE `employees` (
 -- Đang đổ dữ liệu cho bảng `employees`
 --
 
-INSERT INTO `employees` (`id`, `employee_name`, `email`, `phone`, `date_of_birth`, `address`, `position`, `hire_date`, `salary`) VALUES
-(1, 'Nguyễn Văn An', 'nguyenvana@gmail.com', '0901234567', '1990-01-01', 'Hà Nội', 'Nhân viên', '2020-05-15', 10000000.00),
-(2, 'Trần Thị Tuyền', 'tranthib@gmail.com', '0912345678', '1985-03-20', 'TP.HCM', 'Quản lý', '2018-07-10', 15000000.00),
-(3, 'Lê Văn Luyện', 'levanc@gmail.com', '0923456789', '1992-11-30', 'Đà Nẵng', 'Kỹ sư', '2021-01-20', 12000000.00);
+INSERT INTO `employees` (`id`, `employee_name`, `email`, `phone`, `address_nv`, `position`, `hire_date`, `salary`) VALUES
+(1, 'Nguyễn Văn An', 'nguyenvana@gmail.com', '0901234567', 'Hà Nội', 'Nhân viên', '2020-05-15', 10000000.00),
+(4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'Bắc Ninh', 'Quản lý', '2024-10-11', 10000000.00);
 
 -- --------------------------------------------------------
 
@@ -97,28 +113,28 @@ CREATE TABLE `promotion` (
   `promotion_name` varchar(255) NOT NULL,
   `details` text DEFAULT NULL,
   `notes` text DEFAULT NULL,
-  `conditions` text DEFAULT NULL,
   `discount_image` varchar(255) DEFAULT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL
+  `start_time` date DEFAULT NULL,
+  `end_time` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `promotion`
 --
 
-INSERT INTO `promotion` (`id`, `promotion_name`, `details`, `notes`, `conditions`, `discount_image`, `start_time`, `end_time`) VALUES
-(1, 'Giảm giá vé cuối tuần', 'Giảm 20% cho vé xem phim vào thứ 7 và Chủ nhật', 'Áp dụng cho tất cả các phim', 'Không áp dụng cho phim 3D', 'image1.jpg', '2024-10-01 00:00:00', '2024-10-31 00:00:00'),
-(2, 'Thẻ thành viên', 'Giảm 30% cho vé cho thành viên mới đăng ký', 'Chỉ áp dụng cho lần đặt vé đầu tiên', 'Cần xuất trình thẻ thành viên', 'image2.jpg', '2024-10-05 00:00:00', '2025-01-05 00:00:00'),
-(3, 'Khuyến mãi phim mới', 'Mua 2 vé, tặng 1 nước uống', 'Chỉ áp dụng cho phim mới ra mắt', 'Chỉ áp dụng tại rạp X', 'image3.jpg', '2024-10-10 00:00:00', '2024-11-10 00:00:00');
+INSERT INTO `promotion` (`id`, `promotion_name`, `details`, `notes`, `discount_image`, `start_time`, `end_time`) VALUES
+(5, 'C\'STUDENT - 45K CHO HỌC SINH SINH VIÊN ', 'Đồng giá 45K/2D cho HSSV/GV/U22 cả tuần tại mọi cụm rạp Cinestar', 'HSSV xuất trình thẻ HSSV hoặc CCCD từ dưới 22 tuổi.\r\nGiảng viên/ giáo viên xuất trình thẻ giảng viên.', 'promotion5.png', '2024-10-10', '2024-10-31'),
+(6, 'C\'TEN - HAPPY HOUR - 45K/ 2D MỐC 10H', 'Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng xem phim trước 10h sáng và sau 10h tối.', 'Khách hàng là thành C\'FRIEND hoặc C\'VIP của Cinestar.\r\nÁp dụng tại App/Web Cinestar hoặc mua trực tiếp tại rạp.', 'promotion6.png', '2024-10-25', '2024-11-05'),
+(8, 'C\'MONDAY - HAPPY DAY - ĐỒNG GIÁ 45K/ 2D', 'Đồng giá 45K/2D, 55K/3D vào thứ 2 hàng tuần', 'Áp dụng cho các suất chiếu vào ngày thứ 2 hàng tuần.\r\nMua vé trực tiếp tại App/Web Cinestar hoặc mua trực tiếp tại rạp.', 'promotion4.webp', '2024-10-08', '2024-10-24'),
+(9, 'HAPPY MEMBER\'S DAY - GIÁ CHỈ 45K/ 2DDDD', 'Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng là thành viên Cinestar vào ngày thứ 4 hàng tuần.', 'Khách hàng là thành C\'FRIEND hoặc C\'VIP của Cinestar.\r\nÁp dụng tại App/Web Cinestar hoặc mua trực tiếp tại rạp.', 'promotion8.png', '2024-10-11', '2024-10-31');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `revenue_summary`
+-- Cấu trúc bảng cho bảng `revenue`
 --
 
-CREATE TABLE `revenue_summary` (
+CREATE TABLE `revenue` (
   `id` int(11) NOT NULL,
   `total_amount` decimal(12,2) NOT NULL,
   `transaction_count` int(11) NOT NULL,
@@ -126,10 +142,10 @@ CREATE TABLE `revenue_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `revenue_summary`
+-- Đang đổ dữ liệu cho bảng `revenue`
 --
 
-INSERT INTO `revenue_summary` (`id`, `total_amount`, `transaction_count`, `report_date`) VALUES
+INSERT INTO `revenue` (`id`, `total_amount`, `transaction_count`, `report_date`) VALUES
 (1, 15000000.99, 300, '2024-10-01'),
 (2, 20000000.50, 450, '2024-10-02'),
 (3, 17500000.75, 350, '2024-10-03');
@@ -145,6 +161,24 @@ CREATE TABLE `screenings` (
   `showtime_id` int(11) DEFAULT NULL,
   `screening_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `screenings`
+--
+
+INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUES
+(45, 42, '10:50:00'),
+(46, 42, '09:52:00'),
+(47, 42, '10:50:00'),
+(48, 42, '09:52:00'),
+(49, 44, '09:59:00'),
+(50, 44, '09:00:00'),
+(51, 44, '09:59:00'),
+(52, 44, '09:00:00'),
+(53, 44, '09:59:00'),
+(54, 44, '09:00:00'),
+(55, 44, '09:59:00'),
+(56, 44, '09:00:00');
 
 -- --------------------------------------------------------
 
@@ -163,9 +197,9 @@ CREATE TABLE `showtimes` (
 --
 
 INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
-(38, 13, '2024-10-14'),
 (42, 15, '2024-10-16'),
-(44, 16, '2024-09-30');
+(44, 16, '2024-09-30'),
+(48, 15, '2024-10-23');
 
 -- --------------------------------------------------------
 
@@ -206,8 +240,7 @@ ALTER TABLE `customers`
 -- Chỉ mục cho bảng `employees`
 --
 ALTER TABLE `employees`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `movies`
@@ -222,9 +255,9 @@ ALTER TABLE `promotion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `revenue_summary`
+-- Chỉ mục cho bảng `revenue`
 --
-ALTER TABLE `revenue_summary`
+ALTER TABLE `revenue`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -232,14 +265,14 @@ ALTER TABLE `revenue_summary`
 --
 ALTER TABLE `screenings`
   ADD PRIMARY KEY (`screening_id`),
-  ADD KEY `showtime_id` (`showtime_id`);
+  ADD KEY `fk_showtime` (`showtime_id`);
 
 --
 -- Chỉ mục cho bảng `showtimes`
 --
 ALTER TABLE `showtimes`
   ADD PRIMARY KEY (`showtime_id`),
-  ADD UNIQUE KEY `movie_id` (`movie_id`) USING BTREE;
+  ADD KEY `movie_id` (`movie_id`) USING BTREE;
 
 --
 -- Chỉ mục cho bảng `ticket_orders`
@@ -261,7 +294,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT cho bảng `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `movies`
@@ -273,25 +306,25 @@ ALTER TABLE `movies`
 -- AUTO_INCREMENT cho bảng `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT cho bảng `revenue_summary`
+-- AUTO_INCREMENT cho bảng `revenue`
 --
-ALTER TABLE `revenue_summary`
+ALTER TABLE `revenue`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT cho bảng `showtimes`
 --
 ALTER TABLE `showtimes`
-  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `ticket_orders`
@@ -307,6 +340,7 @@ ALTER TABLE `ticket_orders`
 -- Các ràng buộc cho bảng `screenings`
 --
 ALTER TABLE `screenings`
+  ADD CONSTRAINT `fk_showtime` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `screenings_ibfk_1` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`);
 
 --
