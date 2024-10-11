@@ -2,42 +2,43 @@
 include '../../user/db_connection.php';
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addshowtime'])) {
-    $movie_id = trim($_POST['movie_id']); 
-    $show_date = trim($_POST['show_date']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addpromotion'])) {
+    
 
-   
-    $checkQuery = "SELECT * FROM showtimes WHERE movie_id = ? AND show_date = ?";
-    $checkStmt = $conn->prepare($checkQuery);
-    $checkStmt->bind_param("is", $movie_id, $show_date);
-    $checkStmt->execute();
-    $checkResult = $checkStmt->get_result();
+    $promotion_name = $_POST['promotion_name'];
+    $details = $_POST['details'];
+    $notes = $_POST['notes'];
+    $image_url = $_FILES['image_url']['name']; // Lưu tên file hình ảnh
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
 
-if ($checkResult->num_rows > 0) {
-    echo "Lịch chiếu cho ngày này đã tồn tại.";
-    return;
-}
+    // Upload file hình ảnh
+    $target_dir = "../../assets/img/";
+    $target_file = $target_dir . basename($_FILES["image_url"]["name"]);
+    
+    if (move_uploaded_file($_FILES["image_url"]["tmp_name"], $target_file)) {
+        // Chuẩn bị câu truy vấn SQL
+        $stmt = $conn->prepare("INSERT INTO promotions ( promotion_name, details, notes, image_url, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss",  $promotion_name, $details, $notes, $image_url, $start_time, $end_time);
 
-    // Chuẩn bị câu truy vấn SQL
-    $stmt = $conn->prepare("INSERT INTO showtimes (movie_id, show_date) VALUES (?, ?)");
-    $stmt->bind_param("is", $movie_id, $show_date);
+        // Thực hiện câu truy vấn
+        if ($stmt->execute()) {
+            echo "Thêm ưu đãi thành công!";
+        } else {
+            echo "Lỗi: " . $stmt->error;
+        }
 
-    // Thực hiện câu truy vấn
-    if ($stmt->execute()) {
-        echo "Thêm lịch chiếu thành công!";
+        $stmt->close();
     } else {
-        echo "Lỗi: " . $stmt->error;
+        echo "Lỗi khi tải lên hình ảnh.";
     }
-
-    $stmt->close();
 }
-
-// Xoá phim
+// xoá ưu đãi
 if (isset($_GET['delete'])) {
     $id_to_delete = intval(trim($_GET['delete']));
 
     // Chuẩn bị câu truy vấn xóa
-    $stmt = $conn->prepare("DELETE FROM showtimes WHERE showtime_id = ?");
+    $stmt = $conn->prepare("DELETE FROM promotion WHERE id = ?");
 
     if ($stmt === false) {
         die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
@@ -47,7 +48,7 @@ if (isset($_GET['delete'])) {
 
     // Thực hiện câu truy vấn
     if ($stmt->execute()) {
-        echo "Xóa lịch chiếu thành công!";
+        echo "Xóa ưu đãi thành công!";
     } else {
         echo "Lỗi: " . $stmt->error;
     }
@@ -55,7 +56,6 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-// sửa phim
 
 
 
@@ -102,7 +102,7 @@ if (isset($_GET['delete'])) {
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
             
-            
+        
             
             <a href="">
                 <li class="submenu-item">
@@ -173,11 +173,11 @@ if (isset($_GET['delete'])) {
     <div class="content">
         <div class="container">
             <div class="main-header">
-                <h1> Danh sách lịch chiếu</h1>
+                <h1> Danh sách ưu đãi</h1>
                 <div>
                     <button class="add" id="createMovieBtn">
                         <i class="fas fa-plus"></i> 
-                        Tạo lịch chiếu
+                        Tạo ưu đãi
                     </button>
                     
                 </div>
@@ -186,21 +186,22 @@ if (isset($_GET['delete'])) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Tên phim</th>
-                        <th>Lịch chiếu</th>
+                        <th>Tên ưu đãi</th>
+                        <th>Chi tiết</th>
+                        <th>Ảnh </th>
+                        <th>Bắt đầu</th>
+                        <th>Kết thúc</th>
                         <th>Hành động</th>
                         
                     </tr>
                 </thead>
-                <tbody id="showtimeList">
+                <tbody id="promotionList">
                     <?php
                     // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
                     include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
 
-                    // Lấy danh sách lịch chiếu
-                    $query = "SELECT showtimes.showtime_id, movies.title, showtimes.show_date 
-                              FROM showtimes 
-                              JOIN movies ON showtimes.movie_id = movies.movie_id"; 
+                    // Lấy danh sách ưu đãi
+                    $query = "SELECT * FROM promotion"; 
                     $result = $conn->query($query);
                     $count = 1;
 
@@ -209,14 +210,17 @@ if (isset($_GET['delete'])) {
                         while ($row = $result->fetch_assoc()) {
                             echo '<tr>';
                             echo '<td>' . $count++ .  '</td>';
-                            echo '<td>' . $row['title'] . '</td>';
-                            echo '<td>' . $row['show_date'] . '</td>';
-                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deleteShowtime(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                            echo '<td>' . $row['promotion_name'] . '</td>';
+                            echo '<td style="width:280px">' . $row['details'] . '</td>';
+                            echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
+                            echo '<td>' . $row['start_time'] . '</td>';
+                            echo '<td>' . $row['end_time'] . '</td>';
+                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                            <button class="delete" onclick="deletePromotion(' . $row['id'] . ')">Xóa</button></td>';
                             echo '</td>';
                         }
                     } else {
-                        echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
+                        echo '<tr><td colspan="8">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
                 </tbody>
@@ -233,43 +237,51 @@ if (isset($_GET['delete'])) {
     </div>
            
      <!-- The Modal -->
-        <form action="showtime.php" method="POST" enctype="multipart/form-data">
+        <form action="ad_promotion.php" method="POST" enctype="multipart/form-data">
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h1>Thêm lịch chiếu</h1>
+                    <h1>Thêm ưu đãi</h1>
                     <div class="container">
                         <div class="form-row">
                             <div class="form-group half-width">
-                            <label for="showtime">* Phim chiếu</label>
-                            <select name="movie_id" required>
-                                <option value="">Chọn phim</option>
-                                <?php
-                                // Lấy danh sách phim  từ cơ sở dữ liệu
-                                $movieQuery = "SELECT * FROM movies";
-                                $movieResult = $conn->query($movieQuery);
-                                if ($movieResult->num_rows > 0) {
-                                    while ($movieRow = $movieResult->fetch_assoc()) {
-                                        echo '<option value="' . $movieRow['movie_id'] . '">' . $movieRow['title'] . '</option>'; 
-                                    }
-                                } else {
-                                    echo '<option value="">Không có phim nào.</option>';
-                                }
-                                ?>
-                            </select>
-                            
+                                <label for="promotion_name">* Tên ưu đãi</label>
+                                <input type="text" name="promotion_name" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="image_url">* Hình ảnh</label>
+                                <input type="file" name="image_url"  required>
+                            </div>
                         </div>
-                        
-                    
+
                         <div class="form-row">
                             <div class="form-group half-width">
-                            <label for="show_date">* Ngày chiếu</label>
-                            <input type="date" name="show_date" required>
+                                <label for="details">* Chi tiết</label>
+                                <textarea name="details" required></textarea>
                             </div>
-                            
+                            <div class="form-group half-width">
+                                <label for="notes">Ghi chú</label>
+                                <textarea name="notes"></textarea>
+                            </div>
                         </div>
+
+
+                        
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="start_time">* Thời gian bắt đầu</label>
+                                <input type="datetime-local" name="start_time" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="end_time">* Thời gian kết thúc</label>
+                                <input type="datetime-local" name="end_time" required>
+                            </div>
+                        </div>
+
+                        
                         <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addshowtime">Thêm lịch chiếu</button>
+                            <button class="submit-btn" id="addMovieBtn" name ="addpromotion">Thêm ưu đãi</button>
                         </div>
                     </div>
                 </div>
