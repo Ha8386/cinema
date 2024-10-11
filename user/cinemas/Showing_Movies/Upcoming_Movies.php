@@ -1,3 +1,22 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "anhhadeptrai";
+$dbname = "quanly_4scinemas";
+
+// Kết nối đến MySQL
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+}
+
+// Truy vấn để lấy danh sách phim
+$sql = "SELECT title, image_url, trailer_url FROM movies";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -543,6 +562,36 @@
                         </div>
                     </div>
                     
+                    <!-- Thêm phim  -->
+                        <?php
+                        if ($result->num_rows > 0) {
+                            // Lặp qua từng dòng dữ liệu
+                            while($row = $result->fetch_assoc()) {
+                                echo '<div class="showing__movie-item">';
+                                    echo '<a href="">';
+                                        echo '<img class="rest-poster-img" src="">';
+                                    echo '</a>';
+                                    echo '<div class="rest-poster-infor">';
+                                        echo '<a href="" class="rest-poster-name">' . '</a>';
+                                        echo '<div class="trailer-and-order-ticket">';
+                                            echo '<div class="trailer-container">';
+                                                echo '<a class="trailer-link" href="">';
+                                                    echo '<img src="icon-play-vid.svg" alt="">';
+                                                echo '</a>';
+                                                echo '<a class="trailer-link-text" href="">Xem Trailer</a>';
+                                            echo '</div>';
+                                            echo '<a href="">';
+                                                echo '<button class="btn btn-ticket">Đặt vé</button>';
+                                            echo '</a>';                                                                       
+                                        echo '</div>';
+                                    echo '</div>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo 'Không có phim nào được tìm thấy.';
+                        }
+                        ?>
+                  
                 </div> 
             </main>
         </div>
