@@ -25,7 +25,48 @@ if (isset($_GET['delete'])) {
 
     $stmt->close();
 }
+// sửa  khách hàng
+$editData = null;
 
+// Lấy thông tin phim nếu có ID trong URL
+if (isset($_GET['edit'])) {
+    $movie_id = intval($_GET['edit']);
+    $query = "SELECT * FROM customers WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $movie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $editData = $row;
+        
+    }
+    $stmt->close();
+}
+if (isset($_POST['updatecustomer'])) {
+    
+    $name = $_POST['customer_name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $username = $_POST['username'];
+    $password = $_POST['password_cs'];
+    
+
+    
+
+    // Cập nhật thông tin phim
+    $stmt = $conn->prepare("UPDATE customers SET customer_name = ?, email = ?, phone = ?, username = ?, password_cs = ? WHERE movie_id = ?");
+    $stmt->bind_param("ssssssssssssi", $title, $age_rating, $release_date, $vietsub, $description_mv, $subtitle, $genre, $status_mv, $duration, $country, $trailer_url, $image_url, $movie_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Cập nhật phim thành công!');</script>";
+        header("Location: ad_movie.php");
+        exit;
+    } else {
+        echo "<script>alert('Có lỗi xảy ra khi cập nhật phim. Vui lòng thử lại!');</script>";
+    }
+
+    
+}
 
 
 
@@ -240,16 +281,16 @@ if (isset($_GET['delete'])) {
     </div>
            
      <!-- The Modal -->
-        <form action="employees.php" method="POST" enctype="multipart/form-data">
+        <form action="customer.php" method="POST" enctype="multipart/form-data">
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h1>Thêm nhân viên</h1>
+                    <h1>Sửa thông tin khách hàng</h1>
                     <div class="container">
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <label >* Tên nhân viên</label>
-                                <input type="text" name="employee_name" required>
+                                <label >* Tên khách hàng</label>
+                                <input type="text" name="customer_name" required>
                             </div>
                             <div class="form-group half-width">
                                 <label >* Email</label>
@@ -263,8 +304,8 @@ if (isset($_GET['delete'])) {
                                 <input type="text" name="phone" required></input>
                             </div>
                             <div class="form-group half-width">
-                                <label >* Địa chỉ</label>
-                                <input type="text" name="address_nv" required></input>
+                                <label >* Username</label>
+                                <input type="text" name="username" required></input>
                             </div>
                         </div>
 
@@ -273,25 +314,16 @@ if (isset($_GET['delete'])) {
 
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <label >* Phân quyền</label>
-                                <input type="text" name="position" required>
+                                <label >* Password</label>
+                                <input type="text" name="password_cs" required>
                             </div>
-                            <div class="form-group half-width">
-                                <label for="end_time">* Ngày vào làm</label>
-                                <input type="date" name="hire_date" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
                             
-                            <div class="form-group half-width">
-                                <label for="end_time">* Tiền lương</label>
-                                <input type="number" name="salary" required>
-                            </div>
                         </div>
+                        
 
                         
                         <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
+                            <button class="submit-btn" id="addMovieBtn" name ="updatecustomer">Cập nhật</button>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 <?php 
 include '../../user/db_connection.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 function handleFileUpload($file, $destination) {
@@ -81,8 +83,66 @@ if (isset($_GET['delete'])) {
 }
 
 // sửa phim
+$editData = null;
 
+// Lấy thông tin phim nếu có ID trong URL
+if (isset($_GET['edit'])) {
+    $movie_id = intval($_GET['edit']);
+    $query = "SELECT * FROM movies WHERE movie_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $movie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $editData = $row;
+        $current_trailer = $editData['trailer_url'];
+        $current_image = $editData['image_url'];
+        $status_mv = $editData['status_mv'];
+    }
+    $stmt->close();
+}
+if (isset($_POST['updatemovie'])) {
+    
+    $title = $_POST['edit_title'];
+    $age_rating = $_POST['edit_age_rating'];
+    $release_date = $_POST['edit_release_date'];
+    $vietsub = $_POST['edit_vietsub'];
+    $description_mv = $_POST['edit_description'];
+    $subtitle = $_POST['edit_subtitle'];
+    $genre = $_POST['edit_genre'];
+    $status_mv = $_POST['edit_status'];
+    $duration = $_POST['edit_duration'];
+    $country = $_POST['edit_country'];
 
+    // Xử lý upload file (nếu có)
+    if (isset($_FILES['edit_trailer_url']) && $_FILES['edit_trailer_url']['error'] == UPLOAD_ERR_OK) {
+        $trailer_url = $_FILES['edit_trailer_url']['name'];
+        move_uploaded_file($_FILES['edit_trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
+    } else {
+        $trailer_url = $editData['trailer_url']; // Giữ lại trailer cũ nếu không có file mới
+    }
+
+    if (isset($_FILES['edit_image_url']) && $_FILES['edit_image_url']['error'] == UPLOAD_ERR_OK) {
+        $image_url = $_FILES['edit_image_url']['name'];
+        move_uploaded_file($_FILES['edit_image_url']['tmp_name'], "../../assets/img/" . $image_url);
+    } else {
+        $image_url = $editData['image_url']; // Giữ lại image cũ nếu không có file mới
+    }
+
+    // Cập nhật thông tin phim
+    $stmt = $conn->prepare("UPDATE movies SET title = ?, age_rating = ?, release_date = ?, vietsub = ?, description_mv = ?, subtitle = ?, genre = ?, status_mv = ?, duration = ?, country = ?, trailer_url = ?, image_url = ? WHERE movie_id = ?");
+    $stmt->bind_param("ssssssssssssi", $title, $age_rating, $release_date, $vietsub, $description_mv, $subtitle, $genre, $status_mv, $duration, $country, $trailer_url, $image_url, $movie_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Cập nhật phim thành công!');</script>";
+        header("Location: ad_movie.php");
+        exit;
+    } else {
+        echo "<script>alert('Có lỗi xảy ra khi cập nhật phim. Vui lòng thử lại!');</script>";
+    }
+
+    
+}
 ?>
 
 <!DOCTYPE html>
@@ -250,7 +310,7 @@ if (isset($_GET['delete'])) {
                                 echo '<td>' . $row['status_mv'] . '</td>';
                                 echo '<td><a href="../../assets/trailer/' . $row['trailer_url'] . '">Xem Trailer</a></td>';
                                 echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
-                                echo '<td><button class="edit" onclick="openEditModal(' . $row['movie_id'] . ')">Sửa</button>
+                                echo '<td><button class="edit" onclick="editMovie(' . $row['movie_id'] . ')">Sửa</button>
                                       <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
                             }
@@ -273,7 +333,7 @@ if (isset($_GET['delete'])) {
                                 echo '<td>' . $row['status_mv'] . '</td>';
                                 echo '<td><a href="../../assets/trailer/' . $row['trailer_url'] . '">Xem Trailer</a></td>';
                                 echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
-                                echo '<td><button class="edit" onclick="openEditModal(' . $row['movie_id'] . ')">Sửa</button>
+                                echo '<td><button class="edit" onclick="editMovie(' . $row['movie_id'] . ')">Sửa</button>
                                       <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
                             }
@@ -296,7 +356,7 @@ if (isset($_GET['delete'])) {
     </div>
            
      <!-- The Modal -->
-     <form action="ad_movie.php" method="POST" enctype="multipart/form-data">
+     <form  action="ad_movie.php" method="POST" enctype="multipart/form-data">
          <div id="myModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -316,6 +376,7 @@ if (isset($_GET['delete'])) {
                         <div class="form-group half-width">
                             <label for="trailer">* Trailer</label>
                             <input type="file" name="trailer_url">
+                            <p id="current_trailer"></p>
                         </div>
                         <div class="form-group half-width">
                             <label for="date">* Ngày chiếu</label>
@@ -326,6 +387,7 @@ if (isset($_GET['delete'])) {
                         <div class="form-group half-width">
                             <label for="image">* Ảnh</label>
                             <input type="file" name="image_url">
+                            <p id="current_image"></p>
                         </div>
                         <div class="form-group half-width">
                             <label for="vietsub">Phụ đề</label>
@@ -375,9 +437,97 @@ if (isset($_GET['delete'])) {
         </div>
     </form>
 
+    <!-- sửa phim -->
+    
+    <form id="editMovieForm" action="ad_movie.php?edit=<?php echo $editData ? $editData['movie_id'] : ''; ?>" method="POST" enctype="multipart/form-data">
+        
+         <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Sửa phim</h1>
+                <div class="container">
+                    <div class="form-row">
+                    <input type="hidden" name="user_id" value="<?php echo   $movie_id ; ?>">
+
+
+                        <div class="form-group half-width">
+                            <label for="name">* Tên phim</label>
+                            <input type="text" name="edit_title" placeholder="Enter name" value="<?php echo $editData ? htmlspecialchars($editData['title']) : ''; ?>">
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="age">* Độ tuổi xem phim</label>
+                            <input type="text" name="edit_age_rating" placeholder="Enter age"  value="<?php echo $editData ? htmlspecialchars($editData['age_rating']) : ''; ?>">
+                        </div>
+                    </div>  
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="trailer">* Trailer</label>
+                            <input type="file" name="edit_trailer_url">
+                            <p id="current_trailer">Trailer hiện tại: <?php echo htmlspecialchars($current_trailer); ?></p>
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="date">* Ngày chiếu</label>
+                            <input type="date" name="edit_release_date" value="<?php echo $editData ? $editData['release_date'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="image">* Ảnh</label>
+                            <input type="file" name="edit_image_url">
+                            <p id="current_image">Ảnh hiện tại: <?php echo htmlspecialchars($current_image); ?></p>
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="vietsub">Phụ đề</label>
+                            <input type="text" name="edit_vietsub" placeholder="Enter sub" value="<?php echo $editData ? htmlspecialchars($editData['vietsub']) : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="description">* Mô tả</label>
+                            <textarea name="edit_description" placeholder="Enter description"><?php echo $editData ? htmlspecialchars($editData['description_mv']) : ''; ?></textarea>
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="description">* Nội dung phim</label>
+                            <textarea name="edit_subtitle" placeholder="Enter subtitle"><?php echo $editData ? htmlspecialchars($editData['subtitle']) : ''; ?></textarea>
+                        </div>
+                        
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="genres">Thể loại</label>
+                            <input type="text" name="edit_genre" id="editGenre" placeholder="Enter genres" value="<?php echo $editData ? $editData['genre'] : ''; ?>">
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="status">* Trạng thái</label>
+                            <select name="edit_status">
+                                <option disabled selected >Chọn trạng thái</option>
+                                <option value="Đang chiếu" <?php echo (isset($status_mv) && $status_mv === 'Đang chiếu') ? 'selected' : ''; ?>>Đang chiếu</option>
+                                <option value="Sắp chiếu" <?php echo (isset($status_mv) && $status_mv === 'Sắp  chiếu') ? 'selected' : ''; ?>>Sắp chiếu</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="duration">* Thời lượng phim (phút)</label>
+                            <input type="text" name="edit_duration" placeholder="Enter duration" value="<?php echo $editData ? $editData['duration'] : ''; ?>">
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="country">* Quốc gia</label>
+                            <input type="text" name="edit_country" placeholder="Enter country" value="<?php echo $editData ? $editData['country'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="submit-btn" id="addMovieBtn" name ="updatemovie">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
     
 
-    <!-- Sửa phim -->
+    
+
     
 
     

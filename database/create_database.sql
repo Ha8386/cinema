@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2024 lúc 05:22 PM
+-- Thời gian đã tạo: Th10 12, 2024 lúc 04:17 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -33,14 +33,14 @@ CREATE TABLE `customers` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password_cs` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `customers`
 --
 
-INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `password`) VALUES
+INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `password_cs`) VALUES
 (4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
 (5, 'Nguyễn Đức Hà', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$yCp3CVF7fjW8gOC6ENNIcOkZyx.kz/9nKqnt11FUavVF8ZUZUTz0y'),
 (6, 'Nguyễn', 'hadeptrai@gmail.com', '123', 'ha', '$2y$10$RcMWkw6IPii.yJJGM2CSJOmV5ZDWi8kA39sPJL4q7569RGhasiQnO'),
@@ -98,9 +98,9 @@ CREATE TABLE `movies` (
 --
 
 INSERT INTO `movies` (`movie_id`, `title`, `genre`, `age_rating`, `release_date`, `country`, `subtitle`, `status_mv`, `description_mv`, `trailer_url`, `image_url`, `duration`, `vietsub`) VALUES
-(13, 'A', 'Hành động, Khoa học viễn tưởng', '18', '2024-10-15', 'VN', 'v', 'Đang chiếu', 'a', 'Avatar 3_ Fire And Ash  Trailer .mp4', 'AquietPlace_poster.jpg', 120, 'EN'),
-(15, 'Avatar', 'Hành động, Khoa học viễn tưởng, Phiêu lưu', '18', '2024-10-11', 'EN', 'aaaaaaaaaaaaa', 'Sắp chiếu', 'bbbbbbbbbbbb', 'Avatar 3_ Fire And Ash  Trailer .mp4', 'Avatar_poster.jpg', 120, 'EN'),
-(16, 'Avenger', 'Khoa học viễn tưởng', '18', '2024-10-01', 'EN', 'a', 'Đang chiếu', 'a', 'Transformers_ Rise of the Beasts .mp4', 'Avengers_EndGame_poster.jpg', 120, 'EN');
+(15, 'Avatar  2', 'Hành động, Khoa học viễn tưởng, Phiêu lưu', '18', '2024-10-11', 'EN', 'aaaaaaaaaaaaa', 'Đang chiếu', 'bbbbbbbbbbbb', 'Avatar 3_ Fire And Ash  Trailer .mp4', 'GodvsKong_poster.jpg', 120, 'EN'),
+(16, 'Avenger End Game', 'Khoa học viễn tưởng', '18', '2024-10-01', 'EN', 'a', 'Đang chiếu', 'a', 'Transformers_ Rise of the Beasts .mp4', 'Avengers_EndGame_poster.jpg', 120, 'EN'),
+(17, 'Annabel', 'Kinh dị', '18', '2024-10-11', 'EN', 'aaaaaaaaaaaaaa', 'Đang chiếu', 'kinh dị', 'Annabelle.mp4', 'Annabelle_poster.jpg', 120, 'EN');
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,10 @@ INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUE
 (53, 44, '09:59:00'),
 (54, 44, '09:00:00'),
 (55, 44, '09:59:00'),
-(56, 44, '09:00:00');
+(56, 44, '09:00:00'),
+(57, 42, '11:36:00'),
+(58, 42, '10:37:00'),
+(59, 42, '10:37:00');
 
 -- --------------------------------------------------------
 
@@ -300,7 +303,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT cho bảng `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
@@ -318,7 +321,7 @@ ALTER TABLE `revenue`
 -- AUTO_INCREMENT cho bảng `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT cho bảng `showtimes`

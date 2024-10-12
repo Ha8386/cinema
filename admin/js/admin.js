@@ -111,4 +111,17 @@ function addScreeningInput() {
     container.appendChild(inputGroup);
 }
 
+function editMovie(movieId) {
+    document.getElementById('editModal').style.display = 'block';
 
+    // Thay đổi URL với tham số edit
+    window.history.pushState(null, '', 'ad_movie.php?edit=' + movieId);
+}
+
+// Khi người dùng nhấn vào bất kỳ đâu ngoài modal, đóng nó
+window.onclick = function (event) {
+    var modal = document.getElementById("editModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
