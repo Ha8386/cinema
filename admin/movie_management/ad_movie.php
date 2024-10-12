@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
 
 
     // Xử lý upload file (trailer và image)
-    move_uploaded_file($_FILES['trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
-    move_uploaded_file($_FILES['image_url']['tmp_name'], "../../assets/img/" . $image_url);
+    move_uploaded_file($_FILES['trailer_url']['tmp_name'], "../../../assets/trailer/" . $trailer_url);
+    move_uploaded_file($_FILES['image_url']['tmp_name'], "../../../assets/img/" . $image_url);
     
     // Chuẩn bị câu truy vấn SQL
     $stmt = $conn->prepare("INSERT INTO movies (title, genre, age_rating, release_date, country, subtitle, status_mv, description_mv, trailer_url, image_url, duration, vietsub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
