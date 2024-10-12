@@ -133,114 +133,98 @@ $result = $conn->query($sql);
                     <!-- Phim đang chiếu -->
                     <div class="tab-pane active" id="phim-dang-chieu">
                         <div class="cinemas__showing-title">Phim đang chiếu</div>
-                        <!-- Phim 1 -->
                         <div class="cinemas__showing-movies-row">
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/Avengers_EndGame_poster.jpg" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Avengers: Hồi kết</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">182</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                        </div>
-                                    </ul>
-                                    //
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span class="showing__movies-time">
-                                                Thứ 6, ngày 20/09/2024
-                                            </span>
-                                            <i class="fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span>
-                                                Thứ 7, ngày 21/09/2024
-                                            </span>
-                                            <i class="toggle fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:10</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">18:00</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php
+                            // Truy vấn các phim đang chiếu
+                            $sql_movies = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
+                            $result_movies = $conn->query($sql_movies);
+
+                            if ($result_movies->num_rows > 0) {
+                                // Lặp qua từng phim
+                                while ($row_movie = $result_movies->fetch_assoc()) {
+                                    // Gán ID phim
+                                    $movie_id = $row_movie['movie_id'];
+
+                                    // Truy vấn lịch chiếu cho phim hiện tại
+                                    $sql_showtimes = "SELECT s.*, sc.screening_time FROM showtimes s 
+                                                        JOIN screenings sc ON s.showtime_id = sc.showtime_id 
+                                                        WHERE s.movie_id = ?";
+                                    $stmt = $conn->prepare($sql_showtimes);
+                                    if ($stmt === false) {
+                                        die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
+                                    }
+                                    $stmt->bind_param("i", $movie_id);
+                                    $stmt->execute();
+                                    $result_showtimes = $stmt->get_result();
+                                    
+
+                                    // Thêm thông tin phim
+                                    echo '<div class="showing__movies">';
+                                        echo '<img class="showing__movies-img" src="../../../assets/img/' . $row_movie['image_url'] . '">';
+                                        echo '<div class="showing__movies-infor">';
+                                            echo '<div class="showing__movies-name">' . $row_movie['title'] . '</div>';
+                                            echo '<ul class="showing__movies-attribute">';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-solid fa-tag"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['genre'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-clock"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['duration'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-solid fa-earth-americas"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['country'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-closed-captioning"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['vietsub'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-user"></i>';
+                                                    echo '<li class="movies__list-content">Phim dành cho khán giả từ ' . $row_movie['age_rating'] . ' tuổi trở lên</li>';
+                                                echo '</div>';
+                                            echo '</ul>';
+
+                                        // Thêm lịch chiếu
+                                        echo '<div class="showing__movies-showtimes">';
+                                        if ($result_showtimes->num_rows > 0) {
+                                            
+                                                echo '<div class="showing__movies-date">';
+                                                    echo '<span class="showing__movies-time">' . $row_showtime['show_date'] . '</span>';
+                                                    echo '<i class="fa-solid fa-angle-down"></i>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-time">';
+                                                    echo '<p class="showing__movies-ticket-class">Standard</p>';
+                                                    echo '<div class="showing__movies-time-container">';
+                                                    if ($result_showtimes->num_rows > 0) {
+                                                        while ($row_showtime = $result_showtimes->fetch_assoc()) {
+                                                        echo '<div class="movies__time-box">';
+                                                            echo '<a class="movies__box-link" href="">' . $row_showtime['screening_time'] . '</a>';
+                                                        echo '</div>';
+                                                    echo '</div>';
+                                                        }
+                                                    }
+                                                echo '</div>';
+                                            
+                                        } else {
+                                            echo '<div>Chưa có lịch chiếu.</div>';
+                                        }
+                                        echo '</div>';
+
+                                        echo '<div class="upcoming__showtimes-link">';
+                                            echo '<a class="showtimes-link" href="">Xem thêm lịch chiếu</a>';
+                                        echo '</div>';
+                                    echo '</div>';
+                                echo '</div>';
+                                }
+                            } else {
+                                echo 'Không có phim nào được tìm thấy.';
+                            }
+                            ?>
                         </div>
                     </div>
+
 
                     <!-- Phim sắp chiếu -->
                      
