@@ -54,6 +54,57 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
+// sửa
+$editData = null;
+
+// Lấy thông tin phim nếu có ID trong URL
+if (isset($_GET['edit'])) {
+    $id = intval($_GET['edit']);
+    $query = "SELECT * FROM promotion WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();  
+    if ($row = $result->fetch_assoc()) {
+        $editData = $row;
+        
+        
+        $current_image = $editData['discount_image'];
+      
+    }
+   
+    $stmt->close();
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editpromotion'])) {
+    // Lấy dữ liệu từ form
+    $id = $_POST['id'];
+    $promotion_name = $_POST['edit_promotion_name'];
+    $details = $_POST['edit_details'];
+    $notes = $_POST['edit_notes'];
+    $start_time = $_POST['edit_start_time'];
+    $end_time = $_POST['edit_end_time'];
+
+    if (isset($_FILES['edit_image_url']) && $_FILES['edit_image_url']['error'] == UPLOAD_ERR_OK) {
+        $image_url = $_FILES['edit_image_url']['name'];
+        move_uploaded_file($_FILES['edit_image_url']['tmp_name'], "../../assets/img/" . $image_url);
+    } else {
+        $image_url = $editData['discount_image']; // Giữ lại image cũ nếu không có file mới
+    }
+    // cập nhật
+    $stmt = $conn->prepare("UPDATE promotion SET promotion_name = ?, details = ?, notes = ?, discount_image = ?, start_time = ?, end_time = ? WHERE id = ?");
+    $stmt->bind_param("ssssssi", $promotion_name, $details, $notes, $image_url, $start_time, $end_time, $id);
+
+    if ($stmt->execute()) {
+        $editData = null;
+        echo "<script>alert('Cập nhật ưu đãi thành công!');</script>";
+        header("Location: ad_promotion.php");
+        exit;
+    } else {
+        echo "<script>alert('Có lỗi xảy ra khi cập nhật ưu đãi. Vui lòng thử lại!');</script>";
+    }
+    $stmt->close();
+}
+
 
 
 
@@ -219,7 +270,7 @@ if (isset($_GET['delete'])) {
                                 echo '<td><img src="../../assets/img/' . $row['discount_image'] . '" alt="Image" width="60"></td>';
                                 echo '<td>' . $row['start_time'] . '</td>';
                                 echo '<td>' . $row['end_time'] . '</td>';
-                                echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                echo '<td><button  class="edit" onclick="editPromotion(' . $row['id'] . ')">Sửa</button>
                                 <button class="delete" onclick="deletePromotion(' . $row['id'] . ')">Xóa</button></td>';
                                 echo '</td>';
                             }
@@ -243,7 +294,7 @@ if (isset($_GET['delete'])) {
                                 echo '<td><img src="../../assets/img/' . $row['discount_image'] . '" alt="Image" width="60"></td>';
                                 echo '<td>' . $row['start_time'] . '</td>';
                                 echo '<td>' . $row['end_time'] . '</td>';
-                                echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                echo '<td><button  class="edit" onclick="editPromotion(' . $row['id'] . ')">Sửa</button>
                                 <button class="delete" onclick="deletePromotion(' . $row['id'] . ')">Xóa</button></td>';
                                 echo '</td>';
                             }
@@ -320,6 +371,59 @@ if (isset($_GET['delete'])) {
     
 
     <!-- Sửa phim -->
+    <form action="ad_promotion.php?edit=<?php echo $editData ? $editData['id'] : ''; ?>" method="POST" enctype="multipart/form-data">
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1>Sửa ưu đãi</h1>
+                    <div class="container">
+                        <div class="form-row">
+                        <input type="text" name="id" value="<?php echo   $id ; ?>">
+                            <div class="form-group half-width">
+                                <label for="promotion_name">* Tên ưu đãi</label>
+                                <input type="text" name="edit_promotion_name" required value="<?php echo   isset($editData['promotion_name']) ? htmlspecialchars($editData['promotion_name']) : ''; ?>">
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="image_url">* Hình ảnh</label>
+                                <input type="file" name="edit_image_url"  required >
+                                <p id="current_image">Ảnh hiện tại: <?php echo htmlspecialchars($current_image); ?></p>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="details">* Chi tiết</label>
+                                <textarea name="edit_details" required><?php echo $editData ? htmlspecialchars($editData['details']) : ''; ?></textarea>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="notes">Ghi chú</label>
+                                <textarea name="edit_notes"><?php echo $editData ? htmlspecialchars($editData['notes']) : ''; ?></textarea>
+                            </div>
+                        </div>
+
+
+                        
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="start_time">* Thời gian bắt đầu</label>
+                                <input type="date" name="edit_start_time" required value="<?php echo $editData ? htmlspecialchars($editData['start_time']) : 'null'; ?>">
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="end_time">* Thời gian kết thúc</label>
+                                <input type="date" name="edit_end_time" required value="<?php echo $editData ? htmlspecialchars($editData['end_time']) : 'null'; ?>">
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <button class="submit-btn" id="addMovieBtn" name ="editpromotion">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     <script src="http://localhost/4scinema/admin/js/admin.js"></script>
 
     

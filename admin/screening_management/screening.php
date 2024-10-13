@@ -46,6 +46,39 @@ if (isset($_GET['delete'])) {
 }
 
 // sửa phim
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
+    // Kết nối cơ sở dữ liệu
+    $showtime_id = $_POST['showtime_id'];
+    $new_screen_time = $_POST['new_screening_time']; // Mảng chứa các suất mới
+
+    
+    // Lấy lịch chiếu cũ từ cơ sở dữ liệu
+    $query = "SELECT screening_time FROM screenings WHERE showtime_id = $showtime_id";
+    $result = $conn->query($query);
+    $oldScreens = [];
+    while ($row = $result->fetch_assoc()) {
+        $oldScreens[] = $row['screening_time'];
+    }
+
+    // Tạo danh sách suất chiếu mới và cũ
+    $updatedScreen = array_unique($new_screen_time); // Loại bỏ trùng lặp
+
+    // Xóa suất chiếu không còn trong danh sách mới
+    foreach ($oldScreens as $oldScreen) {
+        if (!in_array($oldScreen, $updatedScreen)) {
+            $deleteQuery = "DELETE FROM screenings WHERE showtime_id = $showtime_id AND screening_time = '$oldScreen'";
+            $conn->query($deleteQuery);
+        }
+    }
+
+    // Thêm suất chiếu mới vào cơ sở dữ liệu
+    foreach ($updatedScreen as $newScreen) {
+        if (!in_array($newScreen, $oldScreens)) {
+            $insertQuery = "INSERT INTO screenings (showtime_id, screening_time) VALUES ($showtime_id, '$newScreen')";
+            $conn->query($insertQuery);
+        }
+    }
+}
 
 
 
@@ -221,7 +254,7 @@ if (isset($_GET['delete'])) {
                                     echo '<div class="screening-button">' . $time . '</div>';
                                 }
                                 echo '</td>';
-                                echo '<td><button class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
+                                echo '<td><button class="edit" onclick="editScreening(' . $row['showtime_id'] . ', \'' . $row['screening_times'] . '\')">Sửa</button>
                                     <button class="delete" onclick="deleteScreen(' . $row['showtime_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
                             }
@@ -253,7 +286,7 @@ if (isset($_GET['delete'])) {
                                     echo '<div class="screening-button">' . $time . '</div>';
                                 }
                                 echo '</td>';
-                                echo '<td><button class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
+                                echo '<td><button class="edit" onclick="openEdit(' . $row['showtime_id'] . ', \'' . $row['screening_times'] . '\')">Sửa</button>
                                     <button class="delete" onclick="deleteScreen(' . $row['showtime_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
                             }
@@ -330,6 +363,32 @@ if (isset($_GET['delete'])) {
     
 
     <!-- Sửa phim -->
+    <form action="screening.php" method="POST" enctype="multipart/form-data">
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Sửa suất chiếu</h1>
+                <input type="hidden" name="showtime_id" id="showtime_id">
+                
+                <div class="form-row">
+                    <div class="form-group half-width" style="font-size: 16px;">
+                        <label for="show_date">* Lịch chiếu</label>
+                        <input type="text" id="show_date" name="show_date" readonly>
+                    </div>
+                </div>
+                <label style="text-align: center;" for="show_date">
+                    <h2>* Suất chiếu</h2>
+                </label>
+                <div class="form-row" id="screeningtimes" style="font-size: 14px;gap: 20px; flex-wrap: wrap; justify-content: start">
+                    <!-- Các ô input ngày chiếu sẽ được thêm vào đây -->
+                </div>
+
+                <div class="form-group" style="margin-top: 36px;">
+                <button class="submit-btn" id="addMovieBtn" name ="editscreening">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </form>
     <script src="http://localhost/4scinema/admin/js/admin.js"></script>
 
     

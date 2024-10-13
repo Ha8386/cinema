@@ -51,6 +51,63 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
+// sửa  thông tin nhân viên
+
+$editData = null;
+
+// Lấy thông tin phim nếu có ID trong URL
+if (isset($_GET['edit'])) {
+    $id = intval($_GET['edit']);
+    $query = "SELECT * FROM employees WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();  
+    if ($row = $result->fetch_assoc()) {
+        $editData = $row;
+        
+       
+      
+    }
+   
+    $stmt->close();
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
+    // Lấy dữ liệu từ form
+    $id = $_POST['id'];
+    $employee_name = $_POST['edit_employee_name'];
+    $email = $_POST['edit_email'];
+    $phone = $_POST['edit_phone'];
+    $address = $_POST['edit_address_nv'];
+    $position = $_POST['edit_position'];
+    $hire_date = $_POST['edit_hire_date'];
+    $salary = $_POST['edit_salary'];
+
+    // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
+    $sql = "UPDATE employees SET 
+                employee_name = ?, 
+                email = ?, 
+                phone = ?, 
+                address_nv = ?, 
+                position = ?, 
+                hire_date = ?, 
+                salary = ? 
+            WHERE id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssi", $employee_name, $email, $phone, $address, $position, $hire_date, $salary, $id);
+
+    if ($stmt->execute()) {
+        $editData = null;
+        echo "<script>alert('Cập nhật phim thành công!');</script>";
+        header("Location: employees.php");
+        exit;
+    } else {
+        echo "<script>alert('Có lỗi xảy ra khi cập nhật phim. Vui lòng thử lại!');</script>";
+    }
+
+    $stmt->close();
+}
 
 
 
@@ -248,7 +305,7 @@ if (isset($_GET['delete'])) {
                                  echo '<td>' . $row['position'] . '</td>';
                                  echo '<td>' . $row['hire_date'] . '</td>';
                                  echo '<td>' . $row['salary'] . '</td>';
-                                 echo '<td><button  class="edit" onclick="openEditModal(' . $row['id'] . ')">Sửa</button>
+                                 echo '<td><button  class="edit" onclick="editEmployee(' . $row['id'] . ')">Sửa</button>
                                  <button class="delete" onclick="deleteEmployee(' . $row['id'] . ')">Xóa</button></td>';
                                  echo '</td>';
                              }
@@ -328,6 +385,67 @@ if (isset($_GET['delete'])) {
                 </div>
             </div>
         </form>
+
+        <!-- sửa  -->
+        <form action="employees.php?edit=<?php echo $editData ? $editData['id'] : ''; ?>" method="POST" enctype="multipart/form-data">
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1>Sửa thông tin nhân viên</h1>
+                    <div class="container">
+                    <input type="hidden" name="id" value="<?php echo   $id ; ?>">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Tên nhân viên</label>
+                                <input type="text" name="edit_employee_name" required value="<?php echo   isset($editData['employee_name']) ? htmlspecialchars($editData['employee_name']) : ''; ?>">
+                            </div>
+                            <div class="form-group half-width">
+                                <label >* Email</label>
+                                <input type="email" name="edit_email"  required value="<?php echo $editData ? htmlspecialchars($editData['email']) : ''; ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Số điện thoại</label>
+                                <input type="text" name="edit_phone" required value="<?php echo $editData ? htmlspecialchars($editData['phone']) : ''; ?>"></input>
+                            </div>
+                            <div class="form-group half-width">
+                                <label >* Địa chỉ</label>
+                                <input type="text" name="edit_address_nv" required value="<?php echo $editData ? htmlspecialchars($editData['address_nv']) : ''; ?>"></input>
+                            </div>
+                        </div>
+
+
+                        
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label >* Phân quyền</label>
+                                <input type="text" name="edit_position" required value="<?php echo $editData ? htmlspecialchars($editData['position']) : ''; ?>">
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="end_time">* Ngày vào làm</label>
+                                <input type="date" name="edit_hire_date" required value="<?php echo $editData ? htmlspecialchars($editData['hire_date']) : ''; ?>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            
+                            <div class="form-group half-width">
+                                <label for="end_time">* Tiền lương</label>
+                                <input type="number" name="edit_salary" required value="<?php echo $editData ? htmlspecialchars($editData['salary']) : ''; ?>">
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <button class="submit-btn" id="addMovieBtn" name ="editemployee">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
 
     
 

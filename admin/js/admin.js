@@ -28,29 +28,18 @@ function toggleSidebar() {
 // --------------------------------------------------------------------------------------------------------
 // Get the modal
 var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
 var btn = document.getElementById("createMovieBtn");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function () {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+if (btn) {
+    btn.onclick = function () {
+        modal.style.display = "block";
     }
 }
+// When the user clicks on <span> (x), close the modal
+
+
+
+
 
 //  xoá phim
 function deleteMovie(movie_id) {
@@ -111,17 +100,152 @@ function addScreeningInput() {
     container.appendChild(inputGroup);
 }
 
+// sửa phim
 function editMovie(movieId) {
-    document.getElementById('editModal').style.display = 'block';
-
-    // Thay đổi URL với tham số edit
-    window.history.pushState(null, '', 'ad_movie.php?edit=' + movieId);
+    window.location.href = `ad_movie.php?edit=${movieId}`;
 }
 
-// Khi người dùng nhấn vào bất kỳ đâu ngoài modal, đóng nó
-window.onclick = function (event) {
-    var modal = document.getElementById("editModal");
-    if (event.target == modal) {
-        modal.style.display = "none";
+// sửa khách hàng
+function editCustomer(id) {
+    window.location.href = `customer.php?edit=${id}`;
+}
+
+// sửa nhân viên
+function editEmployee(id) {
+    window.location.href = `employees.php?edit=${id}`;
+}
+
+// sửa ưu đãi
+function editPromotion(id) {
+    window.location.href = `ad_promotion.php?edit=${id}`;
+}
+
+// sửa lịch chiếu
+
+
+function removeDateInput(button) {
+    const dateGroup = button.parentNode;
+    dateGroup.remove();
+}
+function openEditModal(movieId, showDatesString) {
+    const modal_1 = document.getElementById('editModal');
+    modal_1.style.display = 'block';
+    // Chuyển đổi chuỗi thành mảng
+    const showDates = showDatesString ? showDatesString.split(', ') : [];
+
+    if (!Array.isArray(showDates)) {
+        console.error('showDates is not an array or is undefined:', showDates);
+        return;
     }
+
+    // Thiết lập giá trị cho input tên phim
+    const movieTitleInput = document.getElementById('movie_title');
+    const movieIdInput = document.getElementById('movie_id');
+    movieIdInput.value = movieId;
+
+    // Cập nhật tên phim
+    movieTitleInput.value = document.querySelector(`option[value="${movieId}"]`).textContent;
+
+    // Xóa các input ngày chiếu cũ
+    const showingDatesDiv = document.getElementById('showingDates');
+    showingDatesDiv.innerHTML = '';
+
+    // Thêm các ngày chiếu vào modal
+    showDates.forEach(date => {
+        const dateGroup = document.createElement('div');
+        dateGroup.classList.add('date-group');
+        dateGroup.innerHTML = `
+            <input type="date" name="new_show_date[]" value="${date}" required>
+            <button type="button" onclick="removeDateInput(this)">Xóa</button>
+        `;
+        showingDatesDiv.appendChild(dateGroup);
+    });
+    
 }
+
+// sửa suất chiếu
+function removescreenInput2(button) {
+    const screenGroup2 = button.parentNode;
+    screenGroup2.remove();
+}
+function openEdit(showtimeid, screenTimeString) {
+    const modal_1 = document.getElementById('editModal');
+    modal_1.style.display = 'block';
+    // Chuyển đổi chuỗi thành mảng
+    const screenTimes = screenTimeString ? screenTimeString.split(', ') : [];
+
+    if (!Array.isArray(screenTimes)) {
+        console.error('screenTimes is not an array or is undefined:', screenTimes);
+        return;
+    }
+
+    // Thiết lập giá trị cho input 
+    const showtimes = document.getElementById('show_date');
+    const showtimeidInput = document.getElementById('showtime_id');
+    showtimeidInput.value = showtimeid;
+
+    // Cập nhật lịch chiếu
+    showtimes.value = document.querySelector(`option[value="${showtimeid}"]`).textContent;
+
+    // Xóa các input lịch chiếu cũ
+    const screentimesDiv = document.getElementById('screeningtimes');
+    screentimesDiv.innerHTML = '';
+
+    // Thêm các ngày chiếu vào modal
+    screenTimes.forEach(screen => {
+        const screenGroup = document.createElement('div');
+        screenGroup.classList.add('screen-group');
+        screenGroup.innerHTML = `
+            <input type="time" name="new_screening_time[]" value="${screen}" required>
+            <button type="button" onclick="removescreenInput2(this)">Xóa</button>
+        `;
+        screentimesDiv.appendChild(screenGroup);
+    });
+    
+}
+
+
+
+
+
+
+
+
+
+
+window.onload = function() {
+    // Kiểm tra xem URL có chứa tham số 'edit' hay không
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('edit')) {
+        // Nếu có, hiển thị modal
+        document.getElementById('editModal').style.display = 'block';
+    }
+
+    // Khi người dùng nhấn vào bất kỳ đâu ngoài modal, đóng nó
+    window.onclick = function(event) {
+        var modals = document.getElementsByClassName("modal");
+        for (var i = 0; i < modals.length; i++) {
+            var modal = modals[i];
+            if (event.target == modal) {
+                modal.style.display = "none";
+                history.pushState(null, '', location.pathname);
+            }
+        }
+    };
+
+    // Đóng modal khi nhấn vào nút đóng
+    var closeButtons = document.getElementsByClassName("close");
+    for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function() {
+            var modal = this.closest(".modal");
+            if (modal) {
+                modal.style.display = "none";
+                history.pushState(null, '', location.pathname);
+            }
+        };
+    }
+};
+
+
+
+

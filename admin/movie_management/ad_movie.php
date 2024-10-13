@@ -92,13 +92,16 @@ if (isset($_GET['edit'])) {
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $movie_id);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->get_result();  
     if ($row = $result->fetch_assoc()) {
         $editData = $row;
+        
         $current_trailer = $editData['trailer_url'];
         $current_image = $editData['image_url'];
         $status_mv = $editData['status_mv'];
+      
     }
+   
     $stmt->close();
 }
 if (isset($_POST['updatemovie'])) {
@@ -134,13 +137,14 @@ if (isset($_POST['updatemovie'])) {
     $stmt->bind_param("ssssssssssssi", $title, $age_rating, $release_date, $vietsub, $description_mv, $subtitle, $genre, $status_mv, $duration, $country, $trailer_url, $image_url, $movie_id);
 
     if ($stmt->execute()) {
+        $editData = null;
         echo "<script>alert('Cập nhật phim thành công!');</script>";
         header("Location: ad_movie.php");
         exit;
     } else {
         echo "<script>alert('Có lỗi xảy ra khi cập nhật phim. Vui lòng thử lại!');</script>";
     }
-
+    $stmt->close();
     
 }
 ?>
@@ -447,7 +451,7 @@ if (isset($_POST['updatemovie'])) {
                 <h1>Sửa phim</h1>
                 <div class="container">
                     <div class="form-row">
-                    <input type="hidden" name="user_id" value="<?php echo   $movie_id ; ?>">
+                    <input type="hidden" name="movie_id" value="<?php echo   $movie_id ; ?>">
 
 
                         <div class="form-group half-width">
