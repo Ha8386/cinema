@@ -7,15 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     /// Xử lý Đăng nhập
     if (isset($_POST['login'])) {
         $username = $_POST['username'];
-        $password = $_POST['password'];
-        if ($username == "admin" && $password == "admin") {
+        $password_cs = $_POST['password_cs'];
+        if ($username == "admin" && $password_cs == "admin") {
             // Redirect to admin.php in the 'admin' folder
             header('Location: ../admin/admin.php');
             exit();
         } else {
             
             // Chuẩn bị câu truy vấn để lấy mật khẩu đã mã hóa từ bảng customer
-            $stmt = $conn->prepare("SELECT id, password FROM customers WHERE username = ?");
+            $stmt = $conn->prepare("SELECT id, password_cs FROM customers WHERE username = ?");
             
             // Kiểm tra xem prepare() có thành công hay không
             if ($stmt === false) {
@@ -32,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->fetch();
     
                 // Kiểm tra mật khẩu
-                if (password_verify($password, $hashed_password)) {
+                if (password_verify($password_cs, $hashed_password)) {
                     // Lưu thông tin người dùng vào session
                     $_SESSION['user_id'] = $user_id;
                     $_SESSION['username'] = $username;
-                    
+                    header('Location: index.php');
+                    exit();
                  
                 } else {
                     $_SESSION['modal_to_show'] =  "incorrectPasswordModal";
@@ -55,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $phone = $_POST['phone'];
         $email = $_POST['email'];
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $password_cs = $_POST['password_cs'];
         $confirm_password = $_POST['confirm_password'];
 
         // Kiểm tra nếu mật khẩu khớp
-        if ($password !== $confirm_password) {
+        if ($password_cs !== $confirm_password) {
             $_SESSION['modal_to_show'] = "passwordMismatch Modal";
             
         }
@@ -85,10 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
             } else {
             // Mã hóa mật khẩu để bảo mật
-                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+                $hashed_password = password_hash($password_cs, PASSWORD_BCRYPT);
     
                 // Chèn dữ liệu vào cơ sở dữ liệu
-                $sql = "INSERT INTO customers (customer_name, email, phone, username, password) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO customers (customer_name, email, phone, username, password_cs) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
                 if ($stmt === false) {
                     die("Lỗi truy vấn: " . $conn->error);
@@ -202,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="input-box">
                             
-                            <input type="password" id="password" name="password" required placeholder="Mật khẩu">
+                            <input type="password" id="password" name="password_cs" required placeholder="Mật khẩu">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="remember-forgot">
@@ -239,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="input-box">
-                            <input type="password" name="password" required placeholder="Mật khẩu">
+                            <input type="password" name="password_cs" required placeholder="Mật khẩu">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="input-box">
