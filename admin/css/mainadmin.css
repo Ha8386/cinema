@@ -107,4 +107,11 @@ body {
     border-radius: 5px; 
     
 }
-
+.showtime-button {
+    width: 100px;
+    padding: 5px; 
+    margin: 5px 0; 
+    border: 1px solid gray; 
+    border-radius: 5px; 
+    
+}

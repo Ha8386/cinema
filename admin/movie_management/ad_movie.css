@@ -184,6 +184,7 @@ table th {
 .ad_nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .reset-button {
     list-style: none;
@@ -191,4 +192,5 @@ table th {
 .ad_nav_item {
     display: flex;
     gap: 20px;
+   
 }

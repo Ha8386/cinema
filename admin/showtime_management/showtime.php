@@ -32,12 +32,12 @@ if ($checkResult->num_rows > 0) {
     $stmt->close();
 }
 
-// Xoá phim
+// Xoá 
 if (isset($_GET['delete'])) {
     $id_to_delete = intval(trim($_GET['delete']));
 
     // Chuẩn bị câu truy vấn xóa
-    $stmt = $conn->prepare("DELETE FROM showtimes WHERE showtime_id = ?");
+    $stmt = $conn->prepare("DELETE FROM showtimes WHERE movie_id = ?");
 
     if ($stmt === false) {
         die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
@@ -55,9 +55,41 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-// sửa phim
+// sửa 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editshowtime'])) {
+    // Kết nối cơ sở dữ liệu
+    $movie_id = $_POST['movie_id'];
+    $new_show_dates = $_POST['new_show_date']; // Mảng chứa các ngày mới
 
+    
+    // Lấy lịch chiếu cũ từ cơ sở dữ liệu
+    $query = "SELECT show_date FROM showtimes WHERE movie_id = $movie_id";
+    $result = $conn->query($query);
+    $oldDates = [];
+    while ($row = $result->fetch_assoc()) {
+        $oldDates[] = $row['show_date'];
+    }
+
+    // Tạo danh sách lịch chiếu mới và cũ
+    $updatedDates = array_unique($new_show_dates); // Loại bỏ trùng lặp
+
+    // Xóa lịch chiếu không còn trong danh sách mới
+    foreach ($oldDates as $oldDate) {
+        if (!in_array($oldDate, $updatedDates)) {
+            $deleteQuery = "DELETE FROM showtimes WHERE movie_id = $movie_id AND show_date = '$oldDate'";
+            $conn->query($deleteQuery);
+        }
+    }
+
+    // Thêm lịch chiếu mới vào cơ sở dữ liệu
+    foreach ($updatedDates as $newDate) {
+        if (!in_array($newDate, $oldDates)) {
+            $insertQuery = "INSERT INTO showtimes (movie_id, show_date) VALUES ($movie_id, '$newDate')";
+            $conn->query($insertQuery);
+        }
+    }
+}
 
 ?>
 
@@ -207,12 +239,16 @@ if (isset($_GET['delete'])) {
                     <?php
                    if (!empty($search)) {
                     // Nếu có tìm kiếm, thực hiện truy vấn
-                    $query = "SELECT showtimes.showtime_id, movies.title, showtimes.show_date 
-                                FROM showtimes 
-                                JOIN movies ON showtimes.movie_id = movies.movie_id 
-                                WHERE movies.title LIKE '%$search%'"; 
+                    $query = "SELECT movies.movie_id, movies.title, GROUP_CONCAT(DISTINCT showtimes.show_date ORDER BY showtimes.show_date SEPARATOR ', ') AS show_dates 
+                            FROM showtimes 
+                            JOIN movies ON showtimes.movie_id = movies.movie_id 
+                            WHERE movies.title LIKE '%$search%' 
+                            GROUP BY movies.movie_id
+                            HAVING COUNT(showtimes.show_date) > 0 "; 
                     $result = $conn->query($query);
-                  
+                    if (!$result) {
+                        die("Query failed: " . $conn->error); // Kiểm tra lỗi
+                    }
                     $count = 1;
 
                     // Kiểm tra và hiển thị dữ liệu
@@ -221,9 +257,16 @@ if (isset($_GET['delete'])) {
                             echo '<tr>';
                             echo '<td>' . $count++ .  '</td>';
                             echo '<td>' . $row['title'] . '</td>';
-                            echo '<td>' . $row['show_date'] . '</td>';
-                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
-                            <button class="delete" onclick="deleteShowtime(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                            echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px;">';
+                    
+                            // Tách các ngày chiếu và thêm border
+                            $show_dates = explode(', ', $row['show_dates']);
+                            foreach ($show_dates as $date) {
+                                echo '<div class="showtime-button">' . $date . '</div>';
+                            }
+                            echo '</td>';
+                            echo '<td><button  class="edit" onclick="openEditModal(' . $row['movie_id'] . ' , \'' . $row['show_dates'] . '\')">Sửa</button>
+                            <button class="delete" onclick="deleteShowtime(' . $row['movie_id'] . ')">Xóa</button></td>';
                             echo '</td>';
                         }
                     } else {
@@ -232,10 +275,15 @@ if (isset($_GET['delete'])) {
                    }else {
 
                        // Lấy danh sách lịch chiếu
-                       $query = "SELECT showtimes.showtime_id, movies.title, showtimes.show_date 
-                                 FROM showtimes 
-                                 JOIN movies ON showtimes.movie_id = movies.movie_id"; 
+                       $query = "SELECT movies.movie_id, movies.title,  GROUP_CONCAT(DISTINCT showtimes.show_date ORDER BY showtimes.show_date SEPARATOR ', ') AS show_dates 
+                                FROM showtimes 
+                                JOIN movies ON showtimes.movie_id = movies.movie_id 
+                                GROUP BY movies.movie_id
+                                HAVING COUNT(showtimes.show_date) > 0 ";
                        $result = $conn->query($query);
+                       if (!$result) {
+                        die("Query failed: " . $conn->error); // Kiểm tra lỗi
+                    }
                        $count = 1;
    
                        // Kiểm tra và hiển thị dữ liệu
@@ -244,9 +292,16 @@ if (isset($_GET['delete'])) {
                                echo '<tr>';
                                echo '<td>' . $count++ .  '</td>';
                                echo '<td>' . $row['title'] . '</td>';
-                               echo '<td>' . $row['show_date'] . '</td>';
-                               echo '<td><button  class="edit" onclick="openEditModal(' . $row['showtime_id'] . ')">Sửa</button>
-                               <button class="delete" onclick="deleteShowtime(' . $row['showtime_id'] . ')">Xóa</button></td>';
+                               echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px;">';
+                    
+                                // Tách các ngày chiếu và thêm border
+                                $show_dates = explode(', ', $row['show_dates']);
+                                foreach ($show_dates as $date) {
+                                    echo '<div class="showtime-button">' . $date . '</div>';
+                                }
+                                echo '</td>';
+                               echo '<td><button class="edit" onclick="openEditModal(' . $row['movie_id']  . ', \'' . $row['show_dates'] . '\')">Sửa</button>
+                               <button class="delete" onclick="deleteShowtime(' . $row['movie_id'] . ')">Xóa</button></td>';
                                echo '</td>';
                            }
                        } else {
@@ -276,32 +331,31 @@ if (isset($_GET['delete'])) {
                     <div class="container">
                         <div class="form-row">
                             <div class="form-group half-width">
-                            <label for="showtime">* Phim chiếu</label>
-                            <select name="movie_id" required>
-                                <option value="">Chọn phim</option>
-                                <?php
-                                // Lấy danh sách phim  từ cơ sở dữ liệu
-                                $movieQuery = "SELECT * FROM movies";
-                                $movieResult = $conn->query($movieQuery);
-                                if ($movieResult->num_rows > 0) {
-                                    while ($movieRow = $movieResult->fetch_assoc()) {
-                                        echo '<option value="' . $movieRow['movie_id'] . '">' . $movieRow['title'] . '</option>'; 
+                                <label for="showtime">* Phim chiếu</label>
+                                <select name="movie_id" required>
+                                    <option value="">Chọn phim</option>
+                                    <?php
+                                    // Lấy danh sách phim  từ cơ sở dữ liệu
+                                    $movieQuery = "SELECT * FROM movies";
+                                    $movieResult = $conn->query($movieQuery);
+                                    if ($movieResult->num_rows > 0) {
+                                        while ($movieRow = $movieResult->fetch_assoc()) {
+                                            echo '<option value="' . $movieRow['movie_id'] . '">' . $movieRow['title'] . '</option>'; 
+                                        }
+                                    } else {
+                                        echo '<option value="">Không có phim nào.</option>';
                                     }
-                                } else {
-                                    echo '<option value="">Không có phim nào.</option>';
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
                             
-                        </div>
+                            </div>
                         
                     
-                        <div class="form-row">
                             <div class="form-group half-width">
-                            <label for="show_date">* Ngày chiếu</label>
-                            <input type="date" name="show_date" required>
-                            </div>
+                                <label for="show_date">* Ngày chiếu</label>
+                                <input type="date" name="show_date" required>
                             
+                            </div>
                         </div>
                         <div class="form-group">
                             <button class="submit-btn" id="addMovieBtn" name ="addshowtime">Thêm lịch chiếu</button>
@@ -314,6 +368,33 @@ if (isset($_GET['delete'])) {
     
 
     <!-- Sửa phim -->
+    <form action="showtime.php" method="POST" enctype="multipart/form-data">
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Sửa lịch chiếu</h1>
+                <input type="hidden" name="movie_id" id="movie_id">
+                
+                <div class="form-row">
+                    <div class="form-group half-width" style="font-size: 16px;">
+                        <label for="movie_title">* Phim chiếu</label>
+                        <input type="text" id="movie_title" name="movie_title" readonly>
+                    </div>
+                </div>
+                <label style="text-align: center;" for="movie_title">
+                    <h2>* Lịch chiếu</h2>
+                </label>
+                <div class="form-row" id="showingDates" style="font-size: 14px;gap: 20px; flex-wrap: wrap; justify-content: start">
+                    <!-- Các ô input ngày chiếu sẽ được thêm vào đây -->
+                </div>
+
+                <div class="form-group" style="margin-top: 36px;">
+                <button class="submit-btn" id="addMovieBtn" name ="editshowtime">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <script src="http://localhost/4scinema/admin/js/admin.js"></script>
 
     
