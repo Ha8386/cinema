@@ -272,6 +272,27 @@
     color: var(--white-color);
 }
 
+/*Hiệu ứng thu gọn suất chiếu*/
+.rotated {
+    transform: rotate(180deg);
+    transition: transform 0.3s;
+}
+
+.toggle-arrow {
+    display: inline-block;       /* Đảm bảo rằng mũi tên là khối nội tuyến */
+    transition: transform 0.3s;  /* Hiệu ứng xoay mượt mà */
+    transform-origin: center;    /* Xoay quanh chính giữa */
+    padding-right: 0 !important;
+}
+
+/* Phần tử ẩn mặc định */
+.toggle-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out; /* Tạo hiệu ứng mượt mà khi mở rộng/thu gọn */
+}
+
+
 /* css Phim sắp chiếu */
 /* Tiêu đề */
 .cinemas__upcoming-title{
@@ -312,6 +333,7 @@
 
 .upcoming__movies-name{
     font-size: 24px;
+    margin-bottom: 10px;
     font-family: var(--font-title);
     text-transform: uppercase;
     
@@ -421,6 +443,40 @@
     color: var(--white-color);
 }
 
+/*Suất chiếu đặc biệt*/
+.cinemas__special-title{
+    text-align: center;
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-transform: uppercase;
+    padding: 30px 0 50px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.cinemas__special-emote{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.fa-face-sad-cry{
+    color: white;
+    font-size: 38rem;
+    margin: 2rem 0 4rem;
+}
+
+.cinemas__special-sorry{
+    font-size: 3rem;
+    line-height: 4.5rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 2rem 0 10rem;
+    font-family: var(--font-title);
+    color: rgb(250, 229, 0);
+}
+
 /* Giá vé css  */
 /* Tiêu đề */
 .ticket__price-title{
@@ -467,8 +523,6 @@
    width: 100%;
    border-radius: 4px ;
 }
-
-
 
 
 

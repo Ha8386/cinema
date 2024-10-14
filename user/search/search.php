@@ -88,7 +88,6 @@
                     </div>
                 </section>
                 <section class="search-main">
-                    <div class="">ahhhhhhhhhhhhhhh</div>
                 </section>
             </div>
         </div>

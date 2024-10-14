@@ -234,9 +234,9 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 52px; 
-    line-height: 30px; 
-    margin-bottom: 30px;
+    height: 70px; 
+    line-height: 36px; 
+    margin-bottom: 20px;
 }
 
 .rest-poster-name:hover {
@@ -1859,9 +1859,9 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 52px; 
-    line-height: 30px; 
-    margin-bottom: 30px;
+    height: 70px; 
+    line-height: 36px; 
+    margin-bottom: 20px;
 }
 
 .rest-poster-name:hover {
@@ -1922,9 +1922,9 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 52px; 
-    line-height: 30px; 
-    margin-bottom: 30px;
+    height: 70px; 
+    line-height: 36px; 
+    margin-bottom: 20px;
 }
 
 .rest-poster-name:hover {
