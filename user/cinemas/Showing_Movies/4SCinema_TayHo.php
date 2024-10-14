@@ -1,3 +1,22 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "anhhadeptrai";
+$dbname = "quanly_4scinema";
+
+// Kết nối đến MySQL
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối thất bại: " . $conn->connect_error);
+}
+
+// Truy vấn để lấy danh sách phim
+$sql = "SELECT title, image_url, trailer_url FROM movies";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -114,1012 +133,188 @@
                     <!-- Phim đang chiếu -->
                     <div class="tab-pane active" id="phim-dang-chieu">
                         <div class="cinemas__showing-title">Phim đang chiếu</div>
-                        <!-- Phim 1 -->
                         <div class="cinemas__showing-movies-row">
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/Avengers_EndGame_poster.jpg" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Avengers: Hồi kết</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">182</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                        </div>
-                                    </ul>
+                            <?php
+                            // Truy vấn các phim đang chiếu
+                            $sql_movies = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
+                            $result_movies = $conn->query($sql_movies);
 
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span class="showing__movies-time">
-                                                Thứ 6, ngày 20/09/2024
-                                            </span>
-                                            <i class="fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span>
-                                                Thứ 7, ngày 21/09/2024
-                                            </span>
-                                            <i class="toggle fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:10</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">18:00</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
+                            if ($result_movies->num_rows > 0) {
+                                // Lặp qua từng phim
+                                while ($row_movie = $result_movies->fetch_assoc()) {
+                                    // Gán ID phim
+                                    $movie_id = $row_movie['movie_id'];
 
-                            <!-- Phim thứ 2 -->
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/Dune-Movie-Main-Poster.jpg" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Xứ cát</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động, Phiêu lưu</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">155</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ, Canada</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                        </div>
-                                    </ul>
+                                    // Truy vấn lịch chiếu cho phim hiện tại
+                                    $sql_showtimes = "SELECT s.show_date, sc.screening_time 
+                                                    FROM showtimes s 
+                                                    JOIN screenings sc ON s.showtime_id = sc.showtime_id 
+                                                    WHERE s.movie_id = ?
+                                                    ORDER BY s.show_date";
+                                    $stmt = $conn->prepare($sql_showtimes);
+                                    if ($stmt === false) {
+                                        die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
+                                    }
+                                    $stmt->bind_param("i", $movie_id);
+                                    $stmt->execute();
+                                    $result_showtimes = $stmt->get_result();
 
-                                    <div class="showing__movies-right">
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span class="showing__movies-time">
-                                                    Thứ 6, ngày 20/09/2024
-                                                </span>
-                                                <i class="fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span>
-                                                    Thứ 7, ngày 21/09/2024
-                                                </span>
-                                                <i class="toggle fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:10</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">18:00</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                                    // Hiển thị thông tin phim
+                                    echo '<div class="showing__movies">';
+                                        echo '<img class="showing__movies-img" src="../../../assets/img/' . $row_movie['image_url'] . '">';
+                                        echo '<div class="showing__movies-infor">';
+                                            echo '<div class="showing__movies-name">' . $row_movie['title'] . '</div>';
+                                            echo '<ul class="showing__movies-attribute">';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-solid fa-tag"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['genre'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-clock"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['duration'] .' phút' .'</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-solid fa-earth-americas"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['country'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-closed-captioning"></i>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['vietsub'] . '</li>';
+                                                echo '</div>';
+                                                echo '<div class="showing__movies-label">';
+                                                    echo '<i class="fa-regular fa-user"></i>';
+                                                    echo '<li class="movies__list-content">Phim dành cho khán giả từ ' . $row_movie['age_rating'] . ' tuổi trở lên</li>';
+                                                echo '</div>';
+                                            echo '</ul>';
 
-                            <!-- Phim thứ 3 -->
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/SpiderMan_poster.png" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Người nhện: Không còn nhà</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">148</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                        </div>
-                                    </ul>
+                                            // Hiển thị lịch chiếu theo ngày
+                                            if ($result_showtimes->num_rows > 0) {
+                                                $current_date = ''; // Biến để theo dõi ngày hiện tại
+                                                while ($row_showtime = $result_showtimes->fetch_assoc()) {
+                                                    // Nếu ngày chiếu mới, hiển thị ngày mới
+                                                    if ($current_date != $row_showtime['show_date']) {
+                                                        if ($current_date != '') {
+                                                            // Đóng div showtimes cho ngày trước đó
+                                                            echo '</div>'; // Đóng .showing__movies-time-container
+                                                            echo '</div>'; // Đóng .showing__movies-time
+                                                            echo '</div>'; // Đóng .showing__movies-showtimes
+                                                        }
+                                                        $current_date = $row_showtime['show_date'];
 
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span class="showing__movies-time">
-                                                Thứ 6, ngày 20/09/2024
-                                            </span>
-                                            <i class="fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="showing__movies-showtimes"> 
-                                        <div class="showing__movies-date">
-                                            <span>
-                                                Thứ 7, ngày 21/09/2024
-                                            </span>
-                                            <i class="toggle fa-solid fa-angle-down"></i>
-                                        </div>
-                                        <div class="showing__movies-time">
-                                            <p class="showing__movies-ticket-class">Standard</p>
-                                            <div class="showing__movies-time-container">
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:10</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">14:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">15:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:15</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">16:45</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:00</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">17:30</a>
-                                                </div>
-                                                <div class="movies__time-box">
-                                                    <a class="movies__box-link" href="">18:00</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
+                                                        // Hiển thị ngày chiếu
+                                                        echo '<div class="showing__movies-showtimes">';
+                                                            echo '<div class="showing__movies-date">';
+                                                                echo '<span class="showing__movies-time">' . $current_date . '</span>';
+                                                                echo '<i class="fa-solid fa-angle-down toggle-arrow"></i>';
+                                                            echo '</div>';
+                                                            echo '<div class="showing__movies-time toggle-content" style="width:100%">';
+                                                                echo '<p class="showing__movies-ticket-class">Standard</p>';
+                                                                echo '<div class="showing__movies-time-container">';
+                                                    }
 
-                            <!-- Phim thứ 4 -->
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/get-out-poster.jpg" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Trốn thoát</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Kinh dị, Tâm lý</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">104</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 17 tuổi trở lên(17+)</li>
-                                        </div>
-                                    </ul>
+                                                    // Hiển thị các suất chiếu cho ngày hiện tại
+                                                    $screening_time = $row_showtime['screening_time'];
+                                                    $formatted_time = substr($screening_time, 0, 5); // Định dạng lại giờ chiếu
+                                                    echo '<div class="movies__time-box">';
+                                                        echo '<a class="movies__box-link" href="#">' . $formatted_time . '</a>';
+                                                    echo '</div>';
+                                                }
 
-                                    <div class="showing__movies-right">
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span class="showing__movies-time">
-                                                    Thứ 6, ngày 20/09/2024
-                                                </span>
-                                                <i class="fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span>
-                                                    Thứ 7, ngày 21/09/2024
-                                                </span>
-                                                <i class="toggle fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:10</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">18:00</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                                                // Đóng các div cuối cùng
+                                                echo '</div>'; // Đóng .showing__movies-time-container
+                                                echo '</div>'; // Đóng .showing__movies-time
+                                                echo '</div>'; // Đóng .showing__movies-showtimes
+                                            } else {
+                                                echo '<div>Chưa có lịch chiếu.</div>';
+                                            }
+                                        // Thêm liên kết để xem thêm lịch chiếu
+                                        echo '<div class="upcoming__showtimes-link">';
+                                            echo '<a class="showtimes-link" href="#">Xem thêm lịch chiếu</a>';
+                                        echo '</div>';
+                                        echo '</div>'; // Đóng .showing__movies-infor
 
-                            <!-- Phim thứ 5 -->
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/inside-out-2-poster.webp" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Những mảnh ghép cảm xúc 2</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hoạt hình, Hài hước</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">98</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="showing__movies-right">
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span class="showing__movies-time">
-                                                    Thứ 6, ngày 20/09/2024
-                                                </span>
-                                                <i class="fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span>
-                                                    Thứ 7, ngày 21/09/2024
-                                                </span>
-                                                <i class="toggle fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:10</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">18:00</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                            <!-- Phim thứ 6 -->
-                            <div class="showing__movies">
-                                <img class="showing__movies-img" src="../../../assets/img/BoGia_poster.jpg" alt="">
-                                <div class="showing__movies-infor">
-                                    <span class="showing__movies-name">Bố Già</span>
-                                    <ul class="showing__movies-attribute">
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Tâm lý, Gia đình</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">128</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Việt Nam</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">VN</li>
-                                        </div>
-                                        <div class="showing__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 18 tuổi trở lên(18+)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="showing__movies-right">
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span class="showing__movies-time">
-                                                    Thứ 6, ngày 20/09/2024
-                                                </span>
-                                                <i class="fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="showing__movies-showtimes"> 
-                                            <div class="showing__movies-date">
-                                                <span>
-                                                    Thứ 7, ngày 21/09/2024
-                                                </span>
-                                                <i class="toggle fa-solid fa-angle-down"></i>
-                                            </div>
-                                            <div class="showing__movies-time">
-                                                <p class="showing__movies-ticket-class">Standard</p>
-                                                <div class="showing__movies-time-container">
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:10</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">14:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">15:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:15</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">16:45</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:00</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">17:30</a>
-                                                    </div>
-                                                    <div class="movies__time-box">
-                                                        <a class="movies__box-link" href="">18:00</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="showing__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                                        
+                                    echo '</div>'; // Đóng .showing__movies
+                                }
+                            } else {
+                                echo 'Không có phim nào được tìm thấy.';
+                            }
+                            ?>
                         </div>
                     </div>
 
+
+
+
                     <!-- Phim sắp chiếu -->
+                     
                     <div class="tab-pane" id="phim-sap-chieu">
                         <div class="cinemas__upcoming-title">Phim sắp chiếu</div>
-                        <!-- Phim 1 -->
                         <div class="cinemas__upcoming-movies-row">
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/Avatar_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Avatar: Dòng chảy của nước (T13)</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Khoa học viễn tưởng, Hành động, Phiêu lưu</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">192 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim phù hợp cho khán giả từ đủ 13 tuổi trở lên(PG-13)</li>
-                                        </div>
-                                    </ul>
+                        <?php
+                        $sql = "SELECT * FROM movies WHERE status_mv = 'Sắp chiếu'";
+                        $result = $conn->query($sql);
 
-                                    <div class="upcoming__movies-showtimes"> 
-                                        <div class="upcoming_movies-showtimes-container">
-                                            <i class="fa-regular fa-circle-xmark"></i>
-                                            <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
+                        if ($result->num_rows > 0) {
+                            // Lặp qua từng dòng dữ liệu
+                            while($row = $result->fetch_assoc()) {
+                                echo '<div class="upcoming__movies">';
+                                    echo '<img class="upcoming__movies-img" src="../../../assets/img/' .$row['image_url']  .'">';
+                                    echo '<div class="upcoming__movies-infor">';
+                                        echo '<div class="upcoming__movies-name">' .$row['title'] .'</div>';
+                                        '<ul class="upcoming__movies-attribute">';
+                                            echo '<div class="upcoming__movies-label">';
+                                                echo '<i class="fa-solid fa-tag"></i>';
+                                                echo '<li class="movies__list-content">'.$row['genre'] .'</li>';
+                                            echo '</div>';
+                                            echo '<div class="upcoming__movies-label">';
+                                                echo '<i class="fa-regular fa-clock"></i>';
+                                                echo '<li class="movies__list-content">'  .$row['duration'] .' phút' .'</li>';
+                                            echo '</div>';
+                                            echo '<div class="upcoming__movies-label">';
+                                                echo '<i class="fa-solid fa-earth-americas"></i>';
+                                                echo '<li class="movies__list-content">' .$row['country'] .'</li>';
+                                            echo '</div>';
+                                            echo '<div class="upcoming__movies-label">';
+                                                echo '<i class="fa-regular fa-closed-captioning"></i>';
+                                                echo '<li class="movies__list-content">' .$row['vietsub'] .'</li>';
+                                            echo '</div>';
+                                            echo '<div class="upcoming__movies-label">';
+                                                echo '<i class="fa-regular fa-user"></i>';
+                                                echo '<li class="movies__list-content">' .'Phim dành cho khán giả từ ' .$row['age_rating'] .' tuổi trở lên' .'</li>';
+                                            echo '</div>';
+                                        echo '</ul>';
 
-                            <!-- Phim thứ 2 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/Logan_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Logan (T17)</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động, Khoa học viễn tưởng, Chính kịch</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">137 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim dành cho khán giả từ đủ 17 tuổi trở lên(R)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
+                                        echo '<div class="upcoming__movies-showtimes">';
+                                            echo '<div class="upcoming_movies-showtimes-container">';
+                                                echo '<i class="fa-regular fa-circle-xmark"></i>';
+                                                echo '<span class="upcoming_txt">Chưa có suất chiếu</span>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                        
+                                        echo '<div class="upcoming__showtimes-link">';
+                                            echo '<a class="showtimes-link" href="">Xem thêm lịch chiếu</a>';
+                                        echo '</div>';
                                 
-                            </div>
-
-                            <!-- Phim thứ 3 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/PacificRim_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Đại chiến thái bình dương (T13)</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động, Khoa học viễn tưởng, Phiêu lưu</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">131 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim phù hợp cho khán giả từ đủ 13 tuổi trở lên(PG-13)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-showtimes"> 
-                                        <div class="upcoming_movies-showtimes-container">
-                                            <i class="fa-regular fa-circle-xmark"></i>
-                                            <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                        </div>
-                                    </div>
-    
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Phim thứ 4 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/Transformer_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Người máy biến hình: Thời kỳ tuyệt chủng (T13)</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hành động, Khoa học viễn tưởng, Phiêu lưu</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">144 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phim phù hợp cho khán giả từ 13 tuổi trở lên(PG-13)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                            <!-- Phim thứ 5 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/YourName_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Tên cậu là gì</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hoạt hình, Lãng mạn, Giả tưởng, Chính kịch</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">107 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Nhật Bản</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phù hợp cho khán giả mọi lứa tuổi(PG)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>   
-                                        </div>  
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                            <!-- Phim thứ 6 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/TheBoyAndTheHeron_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Thiếu niên và chim diệc (T13)</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hoạt hình, Giả tưởng, Phiêu lưu, Chính kịch</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">124 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Nhật Bản</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phù hợp cho khán giả từ 13 tuổi trở lên(PG-13)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Phim thứ 7 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/Moana_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Moana</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hoạt hình, Phiêu lưu, Nhạc kịch, Gia đình</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">107 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">Phụ đề</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phù hợp cho khán giả mọi lứa tuổi(PG)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>   
-                                        </div>  
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                            <!-- Phim thứ 8 -->
-                            <div class="upcoming__movies">
-                                <img class="upcoming__movies-img" src="../../../assets/img/DespicableMe_poster.jpg" alt="">
-                                <div class="upcoming__movies-infor">
-                                    <span class="upcoming__movies-name">Kẻ cắp mặt trăng</span>
-                                    <ul class="upcoming__movies-attribute">
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-tag"></i>
-                                            <li class="movies__list-content">Hoạt hình, Hài hước, Gia đình, Phiêu lưu</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <li class="movies__list-content">95 phút</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-solid fa-earth-americas"></i>
-                                            <li class="movies__list-content">Mỹ</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-closed-captioning"></i>
-                                            <li class="movies__list-content">VN</li>
-                                        </div>
-                                        <div class="upcoming__movies-label">
-                                            <i class="fa-regular fa-user"></i>
-                                            <li class="movies__list-content">Phù hợp cho khán giả mọi lứa tuổi(PG)</li>
-                                        </div>
-                                    </ul>
-
-                                    <div class="upcoming__movies-right">
-                                        <div class="upcoming__movies-showtimes"> 
-                                            <div class="upcoming_movies-showtimes-container">
-                                                <i class="fa-regular fa-circle-xmark"></i>
-                                                <span class="upcoming_txt">Chưa có suất chiếu</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="upcoming__showtimes-link">
-                                        <a class="showtimes-link" href="">Xem thêm lịch chiếu</a>
-                                    </div>
-                                </div>
-                            </div>
+                                    echo '</div>';
+                                echo '</div>';
+                            }
+                        }else {
+                            echo 'Không có phim nào được tìm thấy.';
+                        }
+                        ?>
                         </div>
                     </div>
 
                     <!-- Suất chiếu đặc biệt -->
                     <div class="tab-pane" id="suat-chieu-dac-biet">
                         <div class="cinemas__special-title">Suất chiếu đặc biệt</div>
+                        <div class="cinemas__special-emote">
+                            <!-- <img class="X_img" src="../../../assets/img/Special_showtime.png"> -->
+                            <i class="fa-regular fa-face-sad-cry"></i>
+                        </div>
+                        <p class="cinemas__special-sorry">Tính năng đang cập nhật</p>
+                        
                     </div>
 
 
@@ -1254,8 +449,8 @@
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Xem phim</p>
                                         <a class="footer-column-link" href="Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
-                                        <a class="footer-column-link" href="/cinemas/Upcoming_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
+                                        <a class="footer-column-link" href="Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
+                                        <a class="footer-column-link" href="Special_Showtimes.php"><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>
                             </div>
@@ -1264,47 +459,46 @@
                                 <div class="footer-menu-column footer-column-my-cinemas">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">4SCinema</p>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Giới thiệu</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Liên hệ</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Tuyển dụng</li></a>
-                            </ul>
+                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Giới thiệu</li></a>
+                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Liên hệ</li></a>
+                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Tuyển dụng</li></a>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="footer-column">
+                                <div class="footer-menu-column footer-column-cinemas-system">
+                                    <ul class="footer-menu-list">
+                                        <p class="footer-column-title">Hệ thống rạp</p>
+                                        <a class="footer-column-link" href="4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
+                                        <a class="footer-column-link" href="4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
+                                        <a class="footer-column-link" href="4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
+                                        <a class="footer-column-link" href="4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
+                                        <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
+                                        <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="footer-column">
-                        <div class="footer-menu-column footer-column-cinemas-system">
-                            <ul class="footer-menu-list">
-                                <p class="footer-column-title">Hệ thống rạp</p>
-                                <a class="footer-column-link" href="4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
-                                <a class="footer-column-link" href="4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
-                                <a class="footer-column-link" href="4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
-                                <a class="footer-column-link" href="4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
-                                <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
-                                <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
-                            </ul>
+                    <div class="footer-bottom">
+                        <div class="footer-bottom-left">
+                            <i class="fa-regular fa-copyright"></i>
+                            <p class="copyright">2024 4SCinema. All rights reserved.</p>
+                        </div>
+
+                        <div class="footer-bottom-right">
+                            <a class="footer-bottom-right-items" href="../../../user/policy.php">Chính sách bảo mật</a>
+                            <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
+                            <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="footer-bottom">
-                <div class="footer-bottom-left">
-                    <i class="fa-regular fa-copyright"></i>
-                    <p class="copyright">2024 4SCinema. All rights reserved.</p>
-                </div>
-
-                <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="../../../user/policy.php">Chính sách bảo mật</a>
-                    <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
-                    <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
-                </div>
-            </div>
-        </div>
-            </div>
-
-    </footer>
+        </footer>
     </div>
-    <script src="choose_cinemas.js"></script>
-    <script src="../../script.js"></script>      
+    <script src="choose_cinemas.js"></script>  
+    <script src="../../script.js"></script>  
 </body>
 </html>
