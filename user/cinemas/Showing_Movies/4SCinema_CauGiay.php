@@ -146,9 +146,11 @@ $result = $conn->query($sql);
                                     $movie_id = $row_movie['movie_id'];
 
                                     // Truy vấn lịch chiếu cho phim hiện tại
-                                    $sql_showtimes = "SELECT s.*, sc.screening_time FROM showtimes s 
-                                                        JOIN screenings sc ON s.showtime_id = sc.showtime_id 
-                                                        WHERE s.movie_id = ?";
+                                    $sql_showtimes = "SELECT s.show_date, sc.screening_time 
+                                                    FROM showtimes s 
+                                                    JOIN screenings sc ON s.showtime_id = sc.showtime_id 
+                                                    WHERE s.movie_id = ?
+                                                    ORDER BY s.show_date";
                                     $stmt = $conn->prepare($sql_showtimes);
                                     if ($stmt === false) {
                                         die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
@@ -156,9 +158,8 @@ $result = $conn->query($sql);
                                     $stmt->bind_param("i", $movie_id);
                                     $stmt->execute();
                                     $result_showtimes = $stmt->get_result();
-                                    
 
-                                    // Thêm thông tin phim
+                                    // Hiển thị thông tin phim
                                     echo '<div class="showing__movies">';
                                         echo '<img class="showing__movies-img" src="../../../assets/img/' . $row_movie['image_url'] . '">';
                                         echo '<div class="showing__movies-infor">';
@@ -170,7 +171,7 @@ $result = $conn->query($sql);
                                                 echo '</div>';
                                                 echo '<div class="showing__movies-label">';
                                                     echo '<i class="fa-regular fa-clock"></i>';
-                                                    echo '<li class="movies__list-content">' . $row_movie['duration'] . '</li>';
+                                                    echo '<li class="movies__list-content">' . $row_movie['duration'] .' phút' .'</li>';
                                                 echo '</div>';
                                                 echo '<div class="showing__movies-label">';
                                                     echo '<i class="fa-solid fa-earth-americas"></i>';
@@ -186,37 +187,54 @@ $result = $conn->query($sql);
                                                 echo '</div>';
                                             echo '</ul>';
 
-                                        // Thêm lịch chiếu
-                                        echo '<div class="showing__movies-showtimes">';
-                                        if ($result_showtimes->num_rows > 0) {
-                                            
-                                                echo '<div class="showing__movies-date">';
-                                                    echo '<span class="showing__movies-time">' . $row_showtime['show_date'] . '</span>';
-                                                    echo '<i class="fa-solid fa-angle-down"></i>';
-                                                echo '</div>';
-                                                echo '<div class="showing__movies-time">';
-                                                    echo '<p class="showing__movies-ticket-class">Standard</p>';
-                                                    echo '<div class="showing__movies-time-container">';
-                                                    if ($result_showtimes->num_rows > 0) {
-                                                        while ($row_showtime = $result_showtimes->fetch_assoc()) {
-                                                        echo '<div class="movies__time-box">';
-                                                            echo '<a class="movies__box-link" href="">' . $row_showtime['screening_time'] . '</a>';
-                                                        echo '</div>';
-                                                    echo '</div>';
+                                            // Hiển thị lịch chiếu theo ngày
+                                            if ($result_showtimes->num_rows > 0) {
+                                                $current_date = ''; // Biến để theo dõi ngày hiện tại
+                                                while ($row_showtime = $result_showtimes->fetch_assoc()) {
+                                                    // Nếu ngày chiếu mới, hiển thị ngày mới
+                                                    if ($current_date != $row_showtime['show_date']) {
+                                                        if ($current_date != '') {
+                                                            // Đóng div showtimes cho ngày trước đó
+                                                            echo '</div>'; // Đóng .showing__movies-time-container
+                                                            echo '</div>'; // Đóng .showing__movies-time
+                                                            echo '</div>'; // Đóng .showing__movies-showtimes
                                                         }
-                                                    }
-                                                echo '</div>';
-                                            
-                                        } else {
-                                            echo '<div>Chưa có lịch chiếu.</div>';
-                                        }
-                                        echo '</div>';
+                                                        $current_date = $row_showtime['show_date'];
 
+                                                        // Hiển thị ngày chiếu
+                                                        echo '<div class="showing__movies-showtimes">';
+                                                            echo '<div class="showing__movies-date">';
+                                                                echo '<span class="showing__movies-time">' . $current_date . '</span>';
+                                                                echo '<i class="fa-solid fa-angle-down toggle-arrow"></i>';
+                                                            echo '</div>';
+                                                            echo '<div class="showing__movies-time toggle-content" style="width:100%">';
+                                                                echo '<p class="showing__movies-ticket-class">Standard</p>';
+                                                                echo '<div class="showing__movies-time-container">';
+                                                    }
+
+                                                    // Hiển thị các suất chiếu cho ngày hiện tại
+                                                    $screening_time = $row_showtime['screening_time'];
+                                                    $formatted_time = substr($screening_time, 0, 5); // Định dạng lại giờ chiếu
+                                                    echo '<div class="movies__time-box">';
+                                                        echo '<a class="movies__box-link" href="#">' . $formatted_time . '</a>';
+                                                    echo '</div>';
+                                                }
+
+                                                // Đóng các div cuối cùng
+                                                echo '</div>'; // Đóng .showing__movies-time-container
+                                                echo '</div>'; // Đóng .showing__movies-time
+                                                echo '</div>'; // Đóng .showing__movies-showtimes
+                                            } else {
+                                                echo '<div>Chưa có lịch chiếu.</div>';
+                                            }
+                                        // Thêm liên kết để xem thêm lịch chiếu
                                         echo '<div class="upcoming__showtimes-link">';
-                                            echo '<a class="showtimes-link" href="">Xem thêm lịch chiếu</a>';
+                                            echo '<a class="showtimes-link" href="#">Xem thêm lịch chiếu</a>';
                                         echo '</div>';
-                                    echo '</div>';
-                                echo '</div>';
+                                        echo '</div>'; // Đóng .showing__movies-infor
+
+                                        
+                                    echo '</div>'; // Đóng .showing__movies
                                 }
                             } else {
                                 echo 'Không có phim nào được tìm thấy.';
@@ -224,6 +242,8 @@ $result = $conn->query($sql);
                             ?>
                         </div>
                     </div>
+
+
 
 
                     <!-- Phim sắp chiếu -->
@@ -249,7 +269,7 @@ $result = $conn->query($sql);
                                             echo '</div>';
                                             echo '<div class="upcoming__movies-label">';
                                                 echo '<i class="fa-regular fa-clock"></i>';
-                                                echo '<li class="movies__list-content">'  .$row['duration'] .'</li>';
+                                                echo '<li class="movies__list-content">'  .$row['duration'] .' phút' .'</li>';
                                             echo '</div>';
                                             echo '<div class="upcoming__movies-label">';
                                                 echo '<i class="fa-solid fa-earth-americas"></i>';
@@ -289,6 +309,12 @@ $result = $conn->query($sql);
                     <!-- Suất chiếu đặc biệt -->
                     <div class="tab-pane" id="suat-chieu-dac-biet">
                         <div class="cinemas__special-title">Suất chiếu đặc biệt</div>
+                        <div class="cinemas__special-emote">
+                            <!-- <img class="X_img" src="../../../assets/img/Special_showtime.png"> -->
+                            <i class="fa-regular fa-face-sad-cry"></i>
+                        </div>
+                        <p class="cinemas__special-sorry">Tính năng đang cập nhật</p>
+                        
                     </div>
 
 

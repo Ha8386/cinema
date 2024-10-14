@@ -1,3 +1,4 @@
+//Chuyển tab
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -26,3 +27,29 @@ tabs.forEach((tab, index) => {
     pane.classList.add("active");
   };
 });
+
+//Thu gọn ô lịch chiếu
+document.addEventListener('DOMContentLoaded', function() {
+  // Lấy tất cả các phần tử mũi tên
+  const toggleArrows = document.querySelectorAll('.toggle-arrow');
+
+  toggleArrows.forEach(arrow => {
+      arrow.addEventListener('click', function() {
+          // Tìm phần tử toggle-content liên quan đến mũi tên này
+          const content = this.parentElement.nextElementSibling;
+
+          if (content.style.maxHeight) {
+              // Nếu phần tử đã mở rộng, ta thu gọn nó lại
+              content.style.maxHeight = null;
+              this.classList.remove('rotated');   // Xóa lớp xoay khi thu gọn
+          } else {
+              // Mở rộng phần tử
+              content.style.maxHeight = content.scrollHeight + "px"; // Đặt chiều cao thực tế
+              this.classList.add('rotated');      // Thêm lớp xoay khi mở rộng
+          }
+      });
+  });
+});
+
+
+
