@@ -82,10 +82,12 @@ $result = $conn->query($sql);
                    
                     <ul class="hd__right">
                         <li class="hd__search">
-                            <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
-                            </div>
+                             <form action="../../search/search.php" method="get" >
+                                <div class="hd__search-wr">
+                                    <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                    <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </form>
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>

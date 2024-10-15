@@ -239,7 +239,7 @@ include '../../user/db_connection.php';
     
 
     <!-- Sửa phim -->
-    <script src="http://localhost/4scinema/admin/js/admin.js"></script>
+    <script src="../js/admin.js"></script>
 
     
 </body>

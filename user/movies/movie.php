@@ -1,3 +1,13 @@
+<?php
+include '../db_connection.php'; 
+
+$movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,9 +15,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/base.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css   ">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css   ">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
@@ -24,7 +34,7 @@
                     <ul class="hd__left">
                         <li class="hd__logo">
                             <a href="/index.html" class="hd__logo-link">
-                                <img src="/assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
+                                <img src="../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
                         <li class="hd__nav-item hd__nav-item--local ">
@@ -83,83 +93,87 @@
                 <div class="grid">
                     <div class="detail-wr">
                         <div class="detail-row row">
-                            <div class="detail-left col col-5">
-                                <div class="web-movie-box">
-                                    <div class="image">
-                                        <!-- ảnh phim -->
-                                        <img src="/assets/img/movie1.webp" alt="Làm giàu với ma (T18)">
-                                        
-                                        <!-- logo 2D -->
-                                        <div class="attach">
-                                            <div class="type-movie">
-                                                <span class="txt">2D</span>
-                                            </div>
-                                            <div class="age">
-                                                <span class="num">T18</span>
-                                                <span class="txt">ADULT</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <?php   
+                            $sql  = "SELECT * FROM movies WHERE movie_id = $movie_id";
+                            $result = $conn ->query($sql);
+                            if(  $result ->num_rows > 0 ){
+                                while( $row = $result -> fetch_assoc() ){
 
-                                </div>
-                            </div>
-                            
-                            <div class="detail-right col col-7">
-                                <div class="detail-ct">
-                                    <div class="detail-ct-h">
-                                        <h1 class="heading">Làm giàu với ma (T18)</h1>
-                                        <ul class="info-detail">
-                                            <li class="info-item">
-                                                <span class="ic"><i class="fa-solid fa-tag"></i></span>
-                                                <span class="txt">Kinh dị</span>
-                                            </li>
-                                            <li class="info-item">
-                                                <span class="ic"><i class="fa-regular fa-clock"></i></span>
-                                                <span class="txt">122'</span>
-                                            </li>
-                                            <li class="info-item">
-                                                <span class="ic"><i class="fa-solid fa-earth-americas"></i></span>
-                                                <span class="txt">Việt Nam</span>
-                                            </li>
-                                            <li class="info-item">
-                                                <span class="ic"><i class="fa-regular fa-closed-captioning"></i></span>
-                                                <span class="txt">VN</span>
-                                            </li>
-                                            <li class="info-item">
-                                                <span class="ic"><i class="fa-regular fa-user"></i></span>
-                                                <span class="txt">T18: Phim dành cho khán giả từ đủ 18 tuổi trở lên</span>
-                                            </li>
+                                    echo '<div class="detail-left col col-5">';
+                                        echo '<div class="web-movie-box">';
+                                            echo '<div class="image">';
+                                                echo '<img src="../../assets/img/'.htmlspecialchars($row['image_url']).'" alt="'.htmlspecialchars($row['title']).'">';
                                                 
-                                        </ul>
-                                    </div>
-                                    <div class="detail-ct-bd">
-                                        <h3 class="tt sub-title">MÔ TẢ</h3>
-                                        <ul >
-                                            <li>Đạo diễn: Trần Hữu Tấn</li>
-                                            <li>Diễn viên: Quốc Cường, Thúy Diễm, Rima Thanh Vy, Lâm Thanh Mỹ, Hải Nam</li>
-                                            <li>Khởi chiếu: Thứ Sáu, 20/09/2024</li>
-                                        </ul>
-                                    </div>
+                                                echo '<div class="attach">';
+                                                    echo '<div class="type-movie">';
+                                                        echo '<span class="txt">2D</span>';
+                                                    echo '</div>';
+                                                    echo '<div class="age">';
+                                                        echo '<span class="num">T'.htmlspecialchars($row['age_rating']).'</span>';
+                                                        echo '<span class="txt">ADULT</span>';
+                                                    echo '</div>';
+                                                echo '</div>';
+                                            echo '</div>';
 
-                                    <div class="detail-ct-bd">
-                                        <h3 class="tt sub-title">NỘI DUNG PHIM</h3>
-                                        <p>Câu chuyện phim là dị bản kinh dị đẫm máu lấy cảm hứng từ truyện cổ tích nổi tiếng Tấm Cám, nội dung chính của phim xoay quanh Cám - em gái cùng cha khác mẹ của Tấm đồng thời sẽ có nhiều nhân vật và chi tiết sáng tạo, gợi cảm giác vừa lạ vừa quen cho khán giả.</p>
-                                    </div>
+                                        echo '</div>';
+                                   echo ' </div>';
+                                    
+                                    echo '<div class="detail-right col col-7">';
+                                        echo '<div class="detail-ct">';
+                                            echo '<div class="detail-ct-h">';
+                                                echo '<h1 class="heading">'.htmlspecialchars($row['title']).' (T'.htmlspecialchars($row['age_rating']).')</h1>';
+                                                echo '<ul class="info-detail">';
+                                                    echo '<li class="info-item">';
+                                                        echo '<span class="ic"><i class="fa-solid fa-tag"></i></span>';
+                                                        echo '<span class="txt">'.htmlspecialchars($row['genre']).'</span>';
+                                                   echo ' </li>';
+                                                    echo '<li class="info-item">';
+                                                        echo '<span class="ic"><i class="fa-regular fa-clock"></i></span>';
+                                                        echo '<span class="txt">'.htmlspecialchars($row['duration']).'</span>';
+                                                    echo '</li>';
+                                                    echo '<li class="info-item">';
+                                                        echo '<span class="ic"><i class="fa-solid fa-earth-americas"></i></span>';
+                                                        echo '<span class="txt">'.htmlspecialchars($row['country']).'</span>';
+                                                    echo '</li>';
+                                                    echo '<li class="info-item">';
+                                                        echo '<span class="ic"><i class="fa-regular fa-closed-captioning"></i></span>';
+                                                        echo '<span class="txt">'.htmlspecialchars($row['vietsub']).'</span>';
+                                                    echo '</li>';
+                                                    echo '<li class="info-item">';
+                                                        echo '<span class="ic"><i class="fa-regular fa-user"></i></span>';
+                                                        echo '<span class="txt">T'.htmlspecialchars($row['age_rating']).': Phim dành cho khán giả từ đủ '.htmlspecialchars($row['age_rating']).' tuổi trở lên</span>';
+                                                    echo '</li>';
+                                                        
+                                                echo '</ul>';
+                                            echo '</div>';
+                                            echo '<div class="detail-ct-bd">';
+                                                echo '<h3 class="tt sub-title">MÔ TẢ</h3>';
+                                                echo '<ul >';
+                                                    echo '<li>Khởi chiếu: '.htmlspecialchars($row['release_date']).'</li>';
+                                                echo '</ul>';
+                                            echo '</div>';
 
-                                    <div class="detail-ct-trailer">
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">
-                                                   <img src="/assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">Xem Trailer</a>
-                                            </div>
-                                        
-                                                                       
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
+                                            echo '<div class="detail-ct-bd">';
+                                                echo '<h3 class="tt sub-title">NỘI DUNG PHIM</h3>';
+                                                echo '<p>'.htmlspecialchars($row['description_mv']).'</p>';
+                                            echo '</div>';
+
+                                           echo ' <div class="detail-ct-trailer">';
+                                                echo '<div class="trailer-and-order-ticket">';
+                                                    echo '<div class="trailer-container">';
+                                                        echo '<a class="trailer-link" href="../../assets/trailer/'.htmlspecialchars($row['trailer_url']).'">';
+                                                       echo ' <img src="../../assets/img/icon-play-vid.svg" alt="">';
+                                                        echo '</a>';
+                                                        echo '<a class="trailer-link-text" href="../../assets/trailer/'.htmlspecialchars($row['trailer_url']).'">Xem Trailer</a>';
+                                                    echo '</div>';
+                                                echo '</div> ';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    echo '</div>';
+                                }
+                            }
+                            ?>
+                        
                         </div>
                     </div>
                 </div>
@@ -176,39 +190,34 @@
                         <div class="shtime-slider">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <div class="active swiper-slide col">
-                                        <div class="box-time">
-                                            <p class="date">21/09</p>
-                                            <p class="day">Thứ Bảy</p>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    $sql_1 = "SELECT * FROM showtimes WHERE movie_id = $movie_id";
+                                    $result_1 = $conn ->query($sql_1);
+                                    if ($result_1->num_rows > 0) {
+                                        while($row = $result_1->fetch_assoc()) {
+                                            $showDate = $row['show_date'];
+                                            $dayOfWeek = date('l', strtotime($showDate));
+                                            $daysInVietnamese = [
+                                                'Monday' => 'Thứ Hai',
+                                                'Tuesday' => 'Thứ Ba',
+                                                'Wednesday' => 'Thứ Tư',
+                                                'Thursday' => 'Thứ Năm',
+                                                'Friday' => 'Thứ Sáu',
+                                                'Saturday' => 'Thứ Bảy',
+                                                'Sunday' => 'Chủ Nhật'
+                                            ];
+                                            $day = isset($daysInVietnamese[$dayOfWeek]) ? $daysInVietnamese[$dayOfWeek] : '';
 
-                                    <div class="swiper-slide col">
-                                        <div class="box-time">
-                                            <p class="date">22/09</p>
-                                            <p class="day">Chủ Nhật</p>
-                                        </div>
-                                    </div>
 
-                                    <div class="swiper-slide col">
-                                        <div class="box-time">
-                                            <p class="date">23/09</p>
-                                            <p class="day">Thứ Hai</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="swiper-slide col">
-                                        <div class="box-time">
-                                            <p class="date">24/09</p>
-                                            <p class="day">Thứ Ba</p>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide col">
-                                        <div class="box-time">
-                                            <p class="date">25/09</p>
-                                            <p class="day">Thứ Tư</p>
-                                        </div>
-                                    </div>
+                                            echo '<div class="active swiper-slide col">';
+                                                echo '<div class="box-time">';
+                                                    echo '<p class="date">'.htmlspecialchars($row['show_date']).'</p>';
+                                                    echo '<p class="day">'.$day.'</p>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        }
+                                    }
+                                    ?>
 
                                 </div>
                             </div>
@@ -239,6 +248,7 @@
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
+                                                    
                                                     <li class="disable item-time">9:30</li>
                                                     <li class="disable item-time">13:30</li>
                                                     <li class="disable item-time">15:45</li>
