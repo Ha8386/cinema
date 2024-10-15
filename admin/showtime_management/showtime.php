@@ -389,7 +389,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editshowtime'])) {
         </div>
     </form>
 
-    <script src="http://localhost/4scinema/admin/js/admin.js"></script>
+    <script src="../js/admin.js"></script>
 
     
 </body>
