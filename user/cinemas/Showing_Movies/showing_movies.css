@@ -121,10 +121,6 @@
 
 
 /* Khối thông tin */
-.cinemas__showing-container{
-
-}
-
 /* Tiêu đề */
 .cinemas__showing-title{
     text-align: center;
@@ -154,6 +150,7 @@
 .showing__movies-img{
     width: 53%;
     height: auto;
+    max-height: 510px;
     border-radius: 8px;
 }
 

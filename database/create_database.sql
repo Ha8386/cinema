@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 15, 2024 lúc 10:17 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
+-- Host: 127.0.0.1
+-- Generation Time: Oct 15, 2024 at 08:31 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `quanly_4scinema`
+-- Database: `quanly_4scinema`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `customers`
+-- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
@@ -37,19 +37,19 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `customers`
+-- Dumping data for table `customers`
 --
 
 INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `password_cs`) VALUES
 (4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
-(5, 'Nguyễn Đức Hà Vân', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$SYSPi2jQXMUNnIPH07bjruigy3kKLiNW.wofztEdCi56.7Hgi0GJu'),
-(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
-(12, 'Linh', 'Linhxinh@gmail.com', '0373187182', 'linhlinh', '$2y$10$6Xk6iIC8Jbxyjp5RPbhljOrAkP6t5uNbtWwTsl8KrGvEHvSr.iihG');
+(5, 'Nguyễn Đức Hà', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$yCp3CVF7fjW8gOC6ENNIcOkZyx.kz/9nKqnt11FUavVF8ZUZUTz0y'),
+(6, 'Nguyễn', 'hadeptrai@gmail.com', '123', 'ha', '$2y$10$RcMWkw6IPii.yJJGM2CSJOmV5ZDWi8kA39sPJL4q7569RGhasiQnO'),
+(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `employees`
+-- Table structure for table `employees`
 --
 
 CREATE TABLE `employees` (
@@ -64,17 +64,17 @@ CREATE TABLE `employees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `employees`
+-- Dumping data for table `employees`
 --
 
 INSERT INTO `employees` (`id`, `employee_name`, `email`, `phone`, `address_nv`, `position`, `hire_date`, `salary`) VALUES
-(1, 'Nguyễn Văn Tiến', 'nguyenvana@gmail.com', '0901234567', 'Hà Nội', 'Nhân viên', '2024-10-09', 10000000.00),
-(4, 'Nguyễn Đức Hà ', 'haxyz04@gmail.com', '0373187183', 'Bắc Ninh', 'Quản lý', '2024-10-10', 10000000.00);
+(1, 'Nguyễn Văn An', 'nguyenvana@gmail.com', '0901234567', 'Hà Nội', 'Nhân viên', '2020-05-15', 10000000.00),
+(4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'Bắc Ninh', 'Quản lý', '2024-10-11', 10000000.00);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `movies`
+-- Table structure for table `movies`
 --
 
 CREATE TABLE `movies` (
@@ -84,7 +84,7 @@ CREATE TABLE `movies` (
   `age_rating` varchar(10) NOT NULL,
   `release_date` date NOT NULL,
   `country` varchar(100) NOT NULL,
-  `subtitle` varchar(50) DEFAULT NULL,
+  `subtitle` text DEFAULT NULL,
   `status_mv` varchar(50) NOT NULL,
   `description_mv` text DEFAULT NULL,
   `trailer_url` varchar(255) DEFAULT NULL,
@@ -94,35 +94,35 @@ CREATE TABLE `movies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `movies`
+-- Dumping data for table `movies`
 --
 
 INSERT INTO `movies` (`movie_id`, `title`, `genre`, `age_rating`, `release_date`, `country`, `subtitle`, `status_mv`, `description_mv`, `trailer_url`, `image_url`, `duration`, `vietsub`) VALUES
-(19, 'Transformers: Kỷ nguyên hủy diệt', 'Khoa học viễn tưởng, Hành động', '13', '2024-10-30', 'Mỹ', '65 triệu năm trước, một nhóm người ngoài hành tinh', 'Sắp chiếu', 'Transformers: Kỷ nguyên hủy diệt (tựa tiếng Anh: Transformers: Age of Extinction) là một bộ phim 3D hành động khoa học viễn tưởng Mỹ năm 2014 thuộc sản phẩm thương mại Transformers. Đây là phần thứ tư của loạt phim đình đám Transformers và là phần tiếp theo của phim Vùng tối của mặt trăng năm 2011, lấy bối cảnh diễn ra sau cuộc đại chiến ở Chicago. Cũng giống như các phần trước, phim do Michael Bay đạo diễn và Ehren Kruger viết kịch bản, với Steven Spielberg và Bay làm giám đốc sản xuất. Phim có sự tham gia của ngôi sao Mark Wahlberg và Peter Cullen với vai trò lồng tiếng cho nhân vật người máy Optimus Prime. Đây là phần đầu tiên trong loạt phim không đề cập đến các nhân vật người từ ba phần trước, thay vào đó là dàn nhân vật người mới cùng với 22 Transformer mới, bao gồm cả những Dinobot lần đầu xuất hiện trong loạt phim. Tuy nhiên phim vẫn có sự góp mặt của các Transformer cũ như Optimus Prime, Bumblebee, Ratchet, Leadfoot, Brains và Megatron (trong phần này lấy tên là Galvatron).', 'Transformer.mp4', 'Transformer_poster.jpg', 144, 'Vietsub'),
-(20, 'Annabelle', 'Kinh dị, Giật gân, Siêu nhiên', '17', '2024-10-25', 'Mỹ', 'John Form tặng vợ mình, Mia, một con búp bê hiếm c', 'Sắp chiếu', 'Bộ phim xoay quanh một con búp bê bị nguyền rủa tên là Annabelle, xuất hiện lần đầu trong loạt phim \"The Conjuring\". Câu chuyện của Annabelle kể về những sự kiện kinh hoàng xoay quanh nó và tác động nguy hiểm mà nó mang đến cho những người sở hữu.', 'Annabelle.mp4', 'Annabelle_poster.jpg', 99, 'Vietsub'),
-(21, 'Avatar: Dòng chảy của nước ', 'Hành động, Phiêu lưu, Khoa học viễn tưởng', '13', '2024-10-04', 'Mỹ', 'Jake Sully hiện sống với gia đình mới của mình trê', 'Đang chiếu', 'Phần tiếp theo của bộ phim \"Avatar\" đình đám, \"The Way of Water\" đưa khán giả trở lại hành tinh Pandora, nơi Jake Sully và Neytiri cùng các con của họ đối mặt với nhiều thử thách mới khi cuộc xung đột với con người vẫn tiếp diễn.', 'Avatar.mp4', 'Avatar_poster.jpg', 192, 'Vietsub'),
-(22, 'A Quiet Place', 'Kinh dị, Giật gân, Khoa học viễn tưởng', '13', '2024-10-31', 'Mỹ', 'Câu chuyện theo chân gia đình Abbott, bao gồm Lee,', 'Sắp chiếu', '\"A Quiet Place\" là một bộ phim kinh dị với ý tưởng độc đáo, lấy bối cảnh trong một tương lai hậu tận thế, nơi con người bị săn đuổi bởi những sinh vật nhạy cảm với âm thanh. Gia đình Abbott phải sống trong im lặng để bảo vệ mạng sống của mình.', 'AQuietPlace.mp4', 'AquietPlace_poster.jpg', 90, 'Vietsub'),
-(23, 'Despicable Me', 'Hoạt hình, Hài hước, Phiêu lưu', '7', '2024-10-31', 'Mỹ', 'Gru là một nhân vật phản diện khét tiếng, luôn thự', 'Sắp chiếu', '\"Despicable Me\" là một bộ phim hoạt hình nổi tiếng của Illumination Entertainment, kể về Gru, một siêu tội phạm có kế hoạch thực hiện vụ trộm lớn nhất thế giới: đánh cắp mặt trăng. Tuy nhiên, mọi thứ thay đổi khi anh phải chăm sóc ba cô bé mồ côi đáng yêu.', 'DespicableMe.mp4', 'DespicableMe_poster.jpg', 95, 'Vietsub'),
-(24, 'Quá nhanh quá nguy hiểm 8', 'Hành động, Phiêu lưu, Tội phạm', '13', '2024-10-12', 'Mỹ', 'Sau khi kết hôn với Letty và tận hưởng cuộc sống y', 'Đang chiếu', '\"The Fate of the Furious\" là phần thứ tám của loạt phim \"Fast & Furious\", tiếp tục mang đến những cảnh hành động tốc độ và những cuộc đối đầu căng thẳng, nhưng với một yếu tố bất ngờ khi Dominic Toretto phản bội gia đình của mình.', 'FF8.mp4', 'FF8_poster.jpg', 136, 'Vietsub'),
-(25, 'Hereditaty', 'Kinh dị, Tâm lý, Siêu nhiên', '17', '2024-10-08', 'Mỹ', 'Khi người mẹ của Annie Graham qua đời, gia đình cô', 'Đang chiếu', '\"Hereditary\" là một bộ phim kinh dị tâm lý đáng sợ và đậm tính u ám, được nhiều nhà phê bình đánh giá cao nhờ bầu không khí căng thẳng và những màn trình diễn xuất sắc của dàn diễn viên. Bộ phim khám phá sự đổ vỡ của một gia đình bị ám ảnh bởi các thế lực siêu nhiên sau cái chết của người bà.', 'Hereditary.mp4', 'Hereditary_poster.jpg', 127, 'Vietsub'),
-(26, 'Kẻ đánh cắp giấc mơ', 'Hành động, Khoa học viễn tưởng, Phiêu lưu, Tâm lý', '13', '2024-10-26', 'Mỹ, Anh', 'Dom Cobb (Leonardo DiCaprio) là một \"kẻ trộm giấc ', 'Sắp chiếu', '\"Inception\" là một tác phẩm khoa học viễn tưởng của đạo diễn Christopher Nolan, được biết đến với cốt truyện phức tạp và sáng tạo. Phim xoay quanh việc xâm nhập vào giấc mơ của con người để trộm cắp thông tin hoặc cài đặt ý tưởng vào tâm trí họ.', 'Inception.mp4', 'Inception_poster.jpg', 148, 'Vietsub'),
-(37, 'Godzilla vs Kong', 'Hành động, Khoa học viễn tưởng, Phiêu lưu, Quái vật', '13', '2024-11-06', 'Mỹ', 'Trong một thế giới nơi con người chung sống với nh', 'Sắp chiếu', '\"Godzilla vs. Kong\" là phần mới nhất trong vũ trụ điện ảnh quái vật của Legendary, đối đầu giữa hai huyền thoại Godzilla và King Kong. Bộ phim mang đến những cảnh chiến đấu hoành tráng giữa hai sinh vật khổng lồ với quy mô tàn phá lớn.', 'GodvsKong.mp4', 'GodvsKong_poster.jpg', 113, 'Vietsub'),
-(39, 'Bố Già', 'Tâm lý, Gia đình, Hài hước', '13', '2024-10-12', 'Việt Nam', 'Câu chuyện xoay quanh ông Ba Sang (do Trấn Thành t', 'Đang chiếu', '\"Bố Già\" là bộ phim tâm lý - gia đình gây sốt tại Việt Nam, do Trấn Thành đồng đạo diễn và đóng vai chính. Bộ phim tập trung vào mối quan hệ gia đình, những xung đột thế hệ và cuộc sống của một gia đình lao động nghèo ở Sài Gòn.', 'BoGia.mp4', 'BoGia_poster.jpg', 128, 'VN'),
-(42, 'Hố đen tử thần', 'Khoa học viễn tưởng, Tâm lý, Phiêu lưu', '13', '2024-10-01', 'Mỹ, Anh', 'Interstellar khám phá các chủ đề về tình yêu, sự h', 'Đang chiếu', ' Câu chuyện diễn ra trong một tương lai tăm tối, khi Trái Đất đang đối mặt với sự tuyệt chủng do thiên tai và biến đổi khí hậu. Sự sống còn của nhân loại phụ thuộc vào việc tìm kiếm một hành tinh có thể ở được. Một nhóm phi hành gia, do cựu phi công NASA Joseph Cooper (do Matthew McConaughey thủ vai) dẫn đầu, đã vượt qua một lỗ sâu gần Sao Thổ để khám phá những hành tinh tiềm năng cho sự định cư của con người. Họ gặp nhiều thách thức, bao gồm sự giãn nở thời gian, khiến nhiệm vụ của họ trở nên phức tạp khi thời gian trôi qua nhanh chóng trên Trái Đất trong khi chỉ có vài giờ trôi qua trong không gian. Cốt truyện còn xoay quanh mối quan hệ giữa Cooper và con gái của anh, Murph, cùng với những hy sinh cá nhân để đảm bảo sự sống còn của nhân loại​.', 'Interstella.mp4', 'Interstella_poster.jpg', 169, 'Vietsub'),
-(43, 'Quỷ Quyệt: Chương 3', 'Kinh dị, Siêu nhiên, Bí ẩn', '13', '2024-10-14', 'Mỹ', 'Câu chuyện diễn ra khi Quinn Brenner, một thiếu nữ', 'Đang chiếu', 'Quỷ Quyệt: Chương 3 là phần tiền truyện của hai phần trước trong loạt phim Insidious. Phim xoay quanh Elise Rainier, một nhà ngoại cảm có khả năng giao tiếp với thế giới linh hồn. Bà giúp đỡ một cô gái trẻ bị quấy rối bởi một linh hồn tà ác sau khi cô cố gắng liên lạc với mẹ quá cố.', 'Incidious.mp4', 'Incidious_poster.jpg', 97, 'Vietsub'),
-(44, 'Logan', 'Hành động, Phiêu lưu, Khoa học viễn tưởng, Siêu anh hùng', '18', '2024-10-31', 'Mỹ', 'Vào tương lai gần, Logan đang sống ẩn dật ở biên g', 'Đang chiếu', 'Logan là phần cuối trong bộ ba phim về nhân vật Wolverine, lấy cảm hứng từ truyện tranh Old Man Logan của Marvel. Phim kể về Logan (Hugh Jackman), một người đột biến già yếu và bị ám ảnh bởi quá khứ, cùng với Charles Xavier phải bảo vệ một cô bé đột biến tên Laura khỏi các thế lực nguy hiểm.', 'Logan.mp4', 'Logan_poster.jpg', 137, 'Vietsub'),
-(45, 'Moana', 'Hoạt hình, Phiêu lưu, Hài, Gia đình', '6', '2024-10-13', 'Mỹ', 'Moana là con gái của trưởng làng Motunui. Cô có mộ', 'Đang chiếu', 'Moana là một bộ phim hoạt hình phiêu lưu của Disney, xoay quanh cuộc hành trình của một cô gái trẻ đến từ một hòn đảo ở Nam Thái Bình Dương. Câu chuyện kết hợp giữa truyền thuyết Polynesia và các giá trị gia đình, với thông điệp về lòng dũng cảm, sự khám phá bản thân và kết nối với nguồn cội.', 'Moana.mp4', 'Moana_poster.jpg', 107, 'Vietsub'),
-(46, 'Tên cậu là gì', 'Lãng mạn, Kỳ ảo, Hoạt hình, Khoa học viễn tưởng', '13', '2024-12-25', 'Nhật Bản', 'Mitsuha, một cô gái sống ở vùng quê Nhật Bản, và T', 'Sắp chiếu', 'Your Name là một bộ phim hoạt hình Nhật Bản do đạo diễn Makoto Shinkai thực hiện, kết hợp yếu tố giả tưởng và lãng mạn với câu chuyện về mối liên kết kỳ diệu giữa hai người trẻ tuổi. Phim được ca ngợi bởi hình ảnh tuyệt đẹp, âm nhạc cuốn hút và cốt truyện cảm động.', 'YourName.mp4', 'YourName_poster.jpg', 106, 'Vietsub'),
-(47, 'Đại chiến thái bình dương', 'Hành động, Khoa học viễn tưởng, Quái vật, Robot, Kaiju', '13', '2024-10-13', 'Mỹ', 'Câu chuyện xoay quanh cựu phi công Jaeger Raleigh ', 'Sắp chiếu', 'Pacific Rim là bộ phim khoa học viễn tưởng được đạo diễn bởi Guillermo del Toro. Phim lấy bối cảnh trong tương lai, khi Trái Đất phải đối mặt với cuộc xâm lược của những con quái vật khổng lồ gọi là Kaiju, xuất hiện từ một cổng không gian dưới đáy Thái Bình Dương. Để chống lại Kaiju, loài người tạo ra những robot khổng lồ gọi là Jaegers, điều khiển bởi hai phi công có liên kết thần kinh. Bộ phim nổi bật với hiệu ứng hình ảnh ấn tượng và cảnh chiến đấu hoành tráng giữa robot và quái vật.', 'PacificRim.mp4', 'PacificRim_poster.jpg', 131, 'Vietsub'),
-(48, 'Nhà tù Shawshank', 'Chính kịch', '17', '2024-10-29', 'Mỹ', 'Trong quá trình chịu án ở nhà tù Shawshank, Andy k', 'Sắp chiếu', 'The Shawshank Redemption là một bộ phim kinh điển của điện ảnh Mỹ, dựa trên tiểu thuyết của Stephen King. Phim kể về Andy Dufresne, một người đàn ông bị kết án tù chung thân vì tội giết vợ và người tình của cô, mặc dù anh khẳng định mình vô tội.', 'SSRedemption.mp4', 'SSRedemption_poster.jpg', 142, 'Vietsub'),
-(50, 'Hố sâu đói khát', 'Thể loại: Kinh dị, Khoa học viễn tưởng, Chính kịch', '17', '2024-10-13', 'Tây Ban Nha', 'Câu chuyện xoay quanh Goreng, một người đàn ông tự', 'Sắp chiếu', 'The Platform là một bộ phim khoa học viễn tưởng độc đáo, lấy bối cảnh trong một nhà tù hình trụ. Phim khám phá các chủ đề như sự phân chia giai cấp và bản chất của nhân loại thông qua cách mà các tù nhân tương tác với nhau và hệ thống phân phối thực phẩm.', 'thePlatform.mp4', 'thePlatform_poster.jpg', 94, 'Vietsub'),
-(51, 'Venom', 'Hành động, Khoa học viễn tưởng, Kinh dị', '13 ', '2024-10-30', 'Mỹ', 'Eddie Brock (Tom Hardy) là một nhà báo quyết tâm p', 'Sắp chiếu', 'Venom là một bộ phim dựa trên nhân vật truyện tranh cùng tên của Marvel, được phát triển bởi Sony Pictures. Phim khai thác mối quan hệ giữa Eddie Brock, một nhà báo điều tra, và Venom, một sinh vật ngoài hành tinh.', 'Venom.mp4', 'Venom_poster.jpg', 112, 'Vietsub'),
-(52, 'Thiếu niên và chim diệc', 'Hoạt hình, Huyền bí, Drama', '13', '2024-11-01', 'Nhật Bản', 'Câu chuyện bắt đầu khi Mahito phải đối diện với cá', 'Sắp chiếu', 'Phim do Hayao Miyazaki đạo diễn, mang đến một câu chuyện đậm chất thơ và triết lý. Bộ phim kể về một cậu bé tên Mahito, người đang phải đối mặt với sự mất mát và những khía cạnh tối tăm của cuộc sống.', 'TheBoyAndTheHeron.mp4', 'TheBoyAndTheHeron_poster.jpg', 124, 'Vietsub');
+(31, 'Transformers: Kỷ nguyên hủy diệt', 'Khoa học viễn tưởng, Hành động', '13', '2024-10-30', 'Mỹ', '65 triệu năm trước, một nhóm người ngoài hành tinh', 'Đang chiếu', 'Transformers: Kỷ nguyên hủy diệt (tựa tiếng Anh: Transformers: Age of Extinction) là một bộ phim 3D hành động khoa học viễn tưởng Mỹ năm 2014 thuộc sản phẩm thương mại Transformers. Đây là phần thứ tư của loạt phim đình đám Transformers và là phần tiếp theo của phim Vùng tối của mặt trăng năm 2011, lấy bối cảnh diễn ra sau cuộc đại chiến ở Chicago. Cũng giống như các phần trước, phim do Michael Bay đạo diễn và Ehren Kruger viết kịch bản, với Steven Spielberg và Bay làm giám đốc sản xuất. Phim có sự tham gia của ngôi sao Mark Wahlberg và Peter Cullen với vai trò lồng tiếng cho nhân vật người máy Optimus Prime. Đây là phần đầu tiên trong loạt phim không đề cập đến các nhân vật người từ ba phần trước, thay vào đó là dàn nhân vật người mới cùng với 22 Transformer mới, bao gồm cả những Dinobot lần đầu xuất hiện trong loạt phim. Tuy nhiên phim vẫn có sự góp mặt của các Transformer cũ như Optimus Prime, Bumblebee, Ratchet, Leadfoot, Brains và Megatron (trong phần này lấy tên là Galvatron).', 'Transformer.mp4', 'Transformer_poster.jpg', 144, 'Vietsub'),
+(32, 'Annabelle', 'Kinh dị, Giật gân, Siêu nhiên', '17', '2024-10-25', 'Mỹ', 'John Form tặng vợ mình, Mia, một con búp bê hiếm c', 'Sắp chiếu', 'Bộ phim xoay quanh một con búp bê bị nguyền rủa tên là Annabelle, xuất hiện lần đầu trong loạt phim \"The Conjuring\". Câu chuyện của Annabelle kể về những sự kiện kinh hoàng xoay quanh nó và tác động nguy hiểm mà nó mang đến cho những người sở hữu.', 'Annabelle.mp4', 'Annabelle_poster.jpg', 99, 'Vietsub'),
+(33, 'Avatar: Dòng chảy của nước ', 'Hành động, Phiêu lưu, Khoa học viễn tưởng', '13', '2024-10-04', 'Mỹ', 'Jake Sully hiện sống với gia đình mới của mình trê', 'Đang chiếu', 'Phần tiếp theo của bộ phim \"Avatar\" đình đám, \"The Way of Water\" đưa khán giả trở lại hành tinh Pandora, nơi Jake Sully và Neytiri cùng các con của họ đối mặt với nhiều thử thách mới khi cuộc xung đột với con người vẫn tiếp diễn.', 'Avatar.mp4', 'Avatar_poster.jpg', 192, 'Vietsub'),
+(34, 'A Quiet Place', 'Kinh dị, Giật gân, Khoa học viễn tưởng', '13', '2024-10-31', 'Mỹ', 'Câu chuyện theo chân gia đình Abbott, bao gồm Lee,', 'Sắp chiếu', '\"A Quiet Place\" là một bộ phim kinh dị với ý tưởng độc đáo, lấy bối cảnh trong một tương lai hậu tận thế, nơi con người bị săn đuổi bởi những sinh vật nhạy cảm với âm thanh. Gia đình Abbott phải sống trong im lặng để bảo vệ mạng sống của mình.', 'AQuietPlace.mp4', 'AquietPlace_poster.jpg', 90, 'Vietsub'),
+(35, 'Despicable Me', 'Hoạt hình, Hài hước, Phiêu lưu', '7', '2024-10-12', 'Mỹ', 'Gru là một nhân vật phản diện khét tiếng, luôn thự', 'Sắp chiếu', '\"Despicable Me\" là một bộ phim hoạt hình nổi tiếng của Illumination Entertainment, kể về Gru, một siêu tội phạm có kế hoạch thực hiện vụ trộm lớn nhất thế giới: đánh cắp mặt trăng. Tuy nhiên, mọi thứ thay đổi khi anh phải chăm sóc ba cô bé mồ côi đáng yêu.', 'DespicableMe.mp4', 'DespicableMe_poster.jpg', 95, 'Vietsub'),
+(36, 'Quá nhanh quá nguy hiểm 8', 'Hành động, Phiêu lưu, Tội phạm', '13', '2024-10-12', 'Mỹ', 'Sau khi kết hôn với Letty và tận hưởng cuộc sống y', 'Đang chiếu', '\"The Fate of the Furious\" là phần thứ tám của loạt phim \"Fast & Furious\", tiếp tục mang đến những cảnh hành động tốc độ và những cuộc đối đầu căng thẳng, nhưng với một yếu tố bất ngờ khi Dominic Toretto phản bội gia đình của mình.', 'FF8.mp4', 'FF8_poster.jpg', 136, 'Vietsub'),
+(37, 'Godzilla vs Kong', 'Hành động, Khoa học viễn tưởng, Phiêu lưu, Quái vật', '13', '2024-11-06', 'Mỹ', 'Trong một thế giới nơi con người chung sống với những sinh vật khổng lồ, Godzilla bất ngờ tấn công, gây ra sự hỗn loạn trên toàn cầu. Để đối phó với Godzilla, con người quyết định đưa King Kong từ Đảo Đầu Lâu để đọ sức với quái vật. Trong khi hai quái vật đối đầu, một âm mưu đen tối từ tổ chức Apex Cybernetics đang dần được phơi bày, đe dọa cả sự tồn tại của nhân loại và các sinh vật khổng lồ. Cuộc chiến giữa Godzilla và Kong không chỉ để tranh giành vị trí quái vật mạnh nhất mà còn để ngăn chặn mối nguy lớn hơn đang đến gần.', 'Sắp chiếu', '\"Godzilla vs. Kong\" là phần mới nhất trong vũ trụ điện ảnh quái vật của Legendary, đối đầu giữa hai huyền thoại Godzilla và King Kong. Bộ phim mang đến những cảnh chiến đấu hoành tráng giữa hai sinh vật khổng lồ với quy mô tàn phá lớn.', 'GodvsKong.mp4', 'GodvsKong_poster.jpg', 113, 'Vietsub'),
+(38, 'Hereditaty', 'Kinh dị, Tâm lý, Siêu nhiên', '17', '0000-00-00', 'Mỹ', 'Khi người mẹ của Annie Graham qua đời, gia đình cô bắt đầu phát hiện ra những bí mật đáng sợ về dòng dõi của mình. Những hiện tượng kỳ lạ và đáng sợ bắt đầu xuất hiện, dường như được kết nối với một thế lực ma quái tồn tại trong gia đình. Trong khi Annie cố gắng tìm cách hiểu được những sự kiện kinh hoàng đang xảy ra, cô dần khám phá ra rằng số phận của cả gia đình có thể đã bị nguyền rủa từ lâu bởi những điều kinh khủng mà bà cô đã để lại. Bộ phim đưa khán giả vào một chuyến hành trình đầy đau khổ và hoang mang về sự sụp đổ tâm lý và siêu nhiên trong một gia đình.', 'Đang chiếu', '\"Hereditary\" là một bộ phim kinh dị tâm lý đáng sợ và đậm tính u ám, được nhiều nhà phê bình đánh giá cao nhờ bầu không khí căng thẳng và những màn trình diễn xuất sắc của dàn diễn viên. Bộ phim khám phá sự đổ vỡ của một gia đình bị ám ảnh bởi các thế lực siêu nhiên sau cái chết của người bà.', 'Hereditary.mp4', 'Hereditary_poster.jpg', 127, 'Vietsub'),
+(39, 'Bố Già', 'Tâm lý, Gia đình, Hài hước', '13', '2024-10-12', 'Việt Nam', 'Câu chuyện xoay quanh ông Ba Sang (do Trấn Thành thủ vai), một người cha giàu tình cảm, luôn hết lòng vì con cái và gia đình. Ông cố gắng làm tất cả để mang đến cuộc sống tốt đẹp hơn cho các con, đặc biệt là con trai Quắn - một người trẻ đầy năng lượng nhưng có nhiều khác biệt trong suy nghĩ với cha mình. Những mâu thuẫn giữa Ba Sang và Quắn càng lớn khi họ đối mặt với các khó khăn về tài chính, sự bất đồng về quan điểm sống và cách yêu thương. Bộ phim là bức tranh chân thật về tình cảm gia đình, sự hy sinh và những bài học về tình thân.', 'Đang chiếu', '\"Bố Già\" là bộ phim tâm lý - gia đình gây sốt tại Việt Nam, do Trấn Thành đồng đạo diễn và đóng vai chính. Bộ phim tập trung vào mối quan hệ gia đình, những xung đột thế hệ và cuộc sống của một gia đình lao động nghèo ở Sài Gòn.', 'BoGia.mp4', 'BoGia_poster.jpg', 128, 'VN'),
+(41, 'Kẻ đánh cắp giấc mơ', 'Hành động, Khoa học viễn tưởng, Phiêu lưu, Tâm lý', '13', '2024-10-26', 'Mỹ, Anh', 'Dom Cobb (Leonardo DiCaprio) là một \"kẻ trộm giấc mơ\" chuyên nghiệp, người có khả năng xâm nhập vào tiềm thức của người khác để đánh cắp thông tin từ giấc mơ của họ. Anh bị truy nã trên toàn cầu và phải xa cách gia đình. Một cơ hội để chuộc lỗi xuất hiện khi Cobb được giao nhiệm vụ ngược lại: cấy ghép một ý tưởng vào tâm trí của một doanh nhân trẻ tên là Robert Fischer. Nhiệm vụ này, gọi là \"Inception\", được coi là gần như bất khả thi. Tuy nhiên, nếu thành công, Cobb có thể trở lại cuộc sống bình thường với gia đình mình. Trong quá trình thực hiện nhiệm vụ, anh cùng nhóm của mình phải đối mặt với nhiều tầng giấc mơ và thử thách không lường trước được, đặc biệt là từ những ký ức đau thương của chính Cobb.', 'Sắp chiếu', '\"Inception\" là một tác phẩm khoa học viễn tưởng của đạo diễn Christopher Nolan, được biết đến với cốt truyện phức tạp và sáng tạo. Phim xoay quanh việc xâm nhập vào giấc mơ của con người để trộm cắp thông tin hoặc cài đặt ý tưởng vào tâm trí họ.', 'Inception.mp4', 'Inception_poster.jpg', 148, 'Vietsub'),
+(42, 'Hố đen tử thần', 'Khoa học viễn tưởng, Tâm lý, Phiêu lưu', '13', '0000-00-00', 'Mỹ, Anh', 'Interstellar khám phá các chủ đề về tình yêu, sự hy sinh và những giới hạn trong hiểu biết của con người. Câu chuyện kết hợp một cách tinh tế giữa những khái niệm khoa học tiên tiến như lỗ đen và du hành thời gian với những câu chuyện cảm động, tạo nên một trải nghiệm vừa mãn nhãn vừa sâu sắc về tư tưởng​.\r\n', 'Đang chiếu', ' Câu chuyện diễn ra trong một tương lai tăm tối, khi Trái Đất đang đối mặt với sự tuyệt chủng do thiên tai và biến đổi khí hậu. Sự sống còn của nhân loại phụ thuộc vào việc tìm kiếm một hành tinh có thể ở được. Một nhóm phi hành gia, do cựu phi công NASA Joseph Cooper (do Matthew McConaughey thủ vai) dẫn đầu, đã vượt qua một lỗ sâu gần Sao Thổ để khám phá những hành tinh tiềm năng cho sự định cư của con người. Họ gặp nhiều thách thức, bao gồm sự giãn nở thời gian, khiến nhiệm vụ của họ trở nên phức tạp khi thời gian trôi qua nhanh chóng trên Trái Đất trong khi chỉ có vài giờ trôi qua trong không gian. Cốt truyện còn xoay quanh mối quan hệ giữa Cooper và con gái của anh, Murph, cùng với những hy sinh cá nhân để đảm bảo sự sống còn của nhân loại​.', 'Interstella.mp4', 'Interstella_poster.jpg', 169, 'Vietsub'),
+(43, 'Quỷ Quyệt: Chương 3', 'Kinh dị, Siêu nhiên, Bí ẩn', '13 ', '0000-00-00', 'Mỹ', ' Câu chuyện diễn ra khi Quinn Brenner, một thiếu nữ trẻ, liên lạc với Elise để tìm cách kết nối với linh hồn mẹ đã mất. Trong quá trình đó, Quinn không may thu hút sự chú ý của một linh hồn độc ác, \"The Man Who Can\'t Breathe\", một thực thể siêu nhiên đáng sợ chuyên theo dõi và tấn công cô. Elise ban đầu từ chối giúp đỡ do lo sợ về quá khứ của mình, nhưng sau đó bà quyết định tham gia vào cuộc chiến chống lại linh hồn quỷ quyệt này để cứu Quinn.', 'Đang chiếu', 'Quỷ Quyệt: Chương 3 là phần tiền truyện của hai phần trước trong loạt phim Insidious. Phim xoay quanh Elise Rainier, một nhà ngoại cảm có khả năng giao tiếp với thế giới linh hồn. Bà giúp đỡ một cô gái trẻ bị quấy rối bởi một linh hồn tà ác sau khi cô cố gắng liên lạc với mẹ quá cố.', 'Incidious.mp4', 'Incidious_poster.jpg', 97, 'Vietsub'),
+(44, 'Logan', 'Hành động, Phiêu lưu, Khoa học viễn tưởng, Siêu anh hùng', '18', '2024-10-31', 'Mỹ', 'Vào tương lai gần, Logan đang sống ẩn dật ở biên giới Mexico để chăm sóc Charles Xavier đang bị bệnh. Cuộc sống của anh bị đảo lộn khi một cô bé đột biến xuất hiện, là Laura, bị truy đuổi bởi một tập đoàn ác độc. Logan phải đối mặt với quá khứ và tìm cách bảo vệ Laura, trong khi khám phá ra rằng cô bé là một phiên bản \"nhân bản\" của chính anh.', 'Chọn trạng thái', 'Logan là phần cuối trong bộ ba phim về nhân vật Wolverine, lấy cảm hứng từ truyện tranh Old Man Logan của Marvel. Phim kể về Logan (Hugh Jackman), một người đột biến già yếu và bị ám ảnh bởi quá khứ, cùng với Charles Xavier phải bảo vệ một cô bé đột biến tên Laura khỏi các thế lực nguy hiểm.', 'Logan.mp4', 'Logan_poster.jpg', 137, 'Vietsub'),
+(45, 'Moana', 'Hoạt hình, Phiêu lưu, Hài, Gia đình', '6', '2024-10-13', 'Mỹ', 'Moana là con gái của trưởng làng Motunui. Cô có một khao khát mạnh mẽ để ra khơi và khám phá đại dương, dù điều này trái ngược với mong muốn của cha cô. Khi hòn đảo của cô đối mặt với nguy cơ, Moana lên đường tìm kiếm á thần Maui để giúp cô trả lại trái tim của nữ thần Te Fiti và khôi phục sự cân bằng cho thế giới. Trên hành trình này, Moana phải đối mặt với nhiều khó khăn, nhưng cuối cùng cô khám phá ra sức mạnh của bản thân và vai trò quan trọng trong việc cứu lấy quê hương.', 'Đang chiếu', 'Moana là một bộ phim hoạt hình phiêu lưu của Disney, xoay quanh cuộc hành trình của một cô gái trẻ đến từ một hòn đảo ở Nam Thái Bình Dương. Câu chuyện kết hợp giữa truyền thuyết Polynesia và các giá trị gia đình, với thông điệp về lòng dũng cảm, sự khám phá bản thân và kết nối với nguồn cội.', 'Moana.mp4', 'Moana_poster.jpg', 107, 'Vietsub'),
+(46, 'Tên cậu là gì', 'Lãng mạn, Kỳ ảo, Hoạt hình, Khoa học viễn tưởng', '13 ', '2024-12-25', 'Nhật Bản', 'Mitsuha, một cô gái sống ở vùng quê Nhật Bản, và Taki, một chàng trai sống ở Tokyo, bất ngờ hoán đổi cơ thể với nhau mà không rõ lý do. Cả hai dần dần tìm hiểu về cuộc sống của người kia và xây dựng mối quan hệ sâu sắc mà không hề gặp mặt trực tiếp. Tuy nhiên, sự hoán đổi này không chỉ đơn thuần là một phép màu, mà còn liên quan đến một sự kiện bí ẩn sắp xảy ra. Cả hai phải hợp sức để giải quyết bí ẩn này và cứu lấy tương lai của mình.', 'Sắp chiếu', 'Your Name là một bộ phim hoạt hình Nhật Bản do đạo diễn Makoto Shinkai thực hiện, kết hợp yếu tố giả tưởng và lãng mạn với câu chuyện về mối liên kết kỳ diệu giữa hai người trẻ tuổi. Phim được ca ngợi bởi hình ảnh tuyệt đẹp, âm nhạc cuốn hút và cốt truyện cảm động.', 'YourName.mp4', 'YourName_poster.jpg', 106, 'Vietsub'),
+(47, 'Đại chiến thái bình dương', 'Hành động, Khoa học viễn tưởng, Quái vật, Robot, Kaiju', '13 ', '2024-10-13', 'Mỹ', 'Câu chuyện xoay quanh cựu phi công Jaeger Raleigh Becket, người bị gọi trở lại chiến đấu cùng với phi công mới Mako Mori trong cuộc chiến cuối cùng nhằm bảo vệ nhân loại khỏi sự diệt vong trước Kaiju. Cả hai phải vượt qua những thách thức lớn, đối mặt với quái vật khổng lồ và nhiều khó khăn khác để hoàn thành sứ mệnh của mình.', 'Sắp chiếu', 'Pacific Rim là bộ phim khoa học viễn tưởng được đạo diễn bởi Guillermo del Toro. Phim lấy bối cảnh trong tương lai, khi Trái Đất phải đối mặt với cuộc xâm lược của những con quái vật khổng lồ gọi là Kaiju, xuất hiện từ một cổng không gian dưới đáy Thái Bình Dương. Để chống lại Kaiju, loài người tạo ra những robot khổng lồ gọi là Jaegers, điều khiển bởi hai phi công có liên kết thần kinh. Bộ phim nổi bật với hiệu ứng hình ảnh ấn tượng và cảnh chiến đấu hoành tráng giữa robot và quái vật.', 'PacificRim.mp4', 'PacificRim_poster.jpg', 131, 'Vietsub'),
+(48, 'Nhà tù Shawshank', 'Chính kịch', '17', '2024-10-29', 'Mỹ', 'Trong quá trình chịu án ở nhà tù Shawshank, Andy kết bạn với một tù nhân lâu năm tên là Red. Bằng sự thông minh và kiên nhẫn, Andy không chỉ tìm cách sống sót trong môi trường khắc nghiệt của nhà tù mà còn giúp đỡ các quản giáo trong các vấn đề tài chính. Anh đã lập kế hoạch để trốn thoát, tìm kiếm tự do và cứu chuộc cuộc đời mình sau nhiều năm sống trong cảnh tù đày​.', 'Sắp chiếu', 'The Shawshank Redemption là một bộ phim kinh điển của điện ảnh Mỹ, dựa trên tiểu thuyết của Stephen King. Phim kể về Andy Dufresne, một người đàn ông bị kết án tù chung thân vì tội giết vợ và người tình của cô, mặc dù anh khẳng định mình vô tội.', 'SSRedemption.mp4', 'SSRedemption_poster.jpg', 142, 'Vietsub'),
+(50, 'Hố sâu đói khát', 'Thể loại: Kinh dị, Khoa học viễn tưởng, Chính kịch', '17', '2024-10-13', 'Tây Ban Nha', 'Câu chuyện xoay quanh Goreng, một người đàn ông tự nguyện vào nhà tù để cai nghiện thuốc lá. Trong nhà tù, thực phẩm được đưa xuống từ tầng trên cùng qua một cái hố, nhưng chỉ đủ cho những người ở tầng trên. Những người ở tầng dưới buộc phải sống trong điều kiện khắc nghiệt và thường xuyên phải đối mặt với đói kém. Goreng cố gắng tìm cách sống sót và làm cho mọi người nhận ra rằng họ cần phải thay đổi cách mà họ cư xử với nhau để cải thiện tình hình. Phim là một phép ẩn dụ mạnh mẽ về sự bất công trong xã hội và cách mà con người có thể trở nên tàn nhẫn trong những điều kiện cực đoan .', 'Sắp chiếu', 'The Platform là một bộ phim khoa học viễn tưởng độc đáo, lấy bối cảnh trong một nhà tù hình trụ. Phim khám phá các chủ đề như sự phân chia giai cấp và bản chất của nhân loại thông qua cách mà các tù nhân tương tác với nhau và hệ thống phân phối thực phẩm.', 'thePlatform.mp4', 'thePlatform_poster.jpg', 94, 'Vietsub'),
+(51, 'Venom', 'Hành động, Khoa học viễn tưởng, Kinh dị', '13 ', '2024-10-15', 'Mỹ', 'Eddie Brock (Tom Hardy) là một nhà báo quyết tâm phơi bày sự thật về một tập đoàn công nghệ. Sau khi phát hiện ra những thí nghiệm phi đạo đức của họ với sinh vật ngoài hành tinh, Eddie bị nhiễm một thực thể tên là Venom. Venom là một sinh vật ký sinh mạnh mẽ, mang lại cho Eddie sức mạnh siêu nhiên nhưng cũng khiến anh gặp nhiều rắc rối. Phim kể về cuộc chiến giữa Eddie và các thế lực đang cố gắng kiểm soát Venom, cũng như hành trình khám phá bản thân của anh trong khi phải đối mặt với những hậu quả của việc kết hợp với sinh vật này.', 'Đang chiếu', 'Venom là một bộ phim dựa trên nhân vật truyện tranh cùng tên của Marvel, được phát triển bởi Sony Pictures. Phim khai thác mối quan hệ giữa Eddie Brock, một nhà báo điều tra, và Venom, một sinh vật ngoài hành tinh.', 'Venom.mp4', 'Venom_poster.jpg', 112, 'Vietsub'),
+(52, 'Thiếu niên và chim diệc', 'Hoạt hình, Huyền bí, Drama', '13', '2024-10-25', 'Nhật Bản', 'Câu chuyện bắt đầu khi Mahito phải đối diện với cái chết của mẹ mình trong Thế chiến thứ hai. Sau đó, cậu rơi vào một thế giới huyền bí, nơi cậu gặp gỡ những sinh vật kỳ lạ và bắt đầu hành trình tìm kiếm sự thật về bản thân và cuộc sống. Phim không chỉ đơn thuần là một cuộc phiêu lưu, mà còn khám phá sâu sắc các chủ đề về cuộc sống, cái chết và sự chấp nhận.', 'Sắp chiếu', 'Phim do Hayao Miyazaki đạo diễn, mang đến một câu chuyện đậm chất thơ và triết lý. Bộ phim kể về một cậu bé tên Mahito, người đang phải đối mặt với sự mất mát và những khía cạnh tối tăm của cuộc sống.', 'TheBoyAndTheHeron.mp4', 'TheBoyAndTheHeron_poster.jpg', 124, 'Vietsub');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `promotion`
+-- Table structure for table `promotion`
 --
 
 CREATE TABLE `promotion` (
@@ -136,7 +136,7 @@ CREATE TABLE `promotion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `promotion`
+-- Dumping data for table `promotion`
 --
 
 INSERT INTO `promotion` (`id`, `promotion_name`, `details`, `notes`, `discount_image`, `start_time`, `end_time`) VALUES
@@ -148,7 +148,7 @@ INSERT INTO `promotion` (`id`, `promotion_name`, `details`, `notes`, `discount_i
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `revenue`
+-- Table structure for table `revenue`
 --
 
 CREATE TABLE `revenue` (
@@ -159,7 +159,7 @@ CREATE TABLE `revenue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `revenue`
+-- Dumping data for table `revenue`
 --
 
 INSERT INTO `revenue` (`id`, `total_amount`, `transaction_count`, `report_date`) VALUES
@@ -170,7 +170,7 @@ INSERT INTO `revenue` (`id`, `total_amount`, `transaction_count`, `report_date`)
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `screenings`
+-- Table structure for table `screenings`
 --
 
 CREATE TABLE `screenings` (
@@ -180,41 +180,29 @@ CREATE TABLE `screenings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `screenings`
+-- Dumping data for table `screenings`
 --
 
 INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUES
-(84, 97, '13:26:00'),
-(85, 97, '15:26:00'),
-(86, 97, '18:26:00'),
-(87, 97, '12:32:00'),
-(88, 98, '13:28:00'),
-(89, 98, '15:29:00'),
-(90, 98, '00:29:00'),
-(91, 98, '06:29:00'),
-(92, 99, '14:41:00'),
-(93, 99, '17:46:00'),
-(94, 99, '20:41:00'),
-(100, 105, '13:44:00'),
-(101, 105, '17:43:00'),
-(102, 106, '13:45:00'),
-(103, 106, '16:43:00'),
-(104, 107, '13:45:00'),
-(105, 107, '15:45:00'),
-(106, 108, '13:48:00'),
-(107, 109, '17:45:00'),
-(108, 110, '17:45:00'),
-(109, 110, '01:45:00'),
-(110, 111, '17:46:00'),
-(111, 111, '03:46:00'),
-(112, 112, '13:50:00'),
-(113, 113, '13:48:00'),
-(114, 122, '13:51:00');
+(62, 49, '09:12:00'),
+(63, 49, '09:12:00'),
+(64, 49, '09:12:00'),
+(65, 50, '09:00:00'),
+(66, 50, '12:00:00'),
+(67, 50, '07:00:00'),
+(68, 49, '03:21:00'),
+(69, 49, '20:50:00'),
+(70, 49, '10:23:00'),
+(71, 49, '10:23:00'),
+(72, 49, '10:23:00'),
+(73, 49, '10:24:00'),
+(74, 51, '12:22:00'),
+(75, 52, '05:21:00');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `showtimes`
+-- Table structure for table `showtimes`
 --
 
 CREATE TABLE `showtimes` (
@@ -224,36 +212,19 @@ CREATE TABLE `showtimes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `showtimes`
+-- Dumping data for table `showtimes`
 --
 
 INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
-(97, 20, '2024-10-15'),
-(98, 21, '2024-10-23'),
-(99, 20, '2024-10-01'),
-(105, 22, '2024-10-11'),
-(106, 23, '2024-10-24'),
-(107, 24, '2024-11-01'),
-(108, 25, '2024-10-23'),
-(109, 26, '2024-10-16'),
-(110, 37, '2024-10-25'),
-(111, 39, '2024-10-17'),
-(112, 42, '2024-10-16'),
-(113, 43, '2024-10-16'),
-(114, 44, '2024-10-09'),
-(115, 45, '2024-11-09'),
-(116, 46, '2024-10-16'),
-(117, 47, '2024-11-06'),
-(118, 48, '2024-10-10'),
-(119, 50, '2024-11-02'),
-(120, 51, '2024-10-23'),
-(121, 52, '2024-10-24'),
-(122, 23, '2024-10-19');
+(49, 33, '2024-10-12'),
+(50, 33, '2024-10-15'),
+(51, 36, '2024-10-16'),
+(52, 33, '2024-10-31');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ticket_orders`
+-- Table structure for table `ticket_orders`
 --
 
 CREATE TABLE `ticket_orders` (
@@ -266,7 +237,7 @@ CREATE TABLE `ticket_orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `ticket_orders`
+-- Dumping data for table `ticket_orders`
 --
 
 INSERT INTO `ticket_orders` (`id`, `movie_name`, `customer_name`, `price`, `order_date`, `quantity`) VALUES
@@ -275,127 +246,128 @@ INSERT INTO `ticket_orders` (`id`, `movie_name`, `customer_name`, `price`, `orde
 (3, 'Fast & Furious 9', 'Lê Văn C', 200000.00, '2024-10-03 00:00:00', 3);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `customers`
+-- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
--- Chỉ mục cho bảng `employees`
+-- Indexes for table `employees`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `movies`
+-- Indexes for table `movies`
 --
 ALTER TABLE `movies`
   ADD PRIMARY KEY (`movie_id`);
 
 --
--- Chỉ mục cho bảng `promotion`
+-- Indexes for table `promotion`
 --
 ALTER TABLE `promotion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `revenue`
+-- Indexes for table `revenue`
 --
 ALTER TABLE `revenue`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `screenings`
+-- Indexes for table `screenings`
 --
 ALTER TABLE `screenings`
   ADD PRIMARY KEY (`screening_id`),
   ADD KEY `fk_showtime` (`showtime_id`);
 
 --
--- Chỉ mục cho bảng `showtimes`
+-- Indexes for table `showtimes`
 --
 ALTER TABLE `showtimes`
   ADD PRIMARY KEY (`showtime_id`),
   ADD KEY `movie_id` (`movie_id`) USING BTREE;
 
 --
--- Chỉ mục cho bảng `ticket_orders`
+-- Indexes for table `ticket_orders`
 --
 ALTER TABLE `ticket_orders`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `customers`
+-- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT cho bảng `employees`
+-- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `movies`
+-- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
   MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT cho bảng `promotion`
+-- AUTO_INCREMENT for table `promotion`
 --
 ALTER TABLE `promotion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT cho bảng `revenue`
+-- AUTO_INCREMENT for table `revenue`
 --
 ALTER TABLE `revenue`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `screenings`
+-- AUTO_INCREMENT for table `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
--- AUTO_INCREMENT cho bảng `showtimes`
+-- AUTO_INCREMENT for table `showtimes`
 --
 ALTER TABLE `showtimes`
-  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT cho bảng `ticket_orders`
+-- AUTO_INCREMENT for table `ticket_orders`
 --
 ALTER TABLE `ticket_orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `screenings`
+-- Constraints for table `screenings`
 --
 ALTER TABLE `screenings`
   ADD CONSTRAINT `fk_showtime` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `screenings_ibfk_1` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`);
 
 --
--- Các ràng buộc cho bảng `showtimes`
+-- Constraints for table `showtimes`
 --
 ALTER TABLE `showtimes`
-  ADD CONSTRAINT `showtimes_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `showtimes_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

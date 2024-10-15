@@ -28,8 +28,6 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="../../../assets/css/base.css">
     <link rel="stylesheet" href="../../../assets/css/main.css">
     <link rel="stylesheet" href="showing_movies.css">
-    <link rel="stylesheet" href="upcoming_movies.css">
-    <link rel="stylesheet" href="ticket_price.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
