@@ -258,7 +258,7 @@ if (isset($_POST['updatecustomer'])) {
                                 echo '<td>' . $row['email'] . '</td>';
                                 echo '<td>' . $row['phone'] . '</td>';
                                 echo '<td>' . $row['username'] . '</td>';
-                                echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password_cs'] . '</td>';
+                                echo '<td style="width: 150px; height: 46px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password_cs'] . '</td>';
                                 echo '<td><button  class="edit" onclick="editCustomer(' . $row['id'] . ')">Sửa</button>
                                 <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
                                 echo '</td>';
@@ -273,13 +273,7 @@ if (isset($_POST['updatecustomer'])) {
                 </tbody>
 
             </table>
-            <div class="pagination">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-            </div>
+                    
         </div>
     </div>
            

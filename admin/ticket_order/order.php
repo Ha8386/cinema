@@ -193,13 +193,7 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                 </tbody>
 
             </table>
-            <div class="pagination">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-            </div>
+            
         </div>
     </div>
            
