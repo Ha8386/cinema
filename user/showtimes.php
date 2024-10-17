@@ -1,3 +1,29 @@
+<?php
+    //Kết nối database//
+    $servername  = "localhost";
+    $dbname = "quanly_4scinema";
+    $username = "root";
+    $password = "anhhadeptrai";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    //Thông báo nếu lỗi kết nối//
+    if ($conn->connect_error) {
+        die("Connection failed!" . $conn->connect_error);
+    }
+
+    //Truy vấn dữ liệu
+    $sql_movies = "SELECT title, image_url, genre, duration, country, vietsub, age_rating FROM movies";
+    $result_movies = $conn->query($sql_movies);
+
+    $sql_showtimes = "SELECT * FROM showtimes";
+    $result_showtimes = $conn->query($sql_showtimes);
+
+    $sql_screenings = "SELECT * FROM screenings";
+    $result_screenings = $conn->query($sql_screenings);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,6 +105,7 @@
                 </div>
             </div>
         </header>
+
         <div class="showtimes">
             <main class="grid">
                 <!-- Phần chọn phim -->
@@ -86,31 +113,29 @@
                     <div class="movie-selection-content">
                         <div class="select select-day">
                             <div class="label">
-                                <label for="ngay">1. Ngày</label>
+                                <label for="date-select">1. Ngày</label>
                                 <i class="fa-solid fa-calendar"></i>
                             </div>
-                            <select class="chon" name="day" id="ngay">
-                                <option value="first">Hôm nay 10/09</option>
-                                <option value="second">Thứ tư 11/09</option>
-                                <option value="third">Thứ năm 12/09</option>
-                                <option value="fourth">Thứ sáu 13/09</option>
-                            </select>
+                            <select name="" id="date-select"></select>
                         </div>
-            
+                        
                         <div class="select select-movie">
                             <div class="label">
                                 <label for="phim">2. Phim</label>
                                 <i class="fas fa-film"></i>
                             </div>
-                            <select class="chon" name="movie" id="phim">
-                                <option class="choose" value="Choose">Chọn phim</option>
-                                <option value="1">Avengers: Hồi kết</option>
-                                <option value="2">Những mảnh ghép cảm xúc 2</option>
-                                <option value="3">Người nhện: Không còn nhà</option>
-                                <option value="4">Xứ cát</option>
-                                <option value="6">Kẻ cắp mặt trăng</option>
-                                <option value="7">Ký sinh trùng</option>
-                            </select>
+                            <?php
+                            $sql_movies = "SELECT title FROM movies WHERE status_mv = 'Đang chiếu'"; 
+                            $result_movies = $conn->query($sql_movies);
+                                echo '<select class="chon" name="movie" id="phim">';
+                                echo '<option class="choose" value="Choose">Chọn phim</option>';
+                                if($result_movies->num_rows > 0){
+                                    while($row = $result_movies->fetch_assoc()){
+                                            echo '<option value="1">' .$row["title"] .'</option>';
+                                        }
+                                    }        
+                                echo '</select>';
+                            ?>
                         </div>
             
                         <div class="select select-cinemas">
@@ -118,6 +143,7 @@
                                 <label for="rap">3. Rạp</label>
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
+
                             <select class="chon" name="cinemas" id="rap">
                                 <p>Chọn rạp</p>
                                 <option class="choose" value="Choose">Chọn rạp</option>
@@ -131,293 +157,99 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- Hết khối chọn -->
                 
                 <!-- Phần thông tin phim -->
                 <div class="movie-part movie-information-container">
-                    <div class="movie-information-content movie-one">
-                        <!-- menu cột -->
-                         <!-- Phim thứ nhất -->
-                        <div class="movie-information-column">
-                            <div><img class="poster" src="../assets/img/Avengers_EndGame_poster.jpg" alt=""></div>
-                            <div class="poster-infor">
-                                <p class="list-title">Avengers: Hồi kết</p>
-                                <ul class="poster-infor-list">
-                                    <div class="poster-label">
-                                        <i class="fas fa-solid fa-tag"></i>
-                                        <li class="list-content">Hành động, Phiêu lưu, Khoa học viễn tưởng</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-clock"></i>
-                                        <li class="list-content">182 phút</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-solid fa-earth-americas"></i>
-                                        <li class="list-content">Mỹ</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-closed-captioning"></i>
-                                        <li class="list-content">EN</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-user"></i>
-                                        <li class="list-content">Phim dành cho khán giả từ đủ 13 tuổi trở lên(13+)</li>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-        
-                        <!-- menu hàng -->
-                        <div class="movie-information-row">
-                            <!-- Hàng phim 1 -->
-                            <div class="information-row first-row">
-                                <div class="location-row first-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Cầu Giấy</p>
-                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row first-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">01:45</div>
-                                    </div>
-                                </div>
-                            </div>
+                    <?php
+                        $sql_movies = "SELECT movie_id, title, image_url, genre, duration, country, vietsub, age_rating FROM movies WHERE status_mv = 'Đang chiếu'";
+                        $result_movies = $conn->query($sql_movies);
+                        $sql_showtimes = "SELECT * FROM showtimes";
+                        $result_showtimes = $conn->query($sql_showtimes);
+                        $sql_screenings = "SELECT * FROM screenings";
+                        $result_screenings = $conn->query($sql_screenings);
+                        
+                        
+                        if($result_movies->num_rows > 0){
+                            while($row_movies = $result_movies->fetch_assoc()){
+                                $movie_id = $row_movies['movie_id'];
+                                $sql_screenings = "SELECT sc.screening_time 
+                                                FROM screenings sc
+                                                JOIN showtimes s
+                                                ON s.showtime_id = sc.showtime_id 
+                                                WHERE movie_id = ? 
+                                                ORDER BY s.show_date";
 
-                            <!-- Hàng phim 2 -->
-                            <div class="information-row second-row">
-                                <div class="location-row second-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
-                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row second-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                    </div>
-                                </div>
-                            </div>
+                                $stmt = $conn->prepare($sql_screenings);
+                                if ($stmt === false) {
+                                    die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
+                                }
+                                
+                                $stmt->bind_param("i", $movie_id);
+                                $stmt->execute();
+                                $result_screenings = $stmt->get_result();
+                                
+                                echo '<div class="movie-information-content">';
+                                    echo '<div class="movie-information-column">';
+                                        echo '<div><img class="poster" src="../assets/img/'.$row_movies['image_url'] .'" ></div>';
+                                        echo '<div class="poster-infor">';
+                                            echo '<p class="list-title">'.$row_movies['title'].'</p>';
+                                            echo '<ul class="poster-infor-list">';
+                                                echo '<div class="poster-label">';
+                                                    echo '<i class="fas fa-solid fa-tag"></i>';
+                                                    echo '<li class="list-content">'.$row_movies['genre'] .'</li>';
+                                                echo '</div>';
+                                                echo '<div class="poster-label">';
+                                                    echo '<i class="fas fa-regular fa-clock"></i>';
+                                                    echo '<li class="list-content">'.$row_movies['duration'] .'</li>';
+                                                echo '</div>';
+                                                echo '<div class="poster-label">';
+                                                    echo '<i class="fas fa-solid fa-earth-americas"></i>';
+                                                    echo '<li class="list-content">'.$row_movies['country'] .'</li>';
+                                                echo '</div>';
+                                                echo '<div class="poster-label">';
+                                                    echo '<i class="fas fa-regular fa-closed-captioning"></i>';
+                                                    echo '<li class="list-content">'.$row_movies['vietsub'].'</li>';
+                                                echo '</div>';
+                                                echo '<div class="poster-label">';
+                                                    echo '<i class="fas fa-regular fa-user"></i>';
+                                                    echo '<li class="list-content">' .'Phim dành cho khán giả từ ' .$row_movies['age_rating'] .' trở lên' .'</li>';
+                                                echo '</div>';
+                                            echo '</ul>';
+                                        echo '</div>';
+                                    echo '</div>';
+                                  
 
-                            <!-- Hàng phim 3 -->
-                            <div class="information-row third-row">
-                                <div class="location-row third-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Long Biên</p>
-                                    <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row third-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">22:45</div>
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hàng phim 4 -->
-                            <div class="information-row fourth-row">
-                                <div class="location-row fourth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Mỹ Đình</p>
-                                    <p class="row-cinemas-address">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row fourth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:45</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 5 -->
-                            <div class="information-row fifth-row">
-                                <div class="location-row fifth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Tây Hồ</p>
-                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row fifth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 6 -->
-                            <div class="information-row sixth-row">
-                                <div class="location-row sixth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Thanh Xuân</p>
-                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row sixth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                echo '<div class="movie-information-row">';
+                                if($result_screenings->num_rows>0){
+                                    while($row_screenings = $result_screenings->fetch_assoc()){
+                                        
+                                        echo '<div class="information-row first-row">';
+                                            echo '<div class="location-row first-row-text">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Cầu Giấy</p>';
+                                                echo '<p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row first-row-showtimes">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    echo '<div class="showtimes-hour">'.$row_screenings['screening_time'].'</div>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    
+                                    }
+                                }
+                                echo '</div>';
+                                echo '</div>';
+                                }
+                            }             
+                            
+                                
+                        ?>
                     </div>
-                    <!-- *******************Hết******************* -->
-        
-                    
-        
-        
-        
-                    <!-- Phim thứ hai -->
-                    <div class="movie-information-content movie-two">
-                        <div class="movie-information-column">
-                            <div class="poster"><img class="poster" src="../assets/img/inside-out-2-poster.webp" alt=""></div>
-                            <div class="poster-infor">
-                                <p class="list-title">Những mảnh ghép cảm xúc 2</p>
-                                <ul class="poster-infor-list">
-                                    <div class="poster-label">
-                                        <i class="fas fa-solid fa-tag"></i>
-                                        <li class="list-content">Hoạt hình, Hài hước, Gia đình, Phiêu lưu</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-clock"></i>
-                                        <li class="list-content">98 phút</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-solid fa-earth-americas"></i>
-                                        <li class="list-content">Mỹ</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-closed-captioning"></i>
-                                        <li class="list-content">VN</li>
-                                    </div>
-                                    <div class="poster-label">
-                                        <i class="fas fa-regular fa-user"></i>
-                                        <li class="list-content">PG(Hướng dẫn của cha mẹ)</li>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-        
-                        <div class="movie-information-row">
-                            <!-- Hàng phim 1 -->
-                            <div class="information-row first-row">
-                                <div class="location-row first-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Cầu Giấy</p>
-                                    <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row first-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                        <div class="showtimes-hour">01:45</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hàng phim 2 -->
-                            <div class="information-row second-row">
-                                <div class="location-row second-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Hai Bà Trưng</p>
-                                    <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row second-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:30</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hàng phim 3 -->
-                            <div class="information-row third-row">
-                                <div class="location-row third-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Long Biên</p>
-                                    <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row third-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">22:45</div>
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hàng phim 4 -->
-                            <div class="information-row fourth-row">
-                                <div class="location-row fourth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Mỹ Đình</p>
-                                    <p class="row-cinemas-address">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row fourth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                        <div class="showtimes-hour">00:45</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 5 -->
-                            <div class="information-row fifth-row">
-                                <div class="location-row fifth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Tây Hồ</p>
-                                    <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row fifth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <!-- Hàng phim 6 -->
-                            <div class="information-row sixth-row">
-                                <div class="location-row sixth-row-text">
-                                    <p class="row-cinemas">4SCinema</p>
-                                    <p class="row-cinemas-district">Thanh Xuân</p>
-                                    <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                </div>
-                                <div class="showtimes-row sixth-row-showtimes">
-                                    <div class="showtimes-title">Standard</div>
-                                    <div class="showtimes-box">
-                                        <div class="showtimes-hour">23:30</div>
-                                        <div class="showtimes-hour">23:59</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- *******************Hết******************* -->
-        
-        
-        
-        
+                    <!-- *******************Hết******************* -->  
         
                     <!-- Phim thứ ba -->
                     <div class="movie-information-content movie-two">
@@ -555,86 +387,13 @@
                         </div>
                     </div>
                     <!-- *******************Hết******************* -->
-        
-        
-        
                     <div class="btn-showtimes">
                         <button class="btn-more btn-show">Xem tất cả lịch chiếu</button>
                     </div>
-                    
-                    <!-- <div class="movie-rest-container">
-                        <div class="movie-rest">
-                            <div class="movie-rest-poster">
-                                <img class="rest-poster-img" src="https://th.bing.com/th/id/R.5528290789787ff8d76be1a9f83ae667?rik=P6oBdZKE1sGO9w&riu=http%3a%2f%2fwww.allentheatresinc.com%2fmodules%2fmovies%2fcontent%2fuploads%2fdespicable_me_in_3d%2fdespicable_me_one_sheet2web.jpg&ehk=2tVtao9zoKCS6714w6BikaBJb0QQ3vNLVIvEuH%2bT6jo%3d&risl=&pid=ImgRaw&r=0" alt="">
-                                <div class="rest-poster-infor">
-                                    <p class="rest-poster-name">Despicalbe Me</p>  
-                                    <div class="trailer-and-order-ticket">
-                                        <div class="trailer-container">
-                                            <a class="trailer-link" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">
-                                                <i class="fa-regular fa-circle-play"></i>
-                                            </a>
-                                            <a class="trailer-link-text" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">Xem Trailer</a>
-                                        </div>
-                                        <button class="btn1 btn-ticket">Đặt vé</button>                             
-                                    </div>  
-                                </div>
-                            </div>
-                            <div class="movie-rest-poster">
-                                <img class="rest-poster-img" src="https://th.bing.com/th/id/R.5cba974eae6503c89ce7fcade2304859?rik=C2OZYsdB6%2f1gzg&pid=ImgRaw&r=0" alt="">
-                                <div class="rest-poster-infor">
-                                    <p class="rest-poster-name">Spider-Man: No Way Home</p>
-                                    <div class="trailer-and-order-ticket">
-                                        <div class="trailer-container">
-                                            <a class="trailer-link" href="https://youtu.be/JfVOs4VSpmA?si=agFkbcKQA2K1_XKK">
-                                                <i class="fa-regular fa-circle-play"></i>
-                                            </a>
-                                            <a class="trailer-link-text" href="https://youtu.be/JfVOs4VSpmA?si=agFkbcKQA2K1_XKK">Xem Trailer</a>
-                                        </div>
-                                        <button class="btn1 btn-ticket">Đặt vé</button>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="movie-rest-poster">
-                                <img class="rest-poster-img" src="https://m.media-amazon.com/images/I/91sustfojBL._AC_UF894,1000_QL80_.jpg" alt="">
-                                <div class="rest-poster-infor">
-                                    <p class="rest-poster-name">Parasite</p>
-                                    <div class="trailer-and-order-ticket">                                
-                                        <div class="trailer-container">
-                                            <a class="trailer-link" href="https://youtu.be/o3ESQWArU2w?si=Pg1lTbeyzGT-61_N">
-                                                <i class="fa-regular fa-circle-play"></i>
-                                            </a>
-                                            <a class="trailer-link-text" href="https://youtu.be/o3ESQWArU2w?si=Pg1lTbeyzGT-61_N">Xem Trailer</a>
-                                        </div>
-                                        <button class="btn1 btn-ticket">Đặt vé</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="movie-rest-poster">
-                                <img class="rest-poster-img" src="https://fptninhbinh.vn/wp-content/uploads/2021/06/bo-gia-quoc-te-jpeg-3870-1619080221.jpg" alt="">
-                                <div class="rest-poster-infor">
-                                    <p class="rest-poster-name">Bố Già</p>
-                                    <div class="trailer-and-order-ticket">
-                                        <div class="trailer-container">
-                                            <a class="trailer-link" href="https://youtu.be/jluSu8Rw6YE?si=tLkeKYvqKozXir-4">
-                                                <i class="fa-regular fa-circle-play"></i>
-                                            </a>
-                                            <a class="trailer-link-text" href="https://youtu.be/jluSu8Rw6YE?si=tLkeKYvqKozXir-4">Xem Trailer</a>
-                                        </div>
-                                        <button class="btn1 btn-ticket">Đặt vé</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-        
-        
                 </div>
                   
                 <section class="movie-slide">
-                
                     <div class="swiper-container">
-                        
                         <div class="movie-rest-container">
                             <div class="movie-rest">
                                 <!-- movie 1 -->
@@ -1002,7 +761,7 @@
                 </div>
 
                 <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="/policy.php">Chính sách bảo mật</a>
+                    <a class="footer-bottom-right-items" href="policy.php">Chính sách bảo mật</a>
                     <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
                     <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
                 </div>
@@ -1013,6 +772,6 @@
     </footer>
         
     </div>
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -12,9 +12,6 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Truy vấn để lấy danh sách phim
-$sql = "SELECT title, image_url, trailer_url FROM movies";
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>

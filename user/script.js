@@ -195,6 +195,36 @@ window.onclick = function(event) {
     });
 }
     
+//Cập nhật ngày theo thời gian thực cho khối chọn ngày trong showtimes.php
+function updateDateOptions() {
+    const select = document.getElementById("date-select");
+    select.innerHTML = ""; // Xóa tất cả tùy chọn hiện có
+
+    const today = new Date();
+    const optionsCount = 5; // Số lượng tùy chọn
+    const dayNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+
+    for (let i = 0; i < optionsCount; i++) {
+        const optionDate = new Date(today);
+        optionDate.setDate(today.getDate() + i); // Cộng thêm số ngày tương ứng
+
+        const dayName = dayNames[optionDate.getDay()]; // Lấy tên ngày
+        const day = optionDate.getDate(); // Lấy số ngày
+        const month = optionDate.getMonth() + 1; // Lấy số tháng (bắt đầu từ 0)
+        
+        const optionText = `${dayName}, ${day}/${month}`;
+        const option = document.createElement("option");
+        option.value = optionText; // Giá trị tùy chọn
+        option.textContent = optionText; // Văn bản hiển thị
+
+        select.appendChild(option); // Thêm tùy chọn vào select
+    }
+}
+
+// Gọi hàm để cập nhật tùy chọn khi DOM đã được tải
+document.addEventListener("DOMContentLoaded", function() {
+    updateDateOptions(); // Gọi hàm để cập nhật tùy chọn
+});
 
 
 

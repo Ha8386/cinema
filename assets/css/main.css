@@ -234,7 +234,7 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 70px; 
+    height: 65px; 
     line-height: 36px; 
     margin-bottom: 20px;
 }
@@ -485,6 +485,15 @@
     justify-content: center;
 }
 /* select và option */
+#date-select{
+    padding: 1rem;
+    border-radius: .7rem;
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
+    font-size: var(--font-medium);
+}
+
 .chon{
     padding: 1rem;
     border-radius: .7rem;
@@ -1859,7 +1868,7 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 70px; 
+    height: 65px; 
     line-height: 36px; 
     margin-bottom: 20px;
 }
@@ -1922,7 +1931,7 @@
     text-decoration: none;
     color: var(--text-color);
     display: block; 
-    height: 70px; 
+    height: 65px; 
     line-height: 36px; 
     margin-bottom: 20px;
 }
