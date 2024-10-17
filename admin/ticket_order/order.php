@@ -259,7 +259,7 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
     
 
     <!-- Sửa phim -->
-    <script src="http://localhost/4scinema/admin/js/admin.js"></script>
+    <script src="../js/admin.js"></script>
 
     
 </body>
