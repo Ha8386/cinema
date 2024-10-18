@@ -225,13 +225,13 @@
                                 if($result_screenings->num_rows>0){
                                     while($row_screenings = $result_screenings->fetch_assoc()){
                                         
-                                        echo '<div class="information-row first-row">';
-                                            echo '<div class="location-row first-row-text">';
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
                                                 echo '<p class="row-cinemas">4SCinema</p>';
                                                 echo '<p class="row-cinemas-district">Cầu Giấy</p>';
                                                 echo '<p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>';
                                             echo '</div>';
-                                            echo '<div class="showtimes-row first-row-showtimes">';
+                                            echo '<div class="showtimes-row">';
                                                 echo '<div class="showtimes-title">Standard</div>';
                                                 echo '<div class="showtimes-box">';
                                                     echo '<div class="showtimes-hour">'.$row_screenings['screening_time'].'</div>';

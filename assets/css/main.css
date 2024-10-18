@@ -622,8 +622,12 @@
     border-bottom: var(--border-bottom);
     padding-bottom: 3rem;
     display: flex;
+
 }
 
+/* .information-row:last-child{
+    border-bottom: none;
+} */
 /* Khối địa chỉ rạp phim */
 .location-row{
     width: 35%;
