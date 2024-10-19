@@ -1997,3 +1997,47 @@
     width: 200px ;
     margin-bottom: 30px;
 }
+
+/* ------------------------------------sửa thông tin cá nhân-------------------------------------------- */
+.app-profile {
+    background: radial-gradient(rgb(120, 95, 203) 0%, rgba(15,23,42,1) 70%, rgb(2, 2, 37) 100%);
+}
+.app-profile .sec-heading {
+    margin-top: 0;
+}
+.update-prof {
+    width: 48%;
+    margin-bottom: 80px;
+}
+.update-pass {
+    width: 48%;
+}
+.acc-prof {
+    display: flex;
+    justify-content: space-between;
+}
+.acc-prof h1{
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.acc-prof label {
+    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+}
+.acc-prof input {
+    margin: 12px 0;
+    border-radius: 5px;
+}
+.acc-prof button {
+ 
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.acc-prof form {
+    padding: 27px;
+    border: 1px solid cornsilk;
+}
