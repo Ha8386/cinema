@@ -93,7 +93,7 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                 <div class="showing__movies-title">
                     <h2 class="web-title">Kết quả tìm kiếm</h2>
                 </div>
-                <div class="showing__movies-row" style="margin-bottom: 100px;">
+                <div class="showing__movies-row" style="margin-bottom: 100px; font-size: 30px;">
                     <!-- Thêm phim  -->
                     <?php
                     $sql = "SELECT * FROM movies WHERE title LIKE '%$search%'";

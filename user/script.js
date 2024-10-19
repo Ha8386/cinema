@@ -4,15 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginLink = document.querySelector('.switch-to-login');
     const registerLink = document.querySelector('.switch-to-register');
 
-    registerLink.addEventListener('click', () => {
-        login.classList.add('active');
-    });
+    // Kiểm tra sự tồn tại của phần tử
+    if (login) {
+        if (registerLink) {
+            registerLink.addEventListener('click', () => {
+                login.classList.add('active');
+            });
+        } else {
+            console.warn('.switch-to-register element not found');
+        }
 
-    loginLink.addEventListener('click', () => {
-        login.classList.remove('active');
-    });
-
-    
+        if (loginLink) {
+            loginLink.addEventListener('click', () => {
+                login.classList.remove('active');
+            });
+        } else {
+            console.warn('.switch-to-login element not found');
+        }
+    } else {
+        console.warn('.login element not found');
+    }
 });
 //banner
 document.addEventListener('DOMContentLoaded', () => {
@@ -194,6 +205,226 @@ window.onclick = function(event) {
         }
     });
 }
+
+// lấy url showtime_id
+document.querySelectorAll('.box-time').forEach(function(box) {
+    box.addEventListener('click', function() {
+        document.querySelectorAll('.box-time').forEach(function(b) {
+            b.classList.remove('active');
+        });
+
+        // Thêm class 'active' vào box-time hiện tại
+        this.classList.add('active');
+        const showtimeId = this.getAttribute('data-showtime-id');
+
+        sessionStorage.setItem('selected_showtime_id', showtimeId);
+        // Lấy URL hiện tại
+        const currentUrl = new URL(window.location.href);
+        const searchParams = new URLSearchParams(currentUrl.search);
+        
+        // Thêm hoặc cập nhật showtime_id
+        searchParams.set('showtime_id', showtimeId);
+        currentUrl.search = searchParams.toString();
+        
+        // Thay đổi URL mà không làm mới trang
+        history.pushState(null, '', currentUrl);
+        
+        // Tải lại trang để hiển thị dữ liệu mới
+        window.location.reload();
+    });
+});
+window.addEventListener('DOMContentLoaded', function() {
+    const selectedShowtimeId = sessionStorage.getItem('selected_showtime_id');
+
+    if (selectedShowtimeId) {
+        // Thêm class 'active' cho box-time tương ứng
+        document.querySelectorAll('.box-time').forEach(function(box) {
+            if (box.getAttribute('data-showtime-id') === selectedShowtimeId) {
+                box.classList.add('active');
+            }
+        });
+    }
+});
+
+
+const ticketDetails = {};
+let selectedShowtime = ""; // Biến lưu trữ suất chiếu đã chọn
+let selectedSeat = ""; // Biến lưu trữ ghế đã chọn
+
+// Sự kiện chọn suất chiếu
+document.querySelectorAll('.item-time').forEach(function(item) {
+    item.addEventListener('click', function() {
+        // Xóa class 'active' từ tất cả item-time
+        document.querySelectorAll('.item-time').forEach(function(i) {
+            i.classList.remove('active');
+        });
+
+        // Thêm class 'active' cho item-time hiện tại
+        this.classList.add('active');
+
+        // Ẩn tất cả cinema-item
+        document.querySelectorAll('.cinema-item').forEach(function(cinema) {
+            cinema.style.display = 'none';
+        });
+
+        // Hiển thị cinema-item của item-time được chọn
+        const selectedCinemaItem = this.closest('.cinema-item');
+        if (selectedCinemaItem) {
+            selectedCinemaItem.style.display = 'block';
+        }
+        
+        // Cập nhật suất chiếu đã chọn
+        selectedShowtime = this.textContent; 
+        updateTicketDetails(); // Cập nhật thông tin vé
+    });
+});
+
+// Sự kiện cho tất cả nút tăng giảm của vé
+document.querySelectorAll('.combo-item.ticket').forEach(function(ticket) {
+    ticket.querySelectorAll('.count-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const countNumberElement = this.parentElement.querySelector('.count-number');
+            let countNumber = parseInt(countNumberElement.textContent);
+            const topNameElement = ticket.querySelector('.top-name');
+
+            const ticketKey = `${topNameElement.textContent} - ${ticket.querySelector('.top-desc').textContent}`;
+
+            if (this.classList.contains('count-plus')) {
+                countNumber++;
+            } else if (this.classList.contains('count-minus')) {
+                countNumber = Math.max(0, countNumber - 1);
+            }
+
+            countNumberElement.textContent = countNumber;
+            ticketDetails[ticketKey] = countNumber; 
+            updateTicketDetails(); // Cập nhật thông tin vé
+        });
+    });
+});
+
+// Sự kiện cho tất cả nút tăng giảm của combo (food)
+document.querySelectorAll('.combo-item.food').forEach(function(food) {
+    food.querySelectorAll('.count-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const countNumberElement = this.parentElement.querySelector('.count-number');
+            let countNumber = parseInt(countNumberElement.textContent);
+            const topNameElement = food.querySelector('.name');
+
+            const comboKey = topNameElement.textContent;
+
+            if (this.classList.contains('count-plus')) {
+                countNumber++;
+            } else if (this.classList.contains('count-minus')) {
+                countNumber = Math.max(0, countNumber - 1);
+            }
+
+            countNumberElement.textContent = countNumber;
+            ticketDetails[comboKey] = countNumber; 
+            updateTicketDetails(); // Cập nhật thông tin vé
+        });
+    });
+});
+
+// Hàm cập nhật thông tin vé
+function updateTicketDetails() {
+    const ticketDetailsElement = document.getElementById('ticket-details');
+    
+    // Xóa nội dung hiện tại của ticketDetailsElement
+    ticketDetailsElement.innerHTML = ''; 
+
+    // Hiển thị vé đã chọn
+    for (const [key, count] of Object.entries(ticketDetails)) {
+        if (count > 0) {
+            const newItem = document.createElement('li');
+            newItem.classList.add('item');
+            newItem.innerHTML = `<span class="txt">${key} (${count})</span>`;
+            ticketDetailsElement.appendChild(newItem);
+        }
+    }
+
+    // Hiển thị suất chiếu và ghế ngồi
+    if (selectedSeat && selectedShowtime) {
+        const showtimeItem = document.createElement('li');
+        showtimeItem.classList.add('item');
+        showtimeItem.innerHTML = `<span class="txt">Phòng chiếu: ${selectedSeat} | ${selectedShowtime}</span>`;
+        ticketDetailsElement.appendChild(showtimeItem);
+    }
+
+    updateTotalPrice();
+}
+
+// Hàm cập nhật giá tiền
+function updateTotalPrice() {
+    let totalPrice = 0;
+
+    // Tính tổng tiền cho vé
+    for (const [key, count] of Object.entries(ticketDetails)) {
+        if (count > 0) {
+            let pricePerTicket = 0;
+
+            if (key.includes('Người lớn')) {
+                if (key.includes('Đơn')) {
+                    pricePerTicket = 70000; // Giá vé Người lớn - Đơn
+                } else if (key.includes('Đôi')) {
+                    pricePerTicket = 145000; // Giá vé Người lớn - Đôi
+                }
+            } else if (key.includes('HSSV')) {
+                pricePerTicket = 45000; // Giá vé HSSV
+            } else {
+                // Tìm giá cho combo từ DOM
+                const comboElements = document.querySelectorAll('.combo-item.food');
+                comboElements.forEach(function(combo) {
+                    const nameElement = combo.querySelector('.name').textContent;
+                    const priceElement = combo.querySelector('.price.sub-title p').textContent;
+                    const priceValue = parseInt(priceElement.replace(/\D/g, '')); // Chuyển đổi giá thành số
+
+                    if (key === nameElement) {
+                        pricePerTicket = priceValue; // Gán giá cho combo
+                    }
+                });
+            }
+
+            totalPrice += pricePerTicket * count;
+        }
+    }
+
+    const totalElement = document.querySelector('.total-price');
+    if (totalElement) {
+        totalElement.textContent = totalPrice + ' VNĐ'; // Hiển thị tổng tiền
+    }
+}
+
+
+// Sự kiện chọn ghế
+document.addEventListener('DOMContentLoaded', function() {
+    // Đoạn mã của bạn ở đây
+    document.querySelectorAll('.seat-td').forEach(function(seat) {
+        seat.addEventListener('click', function() {
+            // Xóa class 'choosing' khỏi tất cả các seat-td
+            document.querySelectorAll('.seat-td').forEach(function(s) {
+                s.classList.remove('choosing');
+            });
+
+            // Thêm class 'choosing' vào seat-td được chọn
+            this.classList.add('choosing');
+            selectedSeat = this.querySelector('.seat-name').textContent; // Lưu ghế đã chọn
+            
+            const seatNameElement = document.getElementById('seat-name');
+            if (seatNameElement) {
+                seatNameElement.textContent = selectedSeat; // Cập nhật tên ghế
+            }
+
+            // Cập nhật thông tin vé bao gồm suất chiếu và ghế
+            updateTicketDetails();
+        });
+    });
+});
+
+
+
+
+
+
     
 
 
