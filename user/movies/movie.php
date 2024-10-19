@@ -2333,10 +2333,7 @@ if ($showtime_id > 0) {
                             while ($row_2 = mysqli_fetch_assoc($result_2)){
                                 echo '<h4 class="name-combo"> ' . $row_2['title'] . '</h4>';
 
-                            }
-
-
-                            
+                            } 
                             ?>
                             <ul id="ticket-details" class="list">
                                 <li class="item">
