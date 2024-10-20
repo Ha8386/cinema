@@ -283,7 +283,7 @@
     border-radius: 5px;
     text-transform: uppercase;
     font-weight: bold;
-    width: 16rem;
+    width: 14rem;
 }
 
 .movie-change-bullet {
@@ -1135,12 +1135,13 @@
 .shtime-slider .swiper-slide {
     width: 13.5rem;
     height: auto;
+    cursor: pointer;
 }
-.shtime-slider .swiper-slide.active .box-time {
-    background-color: #f3ea28;
+.shtime-slider .swiper-slide .active  {
+    background-color: rgb(120, 95, 203);
     border-color: #f3ea28;
     color: #f8fafc;
-    pointer-events: none;
+   
 }
 .shtime .box-time {
     align-items: center;
@@ -1158,7 +1159,7 @@
     font-weight: 600;
 }
 .shtime-slider .swiper-slide.active .box-time .date {
-    color: #639;
+    color: white;
 }
 
 .box-time .date {
@@ -1174,7 +1175,7 @@
     margin: 3px;
 }
 .shtime-slider .swiper-slide.active .box-time .day {
-    color: #639;
+    color: white;
 }
 /* phần chọn rạp */
 .shtime-body {
@@ -1228,7 +1229,9 @@
 }
 .cinema-item {
     background-color: #639;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
 .cinema-heading {
     padding: 2.4rem;
 }
@@ -1265,6 +1268,10 @@
     font-size: 16px;
 }
 
+.cinema-body .active {
+    background-color: #f3ea28;
+    color: #663399;
+}
 
 /* chọn loại vé */
 .ticket {
@@ -1323,6 +1330,7 @@
 .content .top-desc {
     color: #f3ea28;
     font-size: 1.4rem !important;
+    text-transform: uppercase;
 }
 .content .top-cost {
     font-size: 1.4rem;
@@ -1495,6 +1503,12 @@
     font-size: 16px;
 }
 .seat-choosing {
+    filter: brightness(0) saturate(100%) invert(82%) sepia(85%) saturate(423%) hue-rotate(357deg) brightness(92%) contrast(107%);
+}
+.seat-disable {
+    filter: brightness(0) saturate(100%) invert(31%) sepia(6%) saturate(2041%) hue-rotate(176deg) brightness(97%) contrast(87%);
+}
+.seat-wr .choosing img {
     filter: brightness(0) saturate(100%) invert(82%) sepia(85%) saturate(423%) hue-rotate(357deg) brightness(92%) contrast(107%);
 }
 .seat-noti-couple {
@@ -1946,4 +1960,84 @@
 }
 .search-hd h1 {
     margin: 50px 0;
+}
+
+/* ------------------------------------Bill thanh toán-------------------------------------------- */
+.sec-bill {
+    background: #639;
+    border-top: .1rem solid rgba(248, 250, 252, .5);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
+.bill-wr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.name-combo {
+    margin: 14px 0;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+.bill-wr .list {
+    padding: 0;
+}
+.bill-wr .item .txt {
+    font-size: 18px;
+}
+.bill-wr .price {
+    font-size: 20px;
+    margin: 20px 0;
+}
+.bill-wr  .btn-ticket {
+    width: 200px ;
+    margin-bottom: 30px;
+}
+
+/* ------------------------------------sửa thông tin cá nhân-------------------------------------------- */
+.app-profile {
+    background: radial-gradient(rgb(120, 95, 203) 0%, rgba(15,23,42,1) 70%, rgb(2, 2, 37) 100%);
+}
+.app-profile .sec-heading {
+    margin-top: 0;
+}
+.update-prof {
+    width: 48%;
+    margin-bottom: 80px;
+}
+.update-pass {
+    width: 48%;
+}
+.acc-prof {
+    display: flex;
+    justify-content: space-between;
+}
+.acc-prof h1{
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.acc-prof label {
+    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+}
+.acc-prof input {
+    margin: 12px 0;
+    border-radius: 5px;
+}
+.acc-prof button {
+ 
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.acc-prof form {
+    padding: 27px;
+    border: 1px solid cornsilk;
 }

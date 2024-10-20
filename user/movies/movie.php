@@ -2,8 +2,20 @@
 include '../db_connection.php'; 
 
 $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$showtime_id = isset($_GET['showtime_id']) ? intval($_GET['showtime_id']) : 0;
+if ($showtime_id > 0) {
+    $sql = "SELECT screening_time FROM screenings WHERE showtime_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $showtime_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-
+    $screening_times = [];
+    while ($row = $result->fetch_assoc()) {
+        $screening_times[] = $row['screening_time'];
+    }
+    $stmt->close();
+}
 
 
 ?>
@@ -33,52 +45,54 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         
                     <ul class="hd__left">
                         <li class="hd__logo">
-                            <a href="/index.html" class="hd__logo-link">
+                            <a href="../index.php" class="hd__logo-link">
                                 <img src="../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                             </a>
                         </li>
                         <li class="hd__nav-item hd__nav-item--local ">
                             Rạp phim
                             <div class="hd__local">
-                                <a href="/cinemas/Showing_Movies/4SCinema_CauGiay.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
                                     4SCinema Cầu Giấy
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_HaiBaTrung.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.php" class="hd__local-link">
                                     4SCinema Hai Bà Trưng
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_LongBien.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_LongBien.php" class="hd__local-link">
                                     4SCinema Long Biên
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_MyDinh.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_MyDinh.php" class="hd__local-link">
                                     4SCinema Mỹ Đình
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_TayHo.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_TayHo.php" class="hd__local-link">
                                     4SCinema Tây Hồ
                                 </a>
-                                <a href="/cinemas/Showing_Movies/4SCinema_ThanhXuan.html" class="hd__local-link">
+                                <a href="../cinemas/Showing_Movies/4SCinema_ThanhXuan.php" class="hd__local-link">
                                     4SCinema Thanh Xuân
                                 </a>                           
                             </div>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/showtimes.html" class="hd__nav-link">Lịch chiếu</a>
+                            <a href="../showtimes.php" class="hd__nav-link">Lịch chiếu</a>
                         </li>
                         <li class="hd__nav-item">
-                            <a href="/promotion.html" class="hd__nav-link">Ưu đãi</a>
+                            <a href="../promotion.php" class="hd__nav-link">Ưu đãi</a>
                         </li>
                     </ul>
 
                    
                     <ul class="hd__right">
                         <li class="hd__search">
-                            <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
-                            </div>
+                            <form action="../search/search.php" method="get" >
+                                <div class="hd__search-wr">
+                                    <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                    <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </form>
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="/login.html" class="hd__login-link">
+                            <a href="../login.php" class="hd__login-link">
                                     
                                 Đăng nhập
                             </a>
@@ -207,10 +221,10 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 'Sunday' => 'Chủ Nhật'
                                             ];
                                             $day = isset($daysInVietnamese[$dayOfWeek]) ? $daysInVietnamese[$dayOfWeek] : '';
+                                            $showtime_id = $row['showtime_id'];
 
-
-                                            echo '<div class="active swiper-slide col">';
-                                                echo '<div class="box-time">';
+                                            echo '<div class="swiper-slide col">';
+                                                echo '<div class="box-time" data-showtime-id="' . htmlspecialchars($showtime_id) . '">';
                                                     echo '<p class="date">'.htmlspecialchars($row['show_date']).'</p>';
                                                     echo '<p class="day">'.$day.'</p>';
                                                 echo '</div>';
@@ -248,12 +262,16 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
-                                                    
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
+                                                <?php 
+                                                if (!empty($screening_times)) {
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                }
+
+                                                ?>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -271,11 +289,16 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
+                                                <?php 
+                                                if (!empty($screening_times)) {
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                }
+
+                                                ?>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -283,26 +306,31 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </li>
 
                                 <!-- rạp thanh xuân -->
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Thanh Xuân</h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                    <li class="cinema-item">
+                                        <div class="cinema-heading">
+                                            <h4 class="title">4SCinema Thanh Xuân</h4>
+                                        </div>
+                                        <div class="cinema-body">
+                                            <p class="addr">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
+                                            <ul class="list-info">
+                                                <li class="item-info">
+                                                    <div class="tt">Standard</div>
+                                                    <ul class="list-time">
+                                                    <?php 
+                                                    if (!empty($screening_times)) {
+                                                        foreach ($screening_times as $time) {
+                                                            echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                        }
+                                                    } else {
+                                                        echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                    }
+
+                                                    ?>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
 
                                 <!-- rạp hai bà trưng -->
                                 <li class="cinema-item">
@@ -315,11 +343,16 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
+                                                <?php 
+                                                if (!empty($screening_times)) {
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                }
+
+                                                ?>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -337,11 +370,16 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
+                                                <?php 
+                                                if (!empty($screening_times)) {
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                }
+
+                                                ?>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -359,11 +397,16 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             <li class="item-info">
                                                 <div class="tt">Standard</div>
                                                 <ul class="list-time">
-                                                    <li class="disable item-time">9:30</li>
-                                                    <li class="disable item-time">13:30</li>
-                                                    <li class="disable item-time">15:45</li>
-                                                    <li class="disable item-time">20:30</li>
-                                                    <li class="disable item-time">22:30</li>
+                                                <?php 
+                                                if (!empty($screening_times)) {
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                                    }
+                                                } else {
+                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                                }
+
+                                                ?>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -386,12 +429,12 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                             <div class="ticket-container relative">
                                 <div class="combo-content">
                                     <div class="combo-list">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 ticket">
                                             <div class="food-box">
                                                 <div class="content">
                                                     <div class="content-top">
                                                         <p class="top-name">Người lớn</p>
-                                                        <div class="top-desc">ĐƠN</div>
+                                                        <div class="top-desc">Đơn</div>
                                                         <div class="top-cost">70,000 VNĐ</div>
                                                     </div>
 
@@ -411,12 +454,12 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
     
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 ticket">
                                             <div class="food-box">
                                                 <div class="content">
                                                     <div class="content-top">
                                                         <p class="top-name">HSSV-Người Cao Tuổi</p>
-                                                        <div class="top-desc">ĐƠN</div>
+                                                        <div class="top-desc">Đơn</div>
                                                         <div class="top-cost">45,000 VNĐ</div>
                                                     </div>
 
@@ -436,12 +479,12 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
     
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 ticket">
                                             <div class="food-box">
                                                 <div class="content">
                                                     <div class="content-top">
                                                         <p class="top-name">Người lớn</p>
-                                                        <div class="top-desc">ĐÔI</div>
+                                                        <div class="top-desc">Đôi</div>
                                                         <div class="top-cost">145,000 VNĐ</div>
                                                     </div>
 
@@ -474,14 +517,14 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                         <div class="seat-wr">
                             <div class="seat-heading sec-heading">
                                 <h2 class="heading">
-                                    Chọn ghế - rạp mỹ đình
+                                    Chọn ghế 
                                 </h2>
                             </div>
 
                             <div class="seat-indicator-scroll">
                                 <div class="seat-block relative --sm">
                                     <div class="seat-screen">
-                                        <img src="/assets/img/screen.png" alt="Màn hình">
+                                        <img src="../../assets/img/screen.png" alt="Màn hình">
                                         <div class="txt">Màn hình</div>
                                     </div>
                                     <div class="seat-main">
@@ -498,85 +541,85 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">A14</span>
                                                                 </div>
                                                             </td>
@@ -594,85 +637,85 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">B14</span>
                                                                 </div>
                                                             </td>
@@ -686,103 +729,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">C17</span>
                                                                 </div>
                                                             </td>
@@ -796,103 +839,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">D17</span>
                                                                 </div>
                                                             </td>
@@ -906,103 +949,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">E17</span>
                                                                 </div>
                                                             </td>
@@ -1016,103 +1059,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">F17</span>
                                                                 </div>
                                                             </td>
@@ -1126,103 +1169,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">G17</span>
                                                                 </div>
                                                             </td>
@@ -1236,103 +1279,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">H17</span>
                                                                 </div>
                                                             </td>
@@ -1346,103 +1389,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">J17</span>
                                                                 </div>
                                                             </td>
@@ -1456,103 +1499,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K15</span>
                                                                 </div>
                                                             </td>
-                                                            <td class="seat-td">
+                                                            <td class="seat-td ">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">K17</span>
                                                                 </div>
                                                             </td>
@@ -1566,103 +1609,103 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                             <td></td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L04</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L07</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L08</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L09</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L10</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L11</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L12</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L13</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L14</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L15</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L16</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-single.svg" alt="">
+                                                                    <img src="../../assets/img/seat-single.svg" alt="">
                                                                     <span class="seat-name">L17</span>
                                                                 </div>
                                                             </td>
@@ -1674,25 +1717,25 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                            
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M01</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M02</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M03</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M04</span>
                                                                 </div>
                                                             </td>
@@ -1706,19 +1749,19 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                         
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M05</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M06</span>
                                                                 </div>
                                                             </td>
                                                             <td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
-                                                                    <img src="/assets/img/seat-cupple.svg" alt="">
+                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
                                                                     <span class="seat-name">M07</span>
                                                                 </div>
                                                             </td>
@@ -1736,25 +1779,25 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                             <ul class="seat-note">
                                 <li class="note-it">
                                     <div class="image">
-                                        <img src="/assets/img/seat-single.svg" alt="">
+                                        <img src="../../assets/img/seat-single.svg" alt="">
                                     </div>
                                     <span class="txt">Ghế Thường</span>
                                 </li>
                                 <li class="note-it">
                                     <div class="image" style="width: 40px">
-                                        <img src="/assets/img/seat-cupple.svg" alt="" >
+                                        <img src="../../assets/img/seat-cupple.svg" alt="" >
                                     </div>
                                     <span class="txt">Ghế Đôi</span>
                                 </li>
                                 <li class="note-it">
                                     <div class="image">
-                                        <img src="/assets/img/seat-single.svg" alt="" class="seat-choosing">
+                                        <img src="../../assets/img/seat-single.svg" alt="" class="seat-choosing">
                                     </div>
                                     <span class="txt">Ghế chọn</span>
                                 </li>
                                 <li class="note-it">
                                     <div class="image">
-                                        <img src="/assets/img/seat-single.svg" alt="">
+                                        <img src="../../assets/img/seat-dadat.svg" alt="" class="seat-disable">
                                     </div>
                                     <span class="txt">Ghế đã đặt</span>
                                 </li>
@@ -1778,11 +1821,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </div>
                                 <div class="combo-content">
                                     <div class="combo-list row">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/combo-party.png" alt="">
+                                                        <img src="../../assets/img/combo-party.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1810,11 +1853,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
 
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/combo-solo.png" alt="">
+                                                        <img src="../../assets/img/combo-solo.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1841,11 +1884,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/combo-couple.png" alt="">
+                                                        <img src="../../assets/img/combo-couple.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1882,11 +1925,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </div>
                                 <div class="combo-content">
                                     <div class="combo-list row">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/nuoccam.png" alt="">
+                                                        <img src="../../assets/img/nuoccam.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1912,11 +1955,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
 
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/nuocloc.png" alt="">
+                                                        <img src="../../assets/img/nuocloc.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1943,11 +1986,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/nuoctraicay.png" alt="">
+                                                        <img src="../../assets/img/nuoctraicay.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -1984,11 +2027,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </div>
                                 <div class="combo-content">
                                     <div class="combo-list row">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/khoaitay.png" alt="">
+                                                        <img src="../../assets/img/khoaitay.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2014,11 +2057,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
 
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/poca.png" alt="">
+                                                        <img src="../../assets/img/poca.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2043,11 +2086,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/poca2.png" alt="">
+                                                        <img src="../../assets/img/poca2.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2082,11 +2125,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </div>
                                 <div class="combo-content">
                                     <div class="combo-list row">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/fanta.jpg" alt="">
+                                                        <img src="../../assets/img/fanta.jpg" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2112,11 +2155,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
 
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/coke-zero.png" alt="">
+                                                        <img src="../../assets/img/coke-zero.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2141,11 +2184,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/coca.png" alt="">
+                                                        <img src="../../assets/img/coca.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2170,11 +2213,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/sprite.png" alt="">
+                                                        <img src="../../assets/img/sprite.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2209,11 +2252,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </div>
                                 <div class="combo-content">
                                     <div class="combo-list row">
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/combo-hotdog.png" alt="">
+                                                        <img src="../../assets/img/combo-hotdog.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2241,11 +2284,11 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                             </div>
                                         </div>
 
-                                        <div class="combo-item col-4">
+                                        <div class="combo-item col-4 food">
                                             <div class="food-box">
                                                 <div class="img">
                                                     <div class="image">
-                                                        <img src="/assets/img/hotdog.png" alt="">
+                                                        <img src="../../assets/img/hotdog.png" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="content">
@@ -2278,6 +2321,45 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                     </div>
                 </div>
             </section>
+
+            <!-- bill thanh toán -->
+            <section class="sec-bill">
+                <div class="grid">
+                    <div class="bill-wr">
+                        <div class="bill-left">
+                            <?php 
+                            $sql_2 = "SELECT title FROM movies WHERE movie_id  = '$movie_id'";
+                            $result_2 = mysqli_query($conn, $sql_2);
+                            while ($row_2 = mysqli_fetch_assoc($result_2)){
+                                echo '<h4 class="name-combo"> ' . $row_2['title'] . '</h4>';
+
+                            } 
+                            ?>
+                            <ul id="ticket-details" class="list">
+                                <li class="item">
+                                    <span class="txt"></span>
+                                </li>
+                                <li class="item">
+                                    <span class="txt">Phòng chiếu:</span>
+                                    <span class="txt" id="seat-name"></span>
+                                    <span class="txt"> | <span id="showtime"></span></span>
+                                </li>
+                                <li class="item">
+                                    <span class="txt"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bill-right">
+                            <div class="price">
+                                <span class="txt">Tạm tính:</span>
+                                <span class="total-price">0 VNĐ</span>
+                            </div>
+                            <button class="btn btn-ticket opacity-100">Thanh toán</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
         </main>
         
         
@@ -2291,7 +2373,7 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                     <div class="footer-top">
                         <!-- Khối footer nhỏ bên trái                     -->
                         <div class="footer-top-left">
-                            <div class="footer-left-logo"><img class="footer__logo-img" src="/assets/img/logo4S-footer.png" alt=""></div>
+                            <div class="footer-left-logo"><img class="footer__logo-img" src="../../assets/img/logo4S-footer.png" alt=""></div>
                             <div class="footer-left-slogan">Your satisfaction is our joy !</div>
                             <div class="btn-order">
                                 <button class="btn ticket">Đặt vé</button>
@@ -2321,9 +2403,9 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 <div class="footer-menu-column footer-column-watching-movie">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Xem phim</p>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Phim đang chiếu</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Phim sắp chiếu</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/Special_Showtimes.php"><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>
                             </div>
@@ -2343,12 +2425,12 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                         <div class="footer-menu-column footer-column-cinemas-system">
                             <ul class="footer-menu-list">
                                 <p class="footer-column-title">Hệ thống rạp</p>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_CauGiay.html"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_HaiBaTrung.html"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_LongBien.html"><li class="footer-column-menu">4SCinema Long Biên</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_MyDinh.html"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
-                                <a class="footer-column-link" href="/cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_CauGiay.html"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.html"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_LongBien.html"><li class="footer-column-menu">4SCinema Long Biên</li></a>
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_MyDinh.html"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
+                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
                             </ul>
                         </div>
                     </div>
@@ -2362,7 +2444,7 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 </div>
 
                 <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="/policy.html">Chính sách bảo mật</a>
+                    <a class="footer-bottom-right-items" href="/policy.php">Chính sách bảo mật</a>
                     <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
                     <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
                 </div>
@@ -2373,7 +2455,7 @@ $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     </footer>
         
     </div>
-    <script src="./script.js"></script>
+    <script src="../script.js"></script>
 </body>
 
 </html>
