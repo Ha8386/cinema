@@ -1,3 +1,6 @@
+<?php 
+include 'db_connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,140 +87,40 @@
             <div class="grid">
                 <section class="promotion-banner ht"></section>
                 <div class="promotion-movie-wr">
-                     <!-- khuyến mãi 1 -->
-                    <div class="promotion-movie-list row">
-                        <div class="promotion-it col">
-                            <div class="promotion-content">
-                                <div class="head-content">
-                                    <h1 class="sub-tittle">C'STUDENT -  45K CHO HỌC SINH SINH VIÊN&nbsp;</h1>
-                                    <p class="desc">Đồng giá 45K/2D cho HSSV/GV/U22 cả tuần tại mọi cụm rạp Cinestar</p>
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Điều kiện</p>
-                                    <ul class="list-oject-content">
-                                        <li>HSSV xuất trình thẻ HSSV hoặc CCCD từ dưới 22 tuổi.</li>
-                                        <li>Giảng viên/ giáo viên xuất trình thẻ giảng viên.</li>
-                                    </ul>           
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Lưu ý</p>
-                                    <ul class="list-note-content">
-                                        <li>Mỗi thẻ mua được một vé.</li>
-                                        <li>Không áp dụng cho các ngày Lễ, Tết, hoặc suất chiếu có phụ thu từ nhà phát hành phim.</li>
-                                    </ul>           
-                                </div>
-                                <a href="">
-                                    <button class="btn">Đặt vé ngay</button>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="promotion-it col">
-                            <div class="promotion-it-img">
-                                <img src="../assets/img/promotion5.png" alt="khuyến mãi 1">
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                    $sql = "SELECT * FROM promotion" ;
+                    $result = $conn ->query($sql);
 
-                    <!-- khuyến mãi 2 -->
-                    <div class="promotion-movie-list row">
-                        <div class="promotion-it col">
-                            <div class="promotion-content">
-                                <div class="head-content">
-                                    <h1 class="sub-tittle">C'TEN - HAPPY HOUR - 45K/ 2D MỐC 10H  </h1>
-                                    <p class="desc">Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng xem phim trước 10h sáng và sau 10h tối.</p>
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Điều kiện</p>
-                                    <ul class="list-oject-content">
-                                        <li>Khách hàng là thành C'FRIEND hoặc C'VIP của Cinestar.</li>
-                                        <li>Áp dụng tại App/Web Cinestar hoặc mua trực tiếp tại rạp.</li>
-                                    </ul>           
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Lưu ý</p>
-                                    <ul class="list-note-content">
-                                        <li>Không áp dụng cho các ngày lễ/tết.</li>
-                                    </ul>           
-                                </div>
-                                <a href="">
-                                    <button class="btn">Đặt vé ngay</button>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="promotion-it col">
-                            <div class="promotion-it-img">
-                                <img src="../assets/img/promotion6.png" alt="khuyến mãi 1">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- khuyến mãi 3 -->
-                    <div class="promotion-movie-list row">
-                        <div class="promotion-it col">
-                            <div class="promotion-content">
-                                <div class="head-content">
-                                    <h1 class="sub-tittle">C'MONDAY - HAPPY DAY - ĐỒNG GIÁ 45K/ 2D </h1>
-                                    <p class="desc">Đồng giá 45K/2D, 55K/3D vào thứ 2 hàng tuần</p>
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Điều kiện</p>
-                                    <ul class="list-oject-content">
-                                        <li>Áp dụng cho các suất chiếu vào ngày thứ 2 hàng tuần.</li>
-                                        <li>Mua vé trực tiếp tại App/Web Cinestar hoặc mua trực tiếp tại rạp.</li>
-                                    </ul>           
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Lưu ý</p>
-                                    <ul class="list-note-content">
-                                        
-                                        <li>Không áp dụng cho các ngày Lễ, Tết, hoặc suất chiếu có phụ thu từ nhà phát hành phim.</li>
-                                    </ul>           
-                                </div>
-                                <a href="">
-                                    <button class="btn">Đặt vé ngay</button>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="promotion-it col">
-                            <div class="promotion-it-img">
-                                <img src="https://api-website.cinestar.com.vn/media/.renditions/wysiwyg/CMSPage/Member/monday_1_.jpg" alt="khuyến mãi 1">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- khuyến mãi 4 -->
-                    <div class="promotion-movie-list row">
-                        <div class="promotion-it col">
-                            <div class="promotion-content">
-                                <div class="head-content">
-                                    <h1 class="sub-tittle">HAPPY MEMBER'S DAY - GIÁ CHỈ 45K/ 2DDDD </h1>
-                                    <p class="desc">Áp dụng giá 45K/ 2D và 55K/ 3D cho khách hàng là thành viên Cinestar vào ngày thứ 4 hàng tuần.</p>
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Điều kiện</p>
-                                    <ul class="list-oject-content">
-                                        <li>Khách hàng là thành C'FRIEND hoặc C'VIP của Cinestar.</li>
-                                        <li>Áp dụng tại App/Web Cinestar hoặc mua trực tiếp tại rạp.</li>
-                                    </ul>           
-                                </div>
-                                <div class="inner-content">
-                                    <p class="tt">Lưu ý</p>
-                                    <ul class="list-note-content">
-                                        <li>Giảm thêm 10% giá trị hóa đơn bắp nước cho chủ thẻ C'FRIEND và 15% cho chủ thẻ C'VIP.</li>
-                                        <li>Không áp dụng cho các ngày Lễ, Tết, hoặc suất chiếu có phụ thu từ nhà phát hành phim.</li>
-                                    </ul>           
-                                </div>
-                                <a href="">
-                                    <button class="btn">Đặt vé ngay</button>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="promotion-it col">
-                            <div class="promotion-it-img">
-                                <img src="../assets/img/promotion8.png" alt="khuyến mãi 1">
-                            </div>
-                        </div>
-                    </div>
+                    if($result -> num_rows >0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo '<div class="promotion-movie-list row">';
+                                echo '<div class="promotion-it col">';
+                                    echo '<div class="promotion-content">';
+                                        echo '<div class="head-content">';
+                                            echo '<h1 class="sub-tittle">'.htmlspecialchars($row['promotion_name']).'</h1>';
+                                            echo '<p class="desc">'.htmlspecialchars($row['details']).'</p>';
+                                        echo '</div>';
+                                        echo '<div class="inner-content">';
+                                            echo '<p class="tt">Điều kiện</p>';
+                                            echo '<ul class="list-oject-content">';
+                                                echo '<li>'.htmlspecialchars($row['notes']).'</li>';
+                                            echo '</ul> ';          
+                                        echo '</div>';
+                                        echo '<a href="">';
+                                            echo '<button class="btn">Đặt vé ngay</button>';
+                                        echo '</a>';
+                                    echo '</div>';
+                                echo '</div>';
+                                echo '<div class="promotion-it col">';
+                                    echo '<div class="promotion-it-img">';
+                                        echo '<img src="../assets/img/'.htmlspecialchars($row['discount_image']).'" alt="'.htmlspecialchars($row['promotion_name']).'">';
+                                    echo '</div>';
+                                echo '</div>';
+                            echo '</div>';
+                        }
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>

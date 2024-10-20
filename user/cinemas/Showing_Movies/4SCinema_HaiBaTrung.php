@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "anhhadeptrai";
-$dbname = "quanly_4scinema";
-
-// Kết nối đến MySQL
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
+include '../../db_connection.php';
 
 // Truy vấn để lấy danh sách phim
 $sql = "SELECT title, image_url, trailer_url FROM movies";
@@ -80,10 +69,12 @@ $result = $conn->query($sql);
                    
                     <ul class="hd__right">
                         <li class="hd__search">
-                            <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
-                            </div>
+                            <form action="../../search/search.php" method="get" >
+                                    <div class="hd__search-wr">
+                                        <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                        <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </div>
+                            </form>
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
@@ -106,7 +97,7 @@ $result = $conn->query($sql);
                     </div>
                     <div class="cinemas__banner-right">
                         <div class="cinemas__banner-right-box">
-                            <div class="cinemas__banner-name">4SCinema Long Biên</div>
+                            <div class="cinemas__banner-name">4SCinema Hai Bà Trưng</div>
                             
                             <div class="cinemas__banner-location">
                                 <span class="icon">

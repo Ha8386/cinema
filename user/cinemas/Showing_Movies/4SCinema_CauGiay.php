@@ -1,17 +1,5 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "anhhadeptrai";
-$dbname = "quanly_4scinema";
-
-// Kết nối đến MySQL
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-
+<?php   
+    include '../../db_connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -77,10 +65,12 @@ if ($conn->connect_error) {
                    
                     <ul class="hd__right">
                         <li class="hd__search">
-                            <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
-                            </div>
+                            <form action="../../search/search.php" method="get" >
+                                <div class="hd__search-wr">
+                                    <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                    <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </form>
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>

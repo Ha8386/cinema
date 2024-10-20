@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost"; 
 $db_username = "root";        
-$db_password = "anhhadeptrai";           
+$db_password = "";           
 $dbname = "quanly_4scinema";     
 
 // Tạo kết nối

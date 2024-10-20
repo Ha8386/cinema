@@ -226,6 +226,22 @@ document.addEventListener("DOMContentLoaded", function() {
     updateDateOptions(); // Gọi hàm để cập nhật tùy chọn
 });
 
+//Lấy phim tương ứng với ngày
+document.getElementById('date-select').addEventListener('change', function() {
+    var selectedDate = this.value;
+
+    // Gửi AJAX request để lấy lịch chiếu theo ngày
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "your_php_file.php", true); // Đổi 'your_php_file.php' thành file PHP xử lý của bạn
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.querySelector('.movie-information-container').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send("selected_date=" + selectedDate);
+});
+
 
 
 

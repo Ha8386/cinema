@@ -1,3 +1,6 @@
+<?php   
+    include 'db_connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,10 +67,13 @@
                    
                     <ul class="hd__right">
                         <li class="hd__search">
+                        <form action="./search/search.php" method="get" >
                             <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
+                                <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
+                        </form>
+
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
@@ -115,265 +121,37 @@
                         
                         <div class="movie-rest-container">
                             <div class="movie-rest">
-                                <!-- movie 1 -->
-                                <div class="movie-rest-poster">
-                                    <a href="/movie/movie1.html">
-                                        <img class="rest-poster-img" src="../assets/img/movie1.webp" alt="movie1">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Làm giàu với ma (T16) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://youtu.be/zzCZ1W_CUoI?si=4d980o1I5eqd8xH0">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
+                                <?php 
+                                $sql = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
+                                $result = $conn->query($sql);
+                                 if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
 
-                                <!-- movie 2 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie2.webp" alt="movie2">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Không nói điều dữ (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=o2SnQCzoy8Q">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=o2SnQCzoy8Q">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>  
+                                        echo '<div class="movie-rest-poster">';
+                                            echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
+                                                echo '<img class="rest-poster-img" src="../assets/img/'.htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['title']) . '">';
+                                            echo '</a>';
+                                            echo '<div class="rest-poster-infor">';
+                                                echo '<a href="" class="rest-poster-name">'. htmlspecialchars($row['title']) .' </a>';
+                                                echo '<div class="trailer-and-order-ticket">';
+                                                    echo '<div class="trailer-container">';
+                                                        echo '<a class="trailer-link" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">';
+                                                        echo '<img src="../assets/img/icon-play-vid.svg" alt="">';
+                                                        echo '</a>';
+                                                        echo '<a class="trailer-link-text" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">Xem Trailer</a>';
+                                                    echo  '</div>';
 
-                                <!-- movie 3 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie3.webp" alt="movie3">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Tìm kiếm tài năng âm phủ (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=RkIWmEuETk0">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=RkIWmEuETk0">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                <!-- movie 4 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie4.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Anh trai vượt mọi tam tai (T16) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>                            
-                                        </div>  
-                                    </div>
-                                </div>
+                                                    echo '<a href="">';
+                                                        echo '<button class="btn btn-ticket">Đặt vé</button>';
+                                                    echo '</a>';
+                                                echo '</div> '; 
+                                            echo '</div> ';
+                                        echo '</div> ';
+                                    }
+                                }
+                                ?>
 
-                                <!-- movie 5 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie5.webp" alt="movie5">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">The crow: báo thù (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=B_chCyJClAw">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=B_chCyJClAw">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 6 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie7.webp" alt="movie7">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Hai muối (T13) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=MjxPoqCvvVs">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=MjxPoqCvvVs">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 7 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie6.webp" alt="movie6">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Báo thủ đi tìm chủ (T13) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=MzJ8z_DDYYI">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=MzJ8z_DDYYI">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 8 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie8.webp" alt="movie8">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Longlegs: Thảm kịch dị giáo (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=ixsP1KPmiKA">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=ixsP1KPmiKA">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 9 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie9.webp" alt="movie9">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Beetlejuice: Ma siêu quậy (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=LJABoiuBl7Q">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=LJABoiuBl7Q">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 10 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie10.webp" alt="movie10">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Xuyên không cải mệnh gia tộc (T16) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=zgTWmKM7E5w">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 11 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie11.webp" alt="movie11">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Chàng nữ phi công (T13) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=4n60mgbiiz0">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=4n60mgbiiz0">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
-
-                                <!-- movie 12 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie12.webp" alt="movie12">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Ma da (T16) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=vC-KNlLNIso">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=vC-KNlLNIso">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Đặt vé</button> 
-                                            </a>
-                                                                       
-                                        </div>  
-                                    </div>
-                                </div>
+                                
 
                             </div>
                         </div>   
@@ -394,7 +172,7 @@
                         </div>
                     </div>
                     <div class="btn-showtimes">
-                        <a href=""> 
+                        <a href="cinemas/Showing_Movies/Showing_Movies.php"> 
                             <button class="btn-more ">Xem thêm</button>
                         </a>
                     </div>
@@ -411,248 +189,35 @@
                         
                         <div class="movie-rest-container">
                             <div class="movie-rest">
-                                <!-- movie 1 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie13.webp" alt="movie1">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Cám (T18) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=_8qUFEmPQbc">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=_8qUFEmPQbc">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>
-                                        </div>  
-                                    </div>
-                                </div>
+                            <?php 
+                                $sql = "SELECT * FROM movies WHERE status_mv = 'Sắp chiếu'";
+                                $result = $conn->query($sql);
+                                 if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
 
-                                <!-- movie 2 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie14.webp" alt="movie2">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Look back: Liệu ta có dám nhìn lại (T13) </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=G95mJ72aY28">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=G95mJ72aY28">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>       
-                                        </div>  
-                                    </div>
-                                </div>  
+                                        echo '<div class="movie-rest-poster">';
+                                            echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
+                                                echo '<img class="rest-poster-img" src="../assets/img/'.htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['title']) . '">';
+                                            echo '</a>';
+                                            echo '<div class="rest-poster-infor">';
+                                                echo '<a href="" class="rest-poster-name">'. htmlspecialchars($row['title']) .' </a>';
+                                                echo '<div class="trailer-and-order-ticket">';
+                                                    echo '<div class="trailer-container">';
+                                                        echo '<a class="trailer-link" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">';
+                                                        echo '<img src="../assets/img/icon-play-vid.svg" alt="">';
+                                                        echo '</a>';
+                                                        echo '<a class="trailer-link-text" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">Xem Trailer</a>';
+                                                    echo  '</div>';
 
-                                <!-- movie 3 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie15.webp" alt="movie3">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Transformer một  </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=B8fKghIzKhc">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=B8fKghIzKhc">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                           
-                                        </div>  
-                                    </div>
-                                </div>
-                                <!-- movie 4 -->
-                                <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie16.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Đố anh còng được tôi  </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=JgUWVooKSrA">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=JgUWVooKSrA">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 5 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie17.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Minh hôn </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=Q5G06IEFFpY">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=Q5G06IEFFpY">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 6 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie18.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Nơi tình yêu kết thúc </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=mFFFhHLGqOc&t=18s">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=mFFFhHLGqOc&t=18s">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 7 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie19.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">nhất quỷ nhì ma, thứ ba takagi: trêu rồi yêu </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=2pzegkGLfJ0">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=2pzegkGLfJ0">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 8 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie20.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">Ngày xưa có một chuyện tình </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=Not4hIJxwpw&t=5s">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=Not4hIJxwpw&t=5s">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 9 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie21.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">JOKER: FOLIE À DEUX ĐIÊN CÓ ĐÔI </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=gxWLZoMT2MU">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=gxWLZoMT2MU">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 10 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie22.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">domino: lối thoát cuối cùng </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=UXXBy5n_22g">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=UXXBy5n_22g">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 11 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie23.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">robot hoang dã </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=NuYnY_P3npY">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=NuYnY_P3npY">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
-                                 <!-- movie 12 -->
-                                 <div class="movie-rest-poster">
-                                    <a href="">
-                                        <img class="rest-poster-img" src="../assets/img/movie24.webp" alt="movie4">
-                                    </a>
-                                    <div class="rest-poster-infor">
-                                        <a href="" class="rest-poster-name">cô dâu hào môn </a>
-                                        <div class="trailer-and-order-ticket">
-                                            <div class="trailer-container">
-                                                <a class="trailer-link" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">
-                                                   <img src="../assets/img/icon-play-vid.svg" alt="">
-                                                </a>
-                                                <a class="trailer-link-text" href="https://www.youtube.com/watch?v=xWh0g4rKGjI">Xem Trailer</a>
-                                            </div>
-                                            <a href="">
-                                                <button class="btn btn-ticket">Tìm hiểu thêm</button>                             
-                                            </a>                             
-                                        </div>  
-                                    </div>
-                                </div>
+                                                    echo '<a href="/movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
+                                                        echo '<button class="btn btn-ticket">Đặt vé</button>';
+                                                    echo '</a>';
+                                                echo '</div> '; 
+                                            echo '</div> ';
+                                        echo '</div> ';
+                                    }
+                                }
+                                ?>
                             </div>
                         </div>   
 
@@ -672,7 +237,7 @@
                         </div>
                     </div>
                     <div class="btn-showtimes">
-                        <a href=""> 
+                        <a href="cinemas/Showing_Movies/Upcoming_Movies.php"> 
                             <button class="btn-more ">Xem thêm</button>
                         </a>
                     </div>
@@ -689,29 +254,20 @@
 
                         <div class="promotion-container">
                             <div class="promotion-list">
-                                <div class="promotion-item">
-                                    <a href="" >
-                                        <img src="../assets/img/promotion1.webp" alt="khuyến mãi 1">
-                                    </a>
-                                </div>
-    
-                                <div class="promotion-item">
-                                    <a href="">
-                                        <img src="../assets/img/promotion2.webp" alt="khuyến mãi 2">
-                                    </a>
-                                </div>
-    
-                                <div class="promotion-item">
-                                    <a href="">
-                                        <img src="../assets/img/promotion3.webp" alt="khuyến mãi 3">
-                                    </a>                                
-                                </div>
-    
-                                <div class="promotion-item">
-                                    <a href="">
-                                        <img src="../assets/img/promotion4.webp" alt="khuyến mãi 4">
-                                    </a>                 
-                                </div>                               
+                                <?php
+                                $sql = "SELECT  * FROM promotion";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        echo '<div class="promotion-item">';
+                                            echo '<a href="promotion.php" >';
+                                                echo '<img src="../assets/img/'.htmlspecialchars($row['discount_image']) . '" alt="'.htmlspecialchars($row['promotion_name']) . '">';
+                                            echo '</a>';
+                                        echo '</div>';
+                                    }
+                                }
+                                ?>
+
                             </div>               
                         </div>
                         <!-- bullet -->
@@ -730,7 +286,7 @@
 
                         <!-- nút tất cả ưu đãi -->
                         <div class="btn-showtimes">
-                        <a href=""> 
+                        <a href="promotion.php"> 
                             <button class="btn-more ">Tất cả ưu đãi</button>
                         </a>
                         </div>
