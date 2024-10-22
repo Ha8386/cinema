@@ -1,5 +1,6 @@
 <?php   
 include '../db_connection.php';
+session_start();
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 ?>
 
@@ -81,9 +82,19 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                                 <i class="hd__login-icon fa-regular fa-circle-user"></i>
                                 <a href="../login.php" class="hd__login-link">
                                         
-                                    Đăng nhập
-                                </a>
+                                    <?php if (isset($_SESSION['customer_name'])): ?>
+                                        <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                    <?php else: ?>
+                                        Đăng nhập
+                                    <?php endif; ?>
+                                 </a>
+                                <div class="hd-login-item">
+                                    <a class="hd__local-link" href="profile.php">Cập nhật thông tin</a>
+                                    <a class="hd__local-link" href="history.php">Lịch sử đặt vé</a>
+                                    <a class="hd__local-link" href="../logout.php">Đăng xuất</a>
+                                </div>
                             </li>
+
                         </ul>
                     </div>
                 </div>

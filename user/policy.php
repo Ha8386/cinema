@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="app">
-        <header class="hd">
+    <header class="hd">
             <div class="grid">
                 <div class="hd__main">
         
@@ -63,17 +63,29 @@
                    
                     <ul class="hd__right">
                         <li class="hd__search">
+                        <form action="./search/search.php" method="get" >
                             <div class="hd__search-wr">
-                                <input type="text" class="hd__search-input" placeholder="Tìm phim, rạp">
-                                <i class="hd__search-icon fa-solid fa-magnifying-glass"></i>
+                                <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
+                        </form>
+
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
                             <a href="login.php" class="hd__login-link">
-                                    
-                                Đăng nhập
+                                <?php if (isset($_SESSION['customer_name'])): ?>
+                                    <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                <?php else: ?>
+                                    Đăng nhập
+                                <?php endif; ?>
+                                        
                             </a>
+                            <div class="hd-login-item">
+                                <a class="hd__local-link" href="">Cập nhật thông tin</a>
+                                <a class="hd__local-link" href="">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="">Đăng xuất</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
