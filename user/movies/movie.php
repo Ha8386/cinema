@@ -92,7 +92,7 @@ if ($showtime_id > 0) {
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="../../../user/login.php" class="hd__login-link">                                   
+                            <a href="../login.php" class="hd__login-link">                                   
                             <?php if (isset($_SESSION['customer_name'])): ?>
                                     <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
                                 <?php else: ?>
