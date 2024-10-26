@@ -91,7 +91,9 @@
 .hd__login {
     display: flex;
     align-items: center;
+    position: relative;
 }
+
 .hd__login-icon {
     color: var(--white-color);
     font-size: 24px;
@@ -740,6 +742,46 @@
 }
 
 
+/* --------------------------------chức năng tùy chọn đăng nhập-------------------------- */
+
+.hd-login-item {
+    position: absolute;
+    font-size: 16px;
+    display: none;
+    width: 180px;
+    margin-top: 162px;
+    overflow: hidden;
+    padding: 1.5rem 1rem;
+    background-color: #0f172a;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+ }
+ .hd__login:hover .hd-login-item,
+ .hd-login-item:hover {
+    display: grid;
+     row-gap: 1.8rem;
+     opacity: 1;
+     transform: translateY(0);
+     animation: fadeIn 0.5s ease forwards;
+     
+ }
+
+ .hd__login::before {
+     position: absolute;
+     width: 100%;
+     height: 20px; 
+     left: 0;
+     top: 100%; 
+     content: "";
+     z-index: 0; 
+ 
+ }
+ 
+ 
 
 
 /* --------------------------chức năng đăng nhập đăng kí(login.html)---------------------------------- */
@@ -2040,4 +2082,26 @@
 .acc-prof form {
     padding: 27px;
     border: 1px solid cornsilk;
+}
+
+
+
+
+
+
+
+
+
+.hd-history {
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+}
+.hd-history h1 {
+    line-height: normal;
+    margin-top: 0px;
+    padding-top: 30px;
+}
+.tb-history {
+    font-size: 16px;
 }

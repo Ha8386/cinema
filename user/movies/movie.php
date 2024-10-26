@@ -1,6 +1,6 @@
 <?php
 include '../db_connection.php'; 
-
+session_start();
 $movie_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $showtime_id = isset($_GET['showtime_id']) ? intval($_GET['showtime_id']) : 0;
 if ($showtime_id > 0) {
@@ -92,11 +92,19 @@ if ($showtime_id > 0) {
                         </li>
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="../login.php" class="hd__login-link">
-                                    
-                                Đăng nhập
+                            <a href="../login.php" class="hd__login-link">                                   
+                            <?php if (isset($_SESSION['customer_name'])): ?>
+                                    <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                <?php else: ?>
+                                    Đăng nhập
+                                <?php endif; ?>
                             </a>
                         </li>
+                        <div class="hd-login-item">
+                        <a class="hd__local-link" href="../account/profile.php">Cập nhật thông tin</>
+                                <a class="hd__local-link" href="../account/history.php">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="../logout.php">Đăng xuất</a>
+                            </div>
                     </ul>
                 </div>
             </div>
@@ -135,7 +143,7 @@ if ($showtime_id > 0) {
                                     echo '<div class="detail-right col col-7">';
                                         echo '<div class="detail-ct">';
                                             echo '<div class="detail-ct-h">';
-                                                echo '<h1 class="heading">'.htmlspecialchars($row['title']).' (T'.htmlspecialchars($row['age_rating']).')</h1>';
+                                                echo '<h1 class="heading" style="line-height: 48px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
                                                 echo '<ul class="info-detail">';
                                                     echo '<li class="info-item">';
                                                         echo '<span class="ic"><i class="fa-solid fa-tag"></i></span>';
