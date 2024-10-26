@@ -1,6 +1,7 @@
 <?php 
 include '../../user/db_connection.php';
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addscreen'])) {
     $showtime_id = $_POST['showtime_id'];
     $screening_times = $_POST['screening_time']; // Lưu ý đây là một mảng
@@ -230,13 +231,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
                     <?php
                     if (!empty($search)) {
                         // Nếu có tìm kiếm, thực hiện truy vấn
-                       
                         $query = "
-                            SELECT showtimes.showtime_id, showtimes.show_date, 
+                            SELECT showtimes.showtime_id, showtimes.show_date, movies.title, 
                                 GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
                             FROM showtimes
                             LEFT JOIN screenings ON screenings.showtime_id = showtimes.showtime_id
-                            WHERE showtimes.show_date LIKE '%$search%'
+                            LEFT JOIN movies ON showtimes.movie_id = movies.movie_id
+                            WHERE showtimes.show_date LIKE '%$search%' OR movies.title LIKE '%$search%'
                             GROUP BY showtimes.showtime_id
                             HAVING COUNT(screenings.screening_time) > 0
                         "; 
@@ -246,7 +247,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
                             while ($row = $result->fetch_assoc()) {
                                 echo '<tr>';
                                 echo '<td>' . $count++ .  '</td>';
-                                echo '<td>' . $row['show_date'] . '</td>';
+                                $movie_title = $row['title'];
+                                echo '<td style="max-width: 180px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                ' . $row['show_date'] . ' - '. $movie_title . '</td>';
                                  // Tách các suất chiếu và thêm border
                                 $screening_times = explode(', ', $row['screening_times']);
                                 echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px">';
@@ -265,20 +268,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
 
                         // Lấy danh sách suất chiếu
                         $query = "
-                                SELECT showtimes.showtime_id, showtimes.show_date, GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
+                                SELECT showtimes.showtime_id, showtimes.show_date, movies.title, 
+                                    GROUP_CONCAT(screenings.screening_time ORDER BY screenings.screening_time SEPARATOR ', ') AS screening_times
                                 FROM showtimes
                                 LEFT JOIN screenings ON screenings.showtime_id = showtimes.showtime_id
+                                LEFT JOIN movies ON showtimes.movie_id = movies.movie_id
                                 GROUP BY showtimes.showtime_id
                                 HAVING COUNT(screenings.screening_time) > 0
                             "; 
                         $result = $conn->query($query); 
                         $count = 1;
                         // Kiểm tra và hiển thị dữ liệu
+                        if (!$result) {
+                            die("Truy vấn SQL thất bại: " . $conn->error);
+                        }
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo '<tr>';
                                 echo '<td>' . $count++ .  '</td>';
-                                echo '<td>' . $row['show_date'] . '</td>';
+                                $movie_title = $row['title'];
+                                echo '<td style="max-width: 180px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                ' . $row['show_date'] . ' - '. $movie_title . '</td>';
                                  // Tách các suất chiếu và thêm border
                                 $screening_times = explode(', ', $row['screening_times']);
                                 echo '<td style="width:670px; display: flex; flex-wrap: wrap; gap: 10px">';
@@ -317,11 +327,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
                                     <option value="">Chọn </option>
                                     <?php
                                     // Lấy danh sách lịch  từ cơ sở dữ liệu
-                                    $movieQuery = "SELECT * FROM showtimes";
+                                    $movieQuery = "SELECT showtimes.showtime_id, showtimes.show_date, movies.title 
+                                                    FROM showtimes 
+                                                    INNER JOIN movies ON showtimes.movie_id = movies.movie_id";
                                     $movieResult = $conn->query($movieQuery);
                                     if ($movieResult->num_rows > 0) {
                                         while ($movieRow = $movieResult->fetch_assoc()) {
-                                            echo '<option value="' . $movieRow['showtime_id'] . '">' . $movieRow['show_date'] . '</option>'; 
+                                            echo '<option value="' . $movieRow['showtime_id'] . '">' . $movieRow['show_date'] . ' - ' . $movieRow['title'] . '</option>'; 
                                         }
                                     } else {
                                         echo '<option value="">Không có lịch chiếu nào.</option>';

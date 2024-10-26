@@ -9,7 +9,7 @@
 -- PHP Version: 8.0.30
 =======
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 20, 2024 lúc 04:59 PM
+-- Thời gian đã tạo: Th10 26, 2024 lúc 03:30 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 >>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
@@ -51,7 +51,8 @@ INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `p
 (4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
 (5, 'Nguyễn Đức Hà Vân', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$SYSPi2jQXMUNnIPH07bjruigy3kKLiNW.wofztEdCi56.7Hgi0GJu'),
 (8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
-(12, 'Linh', 'Linhxinh@gmail.com', '0373187182', 'linhlinh', '$2y$10$6Xk6iIC8Jbxyjp5RPbhljOrAkP6t5uNbtWwTsl8KrGvEHvSr.iihG');
+(12, 'Hoàng Linh', 'Linhxinh@gmail.com', '0373187182', 'linhlinh', '$2y$10$ZslXz1z96U3UjA1hYTQpRepZhnkSL3EMcz1DliGYISsocYCC6Xj3O'),
+(13, 'Phạm Văn Huy', 'huy@gmail.com', '12345678', 'phamvanhuy', '$2y$10$Spoc.buJBhE21UuTNnEMi.H.KHQ8N1f3lwkdCACX0ynfdPk8Pazri');
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ CREATE TABLE `promotion` (
   `id` int(11) NOT NULL,
   `promotion_name` varchar(255) NOT NULL,
   `details` text DEFAULT NULL,
-  `notes` text DEFAULT NULL,
+  `notes` text NOT NULL,
   `discount_image` varchar(255) DEFAULT NULL,
   `start_time` date DEFAULT NULL,
   `end_time` date DEFAULT NULL
@@ -207,9 +208,12 @@ INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUE
 (92, 99, '14:41:00'),
 (93, 99, '17:46:00'),
 (94, 99, '20:41:00'),
+<<<<<<< HEAD
 >>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
 (100, 105, '13:44:00'),
 (101, 105, '17:43:00'),
+=======
+>>>>>>> b0044f551fc92c70a1afb6c6350943880c87f51d
 (102, 106, '13:45:00'),
 (103, 106, '16:43:00'),
 (104, 107, '13:45:00'),
@@ -222,7 +226,14 @@ INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUE
 (111, 111, '03:46:00'),
 (112, 112, '13:50:00'),
 (113, 113, '13:48:00'),
-(114, 122, '13:51:00');
+(114, 122, '13:51:00'),
+(115, 110, '11:17:00'),
+(116, 110, '11:17:00'),
+(117, 110, '11:17:00'),
+(118, 110, '11:17:00'),
+(119, 110, '11:17:00'),
+(120, 110, '11:17:00'),
+(121, 110, '11:17:00');
 
 -- --------------------------------------------------------
 
@@ -247,8 +258,11 @@ INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
 (97, 20, '2024-10-15'),
 (98, 21, '2024-10-23'),
 (99, 20, '2024-10-01'),
+<<<<<<< HEAD
 >>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
 (105, 22, '2024-10-11'),
+=======
+>>>>>>> b0044f551fc92c70a1afb6c6350943880c87f51d
 (106, 23, '2024-10-24'),
 (107, 24, '2024-11-01'),
 (108, 25, '2024-10-23'),
@@ -377,7 +391,7 @@ ALTER TABLE `ticketprices`
 -- AUTO_INCREMENT cho bảng `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `employees`
@@ -395,7 +409,7 @@ ALTER TABLE `movies`
 -- AUTO_INCREMENT cho bảng `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `revenue`
@@ -407,7 +421,7 @@ ALTER TABLE `revenue`
 -- AUTO_INCREMENT cho bảng `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT cho bảng `showtimes`
