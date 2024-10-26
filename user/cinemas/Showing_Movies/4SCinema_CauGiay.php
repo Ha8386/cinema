@@ -1,4 +1,5 @@
 <?php   
+    session_start();
     include '../../db_connection.php';
 ?>
 
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../../../assets/css/base.css">
     <link rel="stylesheet" href="../../../assets/css/main.css">
+    
     <link rel="stylesheet" href="showing_movies.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,9 +77,18 @@
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
                             <a href="../../../user/login.php" class="hd__login-link">                                   
-                                Đăng nhập
+                            <?php if (isset($_SESSION['customer_name'])): ?>
+                                    <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                <?php else: ?>
+                                    Đăng nhập
+                                <?php endif; ?>
                             </a>
                         </li>
+                        <div class="hd-login-item">
+                                <a class="hd__local-link" href="../account/profile.php">Cập nhật thông tin</>
+                                <a class="hd__local-link" href="../account/history.php">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="../logout.php">Đăng xuất</a>
+                            </div>
                     </ul>
                 </div>
             </div>

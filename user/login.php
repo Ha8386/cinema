@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             
             // Chuẩn bị câu truy vấn để lấy mật khẩu đã mã hóa từ bảng customer
-            $stmt = $conn->prepare("SELECT id, password_cs FROM customers WHERE username = ?");
+            $stmt = $conn->prepare("SELECT id, password_cs, customer_name FROM customers WHERE username = ?");
             
             // Kiểm tra xem prepare() có thành công hay không
             if ($stmt === false) {
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
             if ($stmt->num_rows > 0) {
                 // Lấy kết quả
-                $stmt->bind_result($user_id, $hashed_password);
+                $stmt->bind_result($user_id, $hashed_password, $customer_name);
                 $stmt->fetch();
     
                 // Kiểm tra mật khẩu
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Lưu thông tin người dùng vào session
                     $_SESSION['user_id'] = $user_id;
                     $_SESSION['username'] = $username;
+                    $_SESSION['customer_name'] = $customer_name;
                     header('Location: index.php');
                     exit();
                  

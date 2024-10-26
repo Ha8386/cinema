@@ -372,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editpromotion'])) {
                     <h1>Sửa ưu đãi</h1>
                     <div class="container">
                         <div class="form-row">
-                        <input type="text" name="id" value="<?php echo   $id ; ?>">
+                        <input type="hidden" name="id" value="<?php echo   $id ; ?>">
                             <div class="form-group half-width">
                                 <label for="promotion_name">* Tên ưu đãi</label>
                                 <input type="text" name="edit_promotion_name" required value="<?php echo   isset($editData['promotion_name']) ? htmlspecialchars($editData['promotion_name']) : ''; ?>">

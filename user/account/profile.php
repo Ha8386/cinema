@@ -1,6 +1,19 @@
 <?php   
 include '../db_connection.php';
+session_start();
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
+
+$user_id = $_SESSION['user_id'];
+
+// Lấy thông tin người dùng từ cơ sở dữ liệu
+$stmt = $conn->prepare("SELECT customer_name, phone, email FROM customers WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($customer_name, $phone, $email);
+$stmt->fetch();
+$stmt->close();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -81,9 +94,19 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                                 <i class="hd__login-icon fa-regular fa-circle-user"></i>
                                 <a href="../login.php" class="hd__login-link">
                                         
-                                    Đăng nhập
-                                </a>
+                                    <?php if (isset($_SESSION['customer_name'])): ?>
+                                        <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                    <?php else: ?>
+                                        Đăng nhập
+                                    <?php endif; ?>
+                                 </a>
+                                <div class="hd-login-item">
+                                    <a class="hd__local-link" href="profile.php">Cập nhật thông tin</a>
+                                    <a class="hd__local-link" href="history.php">Lịch sử đặt vé</a>
+                                    <a class="hd__local-link" href="../logout.php">Đăng xuất</a>
+                                </div>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -98,28 +121,28 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                         </div>
                         <div class="acc-prof">
                             <div class="update-prof">
-                                <form action="login.php" method="POST">
+                                <form action="update_profile.php" method="POST">
                                     <h1>Sửa thông tin</h1>
                                     <div class="input-box">
                                         <label for="">* Họ và tên</label>
-                                        <input type="text" name="customer_name"  >
+                                        <input type="text" name="customer_name" value="<?php echo htmlspecialchars($customer_name); ?>" required >
                                     </div>
                                     <div class="input-box">
                                         <label for="">* Số điện thoại</label>
-                                        <input type="text" name="phone" required >
+                                        <input type="text" name="phone" value="<?php echo htmlspecialchars($phone); ?>" required>
                                     </div>
                                     <div class="input-box">
                                         <label for="">* Email</label>
-                                        <input type="email" name="email" required >
+                                        <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required >
                                     </div>
                                     
-                                    <button  class="btn" name="register">Cập nhật thông tin</button>
+                                    <button  class="btn" name="update_profile">Cập nhật thông tin</button>
                                     
                                 </form>
                             </div>
                             
                             <div class="update-pass">
-                                <form action="login.php" method="POST">
+                                <form action="change_password.php" method="POST">
                                     <h1>Đổi mật khẩu</h1>
                                     <div class="input-box">
                                         <label for="">* Mật khẩu cũ</label>
@@ -134,9 +157,9 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                                         <input type="password" name="confirm_password" required >
                                     </div>
                                     
-                                    <button  class="btn" name="register">Đổi mật khẩu</button>
+                                    <button  class="btn" name="change_password">Đổi mật khẩu</button>
                                     
-                                </f>
+                                </form>
                             </div>
 
                         </div>

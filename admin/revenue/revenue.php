@@ -177,68 +177,7 @@ include '../../user/db_connection.php';
         </div>
     </div>
            
-     <!-- The Modal -->
-        <form action="employees.php" method="POST" enctype="multipart/form-data">
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1>Thêm nhân viên</h1>
-                    <div class="container">
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Tên nhân viên</label>
-                                <input type="text" name="employee_name" required>
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Email</label>
-                                <input type="email" name="email"  required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Số điện thoại</label>
-                                <input type="text" name="phone" required></input>
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Địa chỉ</label>
-                                <input type="text" name="address_nv" required></input>
-                            </div>
-                        </div>
-
-
-                        
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Phân quyền</label>
-                                <input type="text" name="position" required>
-                            </div>
-                            <div class="form-group half-width">
-                                <label for="end_time">* Ngày vào làm</label>
-                                <input type="date" name="hire_date" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            
-                            <div class="form-group half-width">
-                                <label for="end_time">* Tiền lương</label>
-                                <input type="number" name="salary" required>
-                            </div>
-                        </div>
-
-                        
-                        <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-    
-
-    <!-- Sửa phim -->
+     
     <script src="../js/admin.js"></script>
 
     

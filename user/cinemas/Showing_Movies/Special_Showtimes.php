@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -77,9 +80,18 @@
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
                             <a href="../../../user/login.php" class="hd__login-link">                                   
-                                Đăng nhập
+                            <?php if (isset($_SESSION['customer_name'])): ?>
+                                    <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                <?php else: ?>
+                                    Đăng nhập
+                                <?php endif; ?>
                             </a>
                         </li>
+                        <div class="hd-login-item">
+                        <a class="hd__local-link" href="../account/profile.php">Cập nhật thông tin</>
+                                <a class="hd__local-link" href="../account/history.php">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="../logout.php">Đăng xuất</a>
+                            </div>
                     </ul>
                 </div>
             </div>

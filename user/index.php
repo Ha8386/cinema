@@ -1,5 +1,7 @@
 <?php   
+
     include 'db_connection.php';
+    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4SCinema - Hệ thống rạp chiếu phim hàng đầu Việt Nam</title>
-    <link rel="icon" href="/assets/img/logo4S-onlyic.png" type="x-icon">
+    <link rel="icon" href="../assets/img/logo4S-onlyic.png" type="x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/main.css">
@@ -78,9 +80,18 @@
                         <li class="hd__login">
                             <i class="hd__login-icon fa-regular fa-circle-user"></i>
                             <a href="login.php" class="hd__login-link">
-                                    
-                                Đăng nhập
+                                <?php if (isset($_SESSION['customer_name'])): ?>
+                                    <?php echo htmlspecialchars($_SESSION['customer_name']); ?>
+                                <?php else: ?>
+                                    Đăng nhập
+                                <?php endif; ?>
+                                        
                             </a>
+                            <div class="hd-login-item">
+                                <a class="hd__local-link" href="account/profile.php">Cập nhật thông tin</a>
+                                <a class="hd__local-link" href="account/history.php">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="logout.php">Đăng xuất</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -132,7 +143,7 @@
                                                 echo '<img class="rest-poster-img" src="../assets/img/'.htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['title']) . '">';
                                             echo '</a>';
                                             echo '<div class="rest-poster-infor">';
-                                                echo '<a href="" class="rest-poster-name">'. htmlspecialchars($row['title']) .' </a>';
+                                                echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '" class="rest-poster-name">'. htmlspecialchars($row['title']) .' </a>';
                                                 echo '<div class="trailer-and-order-ticket">';
                                                     echo '<div class="trailer-container">';
                                                         echo '<a class="trailer-link" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">';
@@ -141,7 +152,7 @@
                                                         echo '<a class="trailer-link-text" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">Xem Trailer</a>';
                                                     echo  '</div>';
 
-                                                    echo '<a href="">';
+                                                    echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                                         echo '<button class="btn btn-ticket">Đặt vé</button>';
                                                     echo '</a>';
                                                 echo '</div> '; 

@@ -25,51 +25,7 @@ if (isset($_GET['delete'])) {
 
     $stmt->close();
 }
-// sửa  khách hàng
-$editData = null;
 
-// Lấy thông tin phim nếu có ID trong URL
-if (isset($_GET['edit'])) {
-    $id = intval($_GET['edit']);
-    $query = "SELECT * FROM customers WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        $editData = $row;
-       
-    }
-    $stmt->close();
-  
-}
-if (isset($_POST['updatecustomer'])) {
-    
-    $name = $_POST['customer_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $username = $_POST['username'];
-    $password = $_POST['password_cs'];
-    
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    
-
-    // Cập nhật thông tin phim
-    $stmt = $conn->prepare("UPDATE customers SET customer_name = ?, email = ?, phone = ?, username = ?, password_cs = ? WHERE id = ?");
-    $stmt->bind_param("sssssi", $name, $email, $phone, $username, $hashed_password, $id);
-
-    if ($stmt->execute()) {
-        $editData = null;
-        echo "<script>alert('Cập nhật thông tin khách hàng thành công!');</script>";
-        header("Location: customer.php"); // Chuyển hướng đến trang customer.php
-        exit;
-    } else {
-        echo "<script>alert('Có lỗi xảy ra khi cập nhật thông tin khách hàng. Vui lòng thử lại!');</script>";
-    }
-     $stmt->close();
-    
-}
 
 
 
@@ -235,8 +191,7 @@ if (isset($_POST['updatecustomer'])) {
                                 echo '<td>' . $row['phone'] . '</td>';
                                 echo '<td>' . $row['username'] . '</td>';
                                 echo '<td style="width: 150px; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password'] . '</td>';
-                                echo '<td><button  class="edit" onclick="editCustomer(' . $row['id'] . ')">Sửa</button>
-                                <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
+                                echo '<td><button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
                                 echo '</td>';
                             }
                         } else {
@@ -259,8 +214,7 @@ if (isset($_POST['updatecustomer'])) {
                                 echo '<td>' . $row['phone'] . '</td>';
                                 echo '<td>' . $row['username'] . '</td>';
                                 echo '<td style="width: 150px; height: 46px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block;">' . $row['password_cs'] . '</td>';
-                                echo '<td><button  class="edit" onclick="editCustomer(' . $row['id'] . ')">Sửa</button>
-                                <button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
+                                echo '<td><button class="delete" onclick="deleteUser(' . $row['id'] . ')">Xóa</button></td>';
                                 echo '</td>';
                             }
                         } else {
@@ -277,57 +231,6 @@ if (isset($_POST['updatecustomer'])) {
         </div>
     </div>
            
-     <!-- The Modal -->
-        <form action="customer.php?edit=<?php echo $editData ? $editData['id'] : ''; ?>" method="POST" enctype="multipart/form-data">
-            <div id="editModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1>Sửa thông tin khách hàng</h1>
-                    <div class="container">
-                        <div class="form-row">
-                            <input type="hidden" name="id" value="<?php echo   isset($editData['id']) ? htmlspecialchars($editData['id']) : ''; ?>">
-                            <div class="form-group half-width">
-                                <label >* Tên khách hàng</label>
-                                <input type="text" name="customer_name" required value="<?php echo $editData ? htmlspecialchars($editData['customer_name']) : 'null'; ?>">
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Email</label>
-                                <input type="email" name="email"  required value="<?php echo $editData ? htmlspecialchars($editData['email']) : 'null'; ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Số điện thoại</label>
-                                <input type="text" name="phone" required value="<?php echo $editData ? htmlspecialchars($editData['phone']) : 'null'; ?>"></input>
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Username</label>
-                                <input type="text" name="username" required value="<?php echo $editData ? htmlspecialchars($editData['username']) : 'null'; ?>"></input>
-                            </div>
-                        </div>
-
-
-                        
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Password</label>
-                                <input type="text" name="password_cs" required value="<?php echo $editData ? htmlspecialchars($editData['password_cs']) : 'null'; ?>">
-                            </div>
-                            
-                        </div>
-                        
-
-                        
-                        <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="updatecustomer">Cập nhật</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
     
 
     <!-- Sửa phim -->
