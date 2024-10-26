@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include 'db_connection.php';
 ?>
 
@@ -114,17 +115,9 @@
                                 <label for="phim">2. Phim</label>
                                 <i class="fas fa-film"></i>
                             </div>
-                            <?php
-                            $sql_movies = "SELECT movie_id, title FROM movies WHERE status_mv = 'Đang chiếu'"; 
-                            $result_movies = $conn->query($sql_movies);
-                                echo '<select class="chon" name="movie" id="phim">';
-                                    if ($result_movies->num_rows > 0) {
-                                        while ($row = $result_movies->fetch_assoc()) {
-                                            echo '<option value="' . $row["movie_id"] . '">' . $row["title"] . '</option>';
-                                        }
-                                    }
-                                echo '</select>';
-                            ?>
+                            <select class="chon" name="movie" id="phim">
+                                <option value=""></option>
+                            </select>
                         </div>
             
                         <div class="select select-cinemas">
@@ -150,15 +143,17 @@
                 <!-- Phần thông tin phim -->
                 <div class="movie-part movie-information-container">
                     <?php
-                        $sql_movies = "SELECT movie_id, title, image_url, genre, duration, country, vietsub, age_rating FROM movies WHERE status_mv = 'Đang chiếu'";
+                        /*$sql_movies = "SELECT movie_id, title, image_url, genre, duration, country, vietsub, age_rating FROM movies WHERE status_mv = 'Đang chiếu'";
                         $result_movies = $conn->query($sql_movies);
                         
                         if($result_movies->num_rows > 0){
                             while($row_movies = $result_movies->fetch_assoc()){
                                 $movie_id = $row_movies['movie_id'];       
-                                echo '<div class="movie-information-content" data-movie-id="'.$movie_id.'">'; // Đặt `display: none;` để ẩn ban đầu
+                                echo '<div class="movie-information-content" data-movie-id="'.$movie_id.'" style="display: none;">';
                                     echo '<div class="movie-information-column">';
-                                        echo '<div><img class="poster" src="../assets/img/'.$row_movies['image_url'] .'" ></div>';
+                                        echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
+                                            echo '<img class="poster" src="../assets/img/'.$row_movies['image_url'] .'">';
+                                        echo '</a>';
                                         echo '<div class="poster-infor">';
                                             echo '<p class="list-title">'.$row_movies['title'].'</p>';
                                             echo '<ul class="poster-infor-list">';
@@ -188,118 +183,118 @@
                                   
                                     echo '<div class="movie-information-row">';
 
-                                    $sql_showtimes = "SELECT * FROM showtimes";
-                                    $result_showtimes = $conn->query($sql_showtimes);
-                                    $sql_screenings = "SELECT * FROM screenings";
-                                    $result_screenings = $conn->query($sql_screenings);
-                                    $sql_screenings = "SELECT sc.screening_time 
-                                                FROM screenings sc
-                                                JOIN showtimes s
-                                                ON s.showtime_id = sc.showtime_id 
-                                                WHERE movie_id = ? 
-                                                ORDER BY s.show_date";
+                                        $sql_showtimes = "SELECT * FROM showtimes";
+                                        $result_showtimes = $conn->query($sql_showtimes);
+                                        $sql_screenings = "SELECT * FROM screenings";
+                                        $result_screenings = $conn->query($sql_screenings);
+                                        $sql_screenings = "SELECT sc.screening_time 
+                                                    FROM screenings sc
+                                                    JOIN showtimes s
+                                                    ON s.showtime_id = sc.showtime_id 
+                                                    WHERE movie_id = ? 
+                                                    ORDER BY s.show_date";
 
-                                    $stmt = $conn->prepare($sql_screenings);
-                                    if ($stmt === false) {
-                                        die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
-                                    }
-                                    
-                                    $stmt->bind_param("i", $movie_id);
-                                    $stmt->execute();
-                                    $result_screenings = $stmt->get_result();
-                                    // Tạo mảng để lưu trữ các suất chiếu
-                                    $screening_times = [];
-
-                                    if ($result_screenings->num_rows > 0) {
-                                        while ($row_screenings = $result_screenings->fetch_assoc()) {
-                                            $screening_times[] = $row_screenings['screening_time'];
+                                        $stmt = $conn->prepare($sql_screenings);
+                                        if ($stmt === false) {
+                                            die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
                                         }
-                                    }
+                                        
+                                        $stmt->bind_param("i", $movie_id);
+                                        $stmt->execute();
+                                        $result_screenings = $stmt->get_result();
+                                        // Tạo mảng để lưu trữ các suất chiếu
+                                        $screening_times = [];
 
-                                    // Hàng suất chiếu 1
-                                    echo '<div class="information-row">';
-                                        echo '<div class="location-row">';
-                                            echo '<p class="row-cinemas">4SCinema</p>';
-                                            echo '<p class="row-cinemas-district">Cầu Giấy</p>';
-                                            echo '<p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>';
-                                        echo '</div>';
-                                        echo '<div class="showtimes-row">';
-                                            echo '<div class="showtimes-title">Standard</div>';
-                                            echo '<div class="showtimes-box">';
-                                                foreach ($screening_times as $time) {
-                                                    echo '<div class="showtimes-hour">' . $time . '</div>';
-                                                }
-                                            echo '</div>'; // Đóng showtimes-box
-                                            echo '</div>'; // Đóng showtimes-row
-                                        echo '</div>'; // Đóng information-row
+                                        if ($result_screenings->num_rows > 0) {
+                                            while ($row_screenings = $result_screenings->fetch_assoc()) {
+                                                $screening_times[] = $row_screenings['screening_time'];
+                                            }
+                                        }
 
-                                    // Hàng suất chiếu 2
-                                    echo '<div class="information-row">';
-                                        echo '<div class="location-row">';
-                                            echo '<p class="row-cinemas">4SCinema</p>';
-                                            echo '<p class="row-cinemas-district">Hai Bà Trưng</p>';
-                                            echo '<p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>';
-                                        echo '</div>';
-                                        echo '<div class="showtimes-row">';
-                                            echo '<div class="showtimes-title">Standard</div>';
-                                            echo '<div class="showtimes-box">';
-                                                foreach ($screening_times as $time) {
-                                                    echo '<div class="showtimes-hour">' . $time . '</div>';
-                                                }
-                                            echo '</div>'; // Đóng showtimes-box
-                                            echo '</div>'; // Đóng showtimes-row
-                                        echo '</div>'; // Đóng information-row
+                                        // Hàng suất chiếu 1
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Cầu Giấy</p>';
+                                                echo '<p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<div class="showtimes-hour">' . $time . '</div>';
+                                                    }
+                                                echo '</div>'; 
+                                            echo '</div>'; 
+                                        echo '</div>'; 
 
-                                    //Hàng suất chiếu 3
-                                    echo '<div class="information-row">';
-                                        echo '<div class="location-row">';
-                                            echo '<p class="row-cinemas">4SCinema</p>';
-                                            echo '<p class="row-cinemas-district">Long Biên</p>';
-                                            echo '<p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>';
-                                        echo '</div>';
-                                        echo '<div class="showtimes-row">';
-                                            echo '<div class="showtimes-title">Standard</div>';
-                                            echo '<div class="showtimes-box">';
-                                                foreach ($screening_times as $time) {
-                                                    echo '<div class="showtimes-hour">' . $time . '</div>';
-                                                }
-                                            echo '</div>'; // Đóng showtimes-box
-                                            echo '</div>'; // Đóng showtimes-row
-                                        echo '</div>'; // Đóng information-row
+                                        // Hàng suất chiếu 2
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Hai Bà Trưng</p>';
+                                                echo '<p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<div class="showtimes-hour">' . $time . '</div>';
+                                                    }
+                                                echo '</div>'; 
+                                            echo '</div>'; 
+                                        echo '</div>'; 
 
-                                    //Hàng suất chiếu 4
-                                    echo '<div class="information-row">';
-                                        echo '<div class="location-row">';
-                                            echo '<p class="row-cinemas">4SCinema</p>';
-                                            echo '<p class="row-cinemas-district">Mỹ Đình</p>';
-                                            echo '<p class="row-cinemas-address">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>';
-                                        echo '</div>';
-                                        echo '<div class="showtimes-row">';
-                                            echo '<div class="showtimes-title">Standard</div>';
-                                            echo '<div class="showtimes-box">';
-                                                foreach ($screening_times as $time) {
-                                                    echo '<div class="showtimes-hour">' . $time . '</div>';
-                                                }
-                                            echo '</div>'; // Đóng showtimes-box
-                                            echo '</div>'; // Đóng showtimes-row
-                                        echo '</div>'; // Đóng information-row
+                                        //Hàng suất chiếu 3
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Long Biên</p>';
+                                                echo '<p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<div class="showtimes-hour">' . $time . '</div>';
+                                                    }
+                                                echo '</div>'; 
+                                            echo '</div>'; 
+                                        echo '</div>'; 
 
-                                    //Hàng suất chiếu 5
-                                    echo '<div class="information-row">';
-                                        echo '<div class="location-row">';
-                                            echo '<p class="row-cinemas">4SCinema</p>';
-                                            echo '<p class="row-cinemas-district">Tây Hồ</p>';
-                                            echo '<p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>';
-                                        echo '</div>';
-                                        echo '<div class="showtimes-row">';
-                                            echo '<div class="showtimes-title">Standard</div>';
-                                            echo '<div class="showtimes-box">';
-                                                foreach ($screening_times as $time) {
-                                                    echo '<div class="showtimes-hour">' . $time . '</div>';
-                                                }
-                                            echo '</div>'; // Đóng showtimes-box
-                                            echo '</div>'; // Đóng showtimes-row
-                                        echo '</div>'; // Đóng information-row
+                                        //Hàng suất chiếu 4
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Mỹ Đình</p>';
+                                                echo '<p class="row-cinemas-address">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<div class="showtimes-hour">' . $time . '</div>';
+                                                    }
+                                                echo '</div>'; 
+                                            echo '</div>'; 
+                                        echo '</div>'; 
+
+                                        //Hàng suất chiếu 5
+                                        echo '<div class="information-row">';
+                                            echo '<div class="location-row">';
+                                                echo '<p class="row-cinemas">4SCinema</p>';
+                                                echo '<p class="row-cinemas-district">Tây Hồ</p>';
+                                                echo '<p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>';
+                                            echo '</div>';
+                                            echo '<div class="showtimes-row">';
+                                                echo '<div class="showtimes-title">Standard</div>';
+                                                echo '<div class="showtimes-box">';
+                                                    foreach ($screening_times as $time) {
+                                                        echo '<div class="showtimes-hour">' . $time . '</div>';
+                                                    }
+                                                echo '</div>'; 
+                                            echo '</div>'; 
+                                        echo '</div>'; 
 
                                         //Hàng suất chiếu 6
                                         echo '<div class="information-row sixth-row">';
@@ -315,15 +310,13 @@
                                                         echo '<div class="showtimes-hour">' . $time . '</div>';
                                                     }
                                                 echo '</div>'; // Đóng showtimes-box
-                                                echo '</div>'; // Đóng showtimes-row
+                                            echo '</div>'; // Đóng showtimes-row
                                         echo '</div>'; // Đóng information-row
-
                                     echo '</div>'; // Đóng movie-information-row
-
                                 echo '</div>';    
                             }
                         }                    
-                        ?>
+                        */?>
                     </div>
                     <!-- *******************Hết******************* -->  
 
