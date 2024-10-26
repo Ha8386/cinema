@@ -1,5 +1,5 @@
 <?php
-    include '../../db_connection.php';
+    include 'db_connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -103,15 +103,14 @@
                                 <i class="fas fa-film"></i>
                             </div>
                             <?php
-                            $sql_movies = "SELECT title FROM movies WHERE status_mv = 'Đang chiếu'"; 
+                            $sql_movies = "SELECT movie_id, title FROM movies WHERE status_mv = 'Đang chiếu'"; 
                             $result_movies = $conn->query($sql_movies);
                                 echo '<select class="chon" name="movie" id="phim">';
-                                echo '<option class="choose" value="Choose">Chọn phim</option>';
-                                if($result_movies->num_rows > 0){
-                                    while($row = $result_movies->fetch_assoc()){
-                                            echo '<option value="1">' .$row["title"] .'</option>';
+                                    if ($result_movies->num_rows > 0) {
+                                        while ($row = $result_movies->fetch_assoc()) {
+                                            echo '<option value="' . $row["movie_id"] . '">' . $row["title"] . '</option>';
                                         }
-                                    }        
+                                    }
                                 echo '</select>';
                             ?>
                         </div>
@@ -123,8 +122,6 @@
                             </div>
 
                             <select class="chon" name="cinemas" id="rap">
-                                <p>Chọn rạp</p>
-                                <option class="choose" value="Choose">Chọn rạp</option>
                                 <option value="">4SCinema Long Biên</option>
                                 <option value="">4SCinema Tây Hồ</option>
                                 <option value="">4SCinema Thanh Xuân</option>
@@ -143,32 +140,11 @@
                     <?php
                         $sql_movies = "SELECT movie_id, title, image_url, genre, duration, country, vietsub, age_rating FROM movies WHERE status_mv = 'Đang chiếu'";
                         $result_movies = $conn->query($sql_movies);
-                        $sql_showtimes = "SELECT * FROM showtimes";
-                        $result_showtimes = $conn->query($sql_showtimes);
-                        $sql_screenings = "SELECT * FROM screenings";
-                        $result_screenings = $conn->query($sql_screenings);
-                        
                         
                         if($result_movies->num_rows > 0){
                             while($row_movies = $result_movies->fetch_assoc()){
-                                $movie_id = $row_movies['movie_id'];
-                                $sql_screenings = "SELECT sc.screening_time 
-                                                FROM screenings sc
-                                                JOIN showtimes s
-                                                ON s.showtime_id = sc.showtime_id 
-                                                WHERE movie_id = ? 
-                                                ORDER BY s.show_date";
-
-                                $stmt = $conn->prepare($sql_screenings);
-                                if ($stmt === false) {
-                                    die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
-                                }
-                                
-                                $stmt->bind_param("i", $movie_id);
-                                $stmt->execute();
-                                $result_screenings = $stmt->get_result();
-                                
-                                echo '<div class="movie-information-content">';
+                                $movie_id = $row_movies['movie_id'];       
+                                echo '<div class="movie-information-content" data-movie-id="'.$movie_id.'">'; // Đặt `display: none;` để ẩn ban đầu
                                     echo '<div class="movie-information-column">';
                                         echo '<div><img class="poster" src="../assets/img/'.$row_movies['image_url'] .'" ></div>';
                                         echo '<div class="poster-infor">';
@@ -200,6 +176,25 @@
                                   
                                     echo '<div class="movie-information-row">';
 
+                                    $sql_showtimes = "SELECT * FROM showtimes";
+                                    $result_showtimes = $conn->query($sql_showtimes);
+                                    $sql_screenings = "SELECT * FROM screenings";
+                                    $result_screenings = $conn->query($sql_screenings);
+                                    $sql_screenings = "SELECT sc.screening_time 
+                                                FROM screenings sc
+                                                JOIN showtimes s
+                                                ON s.showtime_id = sc.showtime_id 
+                                                WHERE movie_id = ? 
+                                                ORDER BY s.show_date";
+
+                                    $stmt = $conn->prepare($sql_screenings);
+                                    if ($stmt === false) {
+                                        die('Lỗi câu lệnh chuẩn bị: ' . $conn->error);
+                                    }
+                                    
+                                    $stmt->bind_param("i", $movie_id);
+                                    $stmt->execute();
+                                    $result_screenings = $stmt->get_result();
                                     // Tạo mảng để lưu trữ các suất chiếu
                                     $screening_times = [];
 
@@ -408,7 +403,7 @@
                                 <button class="btn food">Đặt bắp nước</button>
                             </div>
                             <div class="footer-left-contact">
-                                <a href="https://www.facebook.com/chotung.mrt"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="https://www.facebook.com/profile.php?id=61567620087932"><i class="fa-brands fa-facebook"></i></a>
                                 <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
                                 <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
                                 <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
@@ -421,8 +416,8 @@
                                 <div class="footer-menu-column footer-column-account">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Tài khoản</p>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng nhập</li></a>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng ký</li></a>
+                                        <a class="footer-column-link" href="login.php"><li class="footer-column-menu">Đăng nhập</li></a>
+                                        <a class="footer-column-link" href="login.php"><li class="footer-column-menu">Đăng ký</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
                                     </ul>
                                 </div>
@@ -432,7 +427,7 @@
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Xem phim</p>
                                         <a class="footer-column-link" href="cinemas/Showing_Movies/Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
-                                        <a class="footer-column-link" href="/cinemas/Upcoming_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
+                                        <a class="footer-column-link" href="cinemas/Showing_Movies/Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
                                         <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>

@@ -13,6 +13,7 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../admin/movie_management/ad_movie.css">
     <link rel="stylesheet" href="../cinemas/Showing_Movies/showing_movies.css">
     <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,109 +26,123 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 </head>
 <body>
     <div class="app">
-    <header class="hd">
-            <div class="grid">
-                <div class="hd__main">
-        
-                    <ul class="hd__left">
-                        <li class="hd__logo">
-                            <a href="../index.php" class="hd__logo-link">
-                                <img src="../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
-                            </a>
-                        </li>
-                        <li class="hd__nav-item hd__nav-item--local ">
-                            Rạp phim
-                            <div class="hd__local">
-                                <a href="../cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
-                                    4SCinema Cầu Giấy
+        <header class="hd">
+                <div class="grid">
+                    <div class="hd__main">
+            
+                        <ul class="hd__left">
+                            <li class="hd__logo">
+                                <a href="../index.php" class="hd__logo-link">
+                                    <img src="../../assets/img/logo4S.png" alt="4S CINEMA" class="hd__logo-img">
                                 </a>
-                                <a href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.php" class="hd__local-link">
-                                    4SCinema Hai Bà Trưng
-                                </a>
-                                <a href="../cinemas/Showing_Movies/4SCinema_LongBien.php" class="hd__local-link">
-                                    4SCinema Long Biên
-                                </a>
-                                <a href="../cinemas/Showing_Movies/4SCinema_MyDinh.php" class="hd__local-link">
-                                    4SCinema Mỹ Đình
-                                </a>
-                                <a href="../cinemas/Showing_Movies/4SCinema_TayHo.php" class="hd__local-link">
-                                    4SCinema Tây Hồ
-                                </a>
-                                <a href="../cinemas/Showing_Movies/4SCinema_ThanhXuan.php" class="hd__local-link">
-                                    4SCinema Thanh Xuân
-                                </a>                           
-                            </div>
-                        </li>
-                        <li class="hd__nav-item">
-                            <a href="../showtimes.php" class="hd__nav-link">Lịch chiếu</a>
-                        </li>
-                        <li class="hd__nav-item">
-                            <a href="../promotion.php" class="hd__nav-link">Ưu đãi</a>
-                        </li>
-                    </ul>
-
-                   
-                    <ul class="hd__right">
-                        <li class="hd__search">
-                            <form action="search.php" method="get" >
-                                <div class="hd__search-wr">
-                                    <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
-                                    <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </li>
+                            <li class="hd__nav-item hd__nav-item--local ">
+                                Rạp phim
+                                <div class="hd__local">
+                                    <a href="../cinemas/Showing_Movies/4SCinema_CauGiay.php" class="hd__local-link">
+                                        4SCinema Cầu Giấy
+                                    </a>
+                                    <a href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.php" class="hd__local-link">
+                                        4SCinema Hai Bà Trưng
+                                    </a>
+                                    <a href="../cinemas/Showing_Movies/4SCinema_LongBien.php" class="hd__local-link">
+                                        4SCinema Long Biên
+                                    </a>
+                                    <a href="../cinemas/Showing_Movies/4SCinema_MyDinh.php" class="hd__local-link">
+                                        4SCinema Mỹ Đình
+                                    </a>
+                                    <a href="../cinemas/Showing_Movies/4SCinema_TayHo.php" class="hd__local-link">
+                                        4SCinema Tây Hồ
+                                    </a>
+                                    <a href="../cinemas/Showing_Movies/4SCinema_ThanhXuan.php" class="hd__local-link">
+                                        4SCinema Thanh Xuân
+                                    </a>                           
                                 </div>
-                            </form>
-                        </li>
-                        <li class="hd__login">
-                            <i class="hd__login-icon fa-regular fa-circle-user"></i>
-                            <a href="../login.php" class="hd__login-link">
+                            </li>
+                            <li class="hd__nav-item">
+                                <a href="../showtimes.php" class="hd__nav-link">Lịch chiếu</a>
+                            </li>
+                            <li class="hd__nav-item">
+                                <a href="../promotion.php" class="hd__nav-link">Ưu đãi</a>
+                            </li>
+                        </ul>
+
+                    
+                        <ul class="hd__right">
+                            <li class="hd__search">
+                                <form action="search.php" method="get" >
+                                    <div class="hd__search-wr">
+                                        <input type="text" name="search" class="hd__search-input" placeholder="Tìm phim, rạp" required>
+                                        <button type="submit" class="hd__search-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="hd__login">
+                                <i class="hd__login-icon fa-regular fa-circle-user"></i>
+                                <a href="../login.php" class="hd__login-link">
+                                        
+                                    Đăng nhập
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+        <div class="app-profile">
+            <div class="grid">
+                <div class="prof-wr">
+                    <div class="prof-main">
+                        <div class="sec-heading">
+                            <h2 class="heading">Thông tin khách hàng</h2>
+                        </div>
+                        <div class="acc-prof">
+                            <div class="update-prof">
+                                <form action="login.php" method="POST">
+                                    <h1>Sửa thông tin</h1>
+                                    <div class="input-box">
+                                        <label for="">* Họ và tên</label>
+                                        <input type="text" name="customer_name"  >
+                                    </div>
+                                    <div class="input-box">
+                                        <label for="">* Số điện thoại</label>
+                                        <input type="text" name="phone" required >
+                                    </div>
+                                    <div class="input-box">
+                                        <label for="">* Email</label>
+                                        <input type="email" name="email" required >
+                                    </div>
                                     
-                                Đăng nhập
-                            </a>
-                        </li>
-                    </ul>
+                                    <button  class="btn" name="register">Cập nhật thông tin</button>
+                                    
+                                </form>
+                            </div>
+                            
+                            <div class="update-pass">
+                                <form action="login.php" method="POST">
+                                    <h1>Đổi mật khẩu</h1>
+                                    <div class="input-box">
+                                        <label for="">* Mật khẩu cũ</label>
+                                        <input type="password" name="password"  >
+                                    </div>
+                                    <div class="input-box">
+                                        <label for="">* Mật khẩu mới</label>
+                                        <input type="password" name="new_password" required >
+                                    </div>
+                                    <div class="input-box">
+                                        <label for="">* Xác thực mật khẩu</label>
+                                        <input type="password" name="confirm_password" required >
+                                    </div>
+                                    
+                                    <button  class="btn" name="register">Đổi mật khẩu</button>
+                                    
+                                </f>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </header>
-
-        <div class="main__container">
-            <main class="grid">
-                <div class="showing__movies-title">
-                    <h2 class="web-title">Kết quả tìm kiếm</h2>
-                </div>
-                <div class="showing__movies-row" style="margin-bottom: 100px; font-size: 30px;">
-                    <!-- Thêm phim  -->
-                    <?php
-                    $sql = "SELECT * FROM movies WHERE title LIKE '%$search%'";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        // Lặp qua từng dòng dữ liệu
-                        while($row = $result->fetch_assoc()) {
-                            echo '<div class="showing__movie-item">';
-                                echo '<a href="">';
-                                    echo '<img class="rest-poster-img" src="../../assets/img/' . $row["image_url"] .'">';
-                                echo '</a>';
-                                echo '<div class="rest-poster-infor">';
-                                    echo '<a href="" class="rest-poster-name">' . $row['title'] . '</a>';
-                                    echo '<div class="trailer-and-order-ticket">';
-                                        echo '<div class="trailer-container">';
-                                            echo '<a class="trailer-link" href="../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">'; 
-                                                echo '<img src="../../assets/img/icon-play-vid.svg">';
-                                            echo '</a>';
-                                            echo '<a class="trailer-link-text" href="../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">Xem Trailer</a>';
-                                        echo '</div>';
-                                        echo '<a href="">';
-                                            echo '<button class="btn btn-ticket">Đặt vé</button>';
-                                        echo '</a>';                                                                       
-                                    echo '</div>';
-                                echo '</div>';
-                            echo '</div>';
-                        }
-                    } else {
-                        echo 'Không có phim nào được tìm thấy.';
-                    }
-                    ?>
-                </div> 
-            </main>
         </div>
 
 
