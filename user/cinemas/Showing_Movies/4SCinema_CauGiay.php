@@ -157,9 +157,11 @@
 
                                     // Hiển thị thông tin phim
                                     echo '<div class="showing__movies">';
-                                        echo '<img class="showing__movies-img" src="../../../assets/img/' . $row_movie['image_url'] . '">';
+                                        echo '<a class="showing__movies-img-link" href="../../movies/movie.php?id=' . htmlspecialchars($row_movie['movie_id']) . '">';
+                                            echo '<img class="showing__movies-img" src="../../../assets/img/' . $row_movie['image_url'] . '">';
+                                        echo '</a>';
                                         echo '<div class="showing__movies-infor">';
-                                            echo '<div class="showing__movies-name">' . $row_movie['title'] . '</div>';
+                                        echo '<a class="showing__movies-name" href="../../movies/movie.php?id=' . htmlspecialchars($row_movie['movie_id']) . '">' .$row_movie['title'] .'</a>';
                                             echo '<ul class="showing__movies-attribute">';
                                                 echo '<div class="showing__movies-label">';
                                                     echo '<i class="fa-solid fa-tag"></i>';
@@ -212,7 +214,7 @@
                                                     $screening_time = $row_showtime['screening_time'];
                                                     $formatted_time = substr($screening_time, 0, 5); // Định dạng lại giờ chiếu
                                                     echo '<div class="movies__time-box">';
-                                                        echo '<a class="movies__box-link" href="#">' . $formatted_time . '</a>';
+                                                        echo '<a class="movies__box-link" href="../../movies/movie.php?id=' . htmlspecialchars($row_movie['movie_id']) . '">' . $formatted_time . '</a>';
                                                     echo '</div>';
                                                 }
 
@@ -225,7 +227,7 @@
                                             }
                                         // Thêm liên kết để xem thêm lịch chiếu
                                         echo '<div class="upcoming__showtimes-link">';
-                                            echo '<a class="showtimes-link" href="#">Xem thêm lịch chiếu</a>';
+                                            echo '<a class="showtimes-link" href="../../movies/movie.php?id=' . htmlspecialchars($row_movie['movie_id']) . '">Xem thêm lịch chiếu</a>';
                                         echo '</div>';
                                         echo '</div>'; // Đóng .showing__movies-infor
 
@@ -255,10 +257,12 @@
                             // Lặp qua từng dòng dữ liệu
                             while($row = $result->fetch_assoc()) {
                                 echo '<div class="upcoming__movies">';
-                                    echo '<img class="upcoming__movies-img" src="../../../assets/img/' .$row['image_url']  .'">';
+                                    echo '<a class="showing__movies-img-link" href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
+                                        echo '<img class="upcoming__movies-img" src="../../../assets/img/' . $row['image_url'] . '">';
+                                    echo '</a>';
                                     echo '<div class="upcoming__movies-infor">';
-                                        echo '<div class="upcoming__movies-name">' .$row['title'] .'</div>';
-                                        '<ul class="upcoming__movies-attribute">';
+                                        echo '<a class="upcoming__movies-name" href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">' .$row['title'] .'</a>';
+                                        echo '<ul class="upcoming__movies-attribute">';
                                             echo '<div class="upcoming__movies-label">';
                                                 echo '<i class="fa-solid fa-tag"></i>';
                                                 echo '<li class="movies__list-content">'.$row['genre'] .'</li>';
@@ -286,12 +290,7 @@
                                                 echo '<i class="fa-regular fa-circle-xmark"></i>';
                                                 echo '<span class="upcoming_txt">Chưa có suất chiếu</span>';
                                             echo '</div>';
-                                        echo '</div>';
-                                        
-                                        echo '<div class="upcoming__showtimes-link">';
-                                            echo '<a class="showtimes-link" href="">Xem thêm lịch chiếu</a>';
-                                        echo '</div>';
-                                
+                                        echo '</div>';                              
                                     echo '</div>';
                                 echo '</div>';
                             }
@@ -385,26 +384,6 @@
             </main>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Footer -->
         <footer class="footer">
             <div class="grid">
@@ -421,10 +400,12 @@
                                 <button class="btn food">Đặt bắp nước</button>
                             </div>
                             <div class="footer-left-contact">
-                                <a href="https://www.facebook.com/chotung.mrt"><i class="fa-brands fa-facebook"></i></a>
-                                <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
-                                <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
+                                <p class="contact-us">Liên hệ với chúng tôi: </p>
+                                <div class="contact_block">
+                                    <a href="https://www.facebook.com/profile.php?id=61567620087932"><i class="fa-brands fa-facebook"></i></a>
+                                    <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
+                                    <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
+                                </div>
                             </div>
                         </div>
         
@@ -436,7 +417,6 @@
                                         <p class="footer-column-title">Tài khoản</p>
                                         <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng nhập</li></a>
                                         <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng ký</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
                                     </ul>
                                 </div>
                             </div>    
@@ -447,17 +427,6 @@
                                         <a class="footer-column-link" href="Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
                                         <a class="footer-column-link" href="Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
                                         <a class="footer-column-link" href="Special_Showtimes.php"><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
-                                    </ul>
-                                </div>
-                            </div>
-        
-                            <div class="footer-column">
-                                <div class="footer-menu-column footer-column-my-cinemas">
-                                    <ul class="footer-menu-list">
-                                        <p class="footer-column-title">4SCinema</p>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Giới thiệu</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Liên hệ</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Tuyển dụng</li></a>
                                     </ul>
                                 </div>
                             </div>
@@ -486,13 +455,12 @@
 
                         <div class="footer-bottom-right">
                             <a class="footer-bottom-right-items" href="../../../user/policy.php">Chính sách bảo mật</a>
-                            <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
-                            <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
+        
     </div>
     <script src="choose_cinemas.js"></script>  
     <script src="../../script.js"></script>  

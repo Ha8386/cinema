@@ -489,7 +489,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                 // Thêm nội dung phim (title, genre, v.v.)
                 movieDiv.innerHTML = `
                     <div class="movie-information-column">
-                        <a src="movies/movie.php">
+                        <a href="movies/movie.php?id=${movie.movie_id}">
                             <img class="poster" src="../assets/img/${movie.image_url}" alt="Movie Poster">
                         </a>
                         <div class="poster-infor">
@@ -528,7 +528,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>
@@ -542,7 +542,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>
@@ -556,7 +556,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>
@@ -570,7 +570,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>
@@ -584,7 +584,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>
@@ -598,7 +598,7 @@ document.getElementById("date-select").addEventListener("change", function () {
                             <div class="showtimes-row">
                                 <div class="showtimes-title">Standard</div>
                                 <div class="showtimes-box">
-                                    ${movie.showtimes.map(time => `<div class="showtimes-hour">${time.substring(0, 5)}</div>`).join('')}
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
                                 </div> 
                             </div> 
                         </div>

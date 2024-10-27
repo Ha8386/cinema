@@ -672,6 +672,8 @@
     transition: border 0.25s ease;
     font-size: var(--font-medium);
     font-weight: 400;
+    text-decoration: none;
+    color: var(--white-color);
 }
 
 .showtimes-hour:hover{
@@ -1115,6 +1117,7 @@
     font-family: var(--font-title);
     font-size: 4rem;
     text-transform: uppercase;
+    font-weight: 500;
 }
 .info-detail {
     list-style: none;
@@ -1147,6 +1150,7 @@
     font-family: var(--font-title);
     font-size: 2.4rem;
     text-transform: uppercase;
+    font-weight: 500;
 }
 .detail-ct-bd li,p {
     font-size: 16px;
@@ -1224,6 +1228,7 @@
     letter-spacing: .02rem;
     text-transform: uppercase;
     margin: 0;
+    font-weight: 500;
 }
 .box-time .day {
     color: #f3ea28;
@@ -1528,7 +1533,7 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-weight: 800;
+    font-weight: 500;
     letter-spacing: -1px; 
 }
 .seat-cupple {
@@ -1626,6 +1631,7 @@
 .dt-food .content-top .name {
     text-transform: uppercase;
     margin: 2px 0;
+    line-height: 2.4rem;
 }
 
 .dt-food .content-top .desc p {
@@ -1633,6 +1639,7 @@
 }
 .dt-food .content-top .price p {
     margin: 0;
+    font-weight: 500;
 }
 .dt-food .combo-item {
     width: 336px;
@@ -1675,7 +1682,7 @@
     background: linear-gradient(to right, rgb(103, 48, 159), rgb(29, 91, 189) );
     display: flex;
     justify-content: center;
-    padding-top: 100px;
+    padding-top: 8rem;
     
 }
 
@@ -1689,7 +1696,7 @@
 
 /* Khối footer nhỏ bên trái */
 .footer-top-left{
-    width: 35%;
+    width: 40%;
     font-size: var(--font-small);
     color: var(--white-color);
     display: flex;
@@ -1743,11 +1750,24 @@
     margin: 10px 10px 0 0;
 }
 
+.footer-left-contact{
+    display: flex;
+}
+
+.contact_block{
+    margin-left: 1rem;
+}
+
 /* Khối footer nhỏ bên phải */
 .footer-top-right{
-    width: 65%;
+    width: 60%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
+}
+
+.footer-column{
+    width: 30%;
+    padding-left: 4rem;
 }
 
 .footer-column-link{
@@ -1803,7 +1823,7 @@
 .footer-bottom-right{
     display: flex;
     width: 30%;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .footer-bottom-right-items{

@@ -29,13 +29,14 @@ if ($showtime_id > 0) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
-    <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css   ">
+    <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@100..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app">
@@ -115,6 +116,7 @@ if ($showtime_id > 0) {
                 <div class="grid">
                     <div class="detail-wr">
                         <div class="detail-row row">
+                        
                             <?php   
                             $sql  = "SELECT * FROM movies WHERE movie_id = $movie_id";
                             $result = $conn ->query($sql);
@@ -143,7 +145,7 @@ if ($showtime_id > 0) {
                                     echo '<div class="detail-right col col-7">';
                                         echo '<div class="detail-ct">';
                                             echo '<div class="detail-ct-h">';
-                                                echo '<h1 class="heading" style="line-height: 48px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
+                                                echo '<h1 class="heading" style="line-height: 60px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
                                                 echo '<ul class="info-detail">';
                                                     echo '<li class="info-item">';
                                                         echo '<span class="ic"><i class="fa-solid fa-tag"></i></span>';
@@ -540,1241 +542,90 @@ if ($showtime_id > 0) {
                                             <div>
                                                 <div class="seat-table">
                                                     <table class="seat-table-inner">
-                                                        <tr>
-                                                            <td class="seat-name-row">A</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">A14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            
+                                                    <?php
+                                                    // Các hàng ghế
+                                                    $rows = ['A', 'B'];
+                                                    // Số lượng ghế mỗi hàng
+                                                    $total_seats = 14;
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">B</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">B14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">C</td>
-                                        
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">C17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">D</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">D17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">E</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">E17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">F</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">F17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">G</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">G17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">H</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">H17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">J</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">J17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">K</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td ">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">K17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">L</td>
-                                                            
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L01</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L07</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L08</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L09</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L10</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L11</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L12</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L13</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L14</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L15</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L16</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-single.svg" alt="">
-                                                                    <span class="seat-name">L17</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="seat-name-row">M</td>
-                                                           
-                                                            <td class="seat-td seat-cupple">
+                                                    // Duyệt qua từng hàng
+                                                    foreach ($rows as $row) {
+                                                        echo '<tr>';
+                                                        // In tên hàng ghế (A, B, ...)
+                                                        echo '<td class="seat-name-row">' . $row . '</td>';
+
+                                                        // Các ghế trống trước ghế bắt đầu
+                                                        for ($i = 0; $i < 5; $i++) {
+                                                            echo '<td></td>';
+                                                        }
+
+                                                        // In ghế
+                                                        for ($seat = 1; $seat <= $total_seats; $seat++) {
+                                                            // Tạo tên ghế, ví dụ: A01, B02, ...
+                                                            $seat_name = $row . str_pad($seat, 2, '0', STR_PAD_LEFT);
+                                                            echo '<td class="seat-td">
+                                                                    <div class="seat-wr seat-single">
+                                                                        <img src="../../assets/img/seat-single.svg" alt="">
+                                                                        <span class="seat-name">' . $seat_name . '</span>
+                                                                    </div>
+                                                                </td>';
+                                                        }
+
+                                                        // Các ghế trống sau ghế cuối
+                                                        echo '<td></td><td></td>';
+
+                                                        echo '</tr>';
+                                                    }
+                                                    // Duyệt các hàng ghế C, D, E, F, G, H, J, K, L
+                                                    $rows_17 = ['C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L'];
+                                                    $total_seats_17 = 17;
+
+                                                    foreach ($rows_17 as $row) {
+                                                        echo '<tr>';
+                                                        echo '<td class="seat-name-row">' . $row . '</td>';
+
+                                                        // Các ghế trống trước ghế bắt đầu
+                                                        for ($i = 0; $i < 2; $i++) {
+                                                            echo '<td></td>';
+                                                        }
+
+                                                        // In ghế
+                                                        for ($seat = 1; $seat <= $total_seats_17; $seat++) {
+                                                            $seat_name = $row . str_pad($seat, 2, '0', STR_PAD_LEFT);
+                                                            echo '<td class="seat-td">
+                                                                    <div class="seat-wr seat-single">
+                                                                        <img src="../../assets/img/seat-single.svg" alt="">
+                                                                        <span class="seat-name">' . $seat_name . '</span>
+                                                                    </div>
+                                                                </td>';
+                                                        }
+
+                                                        // Các ghế trống sau ghế cuối
+                                                        echo '<td></td><td></td>';
+                                                        echo '</tr>';
+                                                    }
+                                                    // Hàng ghế đôi M
+                                                    echo '<tr>';
+                                                    echo '<td class="seat-name-row">M</td>';
+
+                                                    // In ghế đôi
+                                                    for ($seat = 1; $seat <= 10; $seat++) {
+                                                        $seat_name = 'M' . str_pad($seat, 2, '0', STR_PAD_LEFT);
+                                                        echo '<td class="seat-td seat-cupple">
                                                                 <div class="seat-wr seat-single">
                                                                     <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M01</span>
+                                                                    <span class="seat-name">' . $seat_name . '</span>
                                                                 </div>
-                                                            </td>
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M02</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M03</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M04</span>
-                                                                </div>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            </td>';
+                                                    }
+                                    
+                                                    // Các ô trống
+                                                    
+                                                    
+                                                    echo '</tr>';
+                                                    ?>
                                                         
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M05</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M06</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="seat-td seat-cupple">
-                                                                <div class="seat-wr seat-single">
-                                                                    <img src="../../assets/img/seat-cupple.svg" alt="">
-                                                                    <span class="seat-name">M07</span>
-                                                                </div>
-                                                            </td>
-                                                            
-                                                        </tr> 
+                                                        
                                                     </table>
                                                 </div>
                                             </div>
@@ -2388,10 +1239,13 @@ if ($showtime_id > 0) {
                                 <button class="btn food">Đặt bắp nước</button>
                             </div>
                             <div class="footer-left-contact">
-                                <a href="https://www.facebook.com/chotung.mrt"><i class="fa-brands fa-facebook"></i></a>
-                                <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
-                                <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
+                                <p class="contact-us">Liên hệ với chúng tôi: </p>
+                                <div class="contact_block">
+                                    <a href="https://www.facebook.com/profile.php?id=61567620087932"><i class="fa-brands fa-facebook"></i></a>
+                                    <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
+                                    <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
+                                    <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
+                                </div>
                             </div>
                         </div>
         
@@ -2401,9 +1255,8 @@ if ($showtime_id > 0) {
                                 <div class="footer-menu-column footer-column-account">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Tài khoản</p>
-                                        <a class="footer-column-link" href="/login.html"><li class="footer-column-menu">Đăng nhập</li></a>
-                                        <a class="footer-column-link" href="/login.html"><li class="footer-column-menu">Đăng ký</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
+                                        <a class="footer-column-link" href="../login.php"><li class="footer-column-menu">Đăng nhập</li></a>
+                                        <a class="footer-column-link" href="../login.php"><li class="footer-column-menu">Đăng ký</li></a>
                                     </ul>
                                 </div>
                             </div>    
@@ -2417,47 +1270,34 @@ if ($showtime_id > 0) {
                                     </ul>
                                 </div>
                             </div>
-        
+
                             <div class="footer-column">
-                                <div class="footer-menu-column footer-column-my-cinemas">
+                                <div class="footer-menu-column footer-column-cinemas-system">
                                     <ul class="footer-menu-list">
-                                        <p class="footer-column-title">4SCinema</p>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Giới thiệu</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Liên hệ</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Tuyển dụng</li></a>
-                            </ul>
+                                        <p class="footer-column-title">Hệ thống rạp</p>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
+                                        <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="footer-column">
-                        <div class="footer-menu-column footer-column-cinemas-system">
-                            <ul class="footer-menu-list">
-                                <p class="footer-column-title">Hệ thống rạp</p>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_CauGiay.html"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_HaiBaTrung.html"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_LongBien.html"><li class="footer-column-menu">4SCinema Long Biên</li></a>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_MyDinh.html"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
-                                <a class="footer-column-link" href="../cinemas/Showing_Movies/4SCinema_TayHo.html"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
-                            </ul>
+                    <div class="footer-bottom">
+                        <div class="footer-bottom-left">
+                            <i class="fa-regular fa-copyright"></i>
+                            <p class="copyright">2024 4SCinema. All rights reserved.</p>
+                        </div>
+
+                        <div class="footer-bottom-right">
+                            <a class="footer-bottom-right-items" href="../policy.php">Chính sách bảo mật</a>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div class="footer-bottom-left">
-                    <i class="fa-regular fa-copyright"></i>
-                    <p class="copyright">2024 4SCinema. All rights reserved.</p>
-                </div>
-
-                <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="/policy.php">Chính sách bảo mật</a>
-                    <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
-                    <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
-                </div>
-            </div>
-        </div>
             </div>
 
     </footer>
