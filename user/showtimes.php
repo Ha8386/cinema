@@ -347,7 +347,7 @@
                                                         echo '<a class="trailer-link-text" href="../assets/trailer/' . htmlspecialchars($row['trailer_url']) . '">Xem Trailer</a>';
                                                     echo  '</div>';
 
-                                                    echo '<a href="">';
+                                                    echo '<a href="movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                                         echo '<button class="btn btn-ticket">Đặt vé</button>';
                                                     echo '</a>';
                                                 echo '</div> '; 

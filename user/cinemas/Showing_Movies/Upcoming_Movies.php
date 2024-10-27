@@ -129,7 +129,7 @@ $result = $conn->query($sql);
                                                 echo '</a>';
                                                 echo '<a class="trailer-link-text" href="../../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">Xem Trailer</a>';
                                             echo '</div>';
-                                            echo '<a href="">';
+                                            echo '<a href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                                 echo '<button class="btn btn-ticket">Đặt vé</button>';
                                             echo '</a>';                                                                       
                                         echo '</div>';
