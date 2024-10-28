@@ -136,13 +136,12 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>Mã giao dịch</th>
                         <th>Tên phim </th>
                         <th>Khách hàng</th>
-                        <th>Loại vé</th>
-                        <th>Số lượng </th>
-                        <th>Ngày đặt</th>
+                        <th>Số lượng vé </th>
                         <th>Tổng tiền</th>
+                        <th>Ngày đặt</th>
                         
                     </tr>
                 </thead>
@@ -169,21 +168,22 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                         }
                      }else {
 
-                         // Lấy danh sách ưu đãi
-                         $query = "SELECT * FROM ticket_orders"; 
+                        
+                         $query = " SELECT tb.id, tb.movie_name, c.customer_name, tb.ticket_quantity, tb.total_price, tb.booking_date 
+                                    FROM ticketbookings tb
+                                    JOIN customers c ON tb.customer_id = c.id";
                          $result = $conn->query($query);
-                         $count = 1;
      
                          // Kiểm tra và hiển thị dữ liệu
                          if ($result->num_rows > 0) {
                              while ($row = $result->fetch_assoc()) {
                                  echo '<tr>';
-                                 echo '<td>' . $count++ .  '</td>';
+                                 echo '<td>' . $row['id'] .  '</td>';
                                  echo '<td>' . $row['movie_name'] . '</td>';
                                  echo '<td>' . $row['customer_name'] . '</td>';
-                                 echo '<td>' . $row['quantity'] . '</td>';
-                                 echo '<td>' . $row['price'] . '</td>';
-                                 echo '<td>' . $row['order_date'] . '</td>';
+                                 echo '<td>' . $row['ticket_quantity'] . '</td>';
+                                 echo "<td>" . number_format($row['total_price'], 0, ',', '.') . " VND</td>";
+                                 echo "<td>" . $row['booking_date'] . "</td>";
                                  echo '</td>';
                              }
                          } else {

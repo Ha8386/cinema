@@ -111,9 +111,21 @@ if ($showtime_id > 0) {
         </header>
 
         <main class="app-content">
+        <form id="payment-form" action="../banking/payment.php" method="POST">
+            
+            <input type="hidden" name="show_date" value="" id="show-date">
+            <input type="hidden" name="screening_time" value="" id="screening-time">
+            <input type="hidden" name="seat_numbers" value="" id="seat-numbers">
+            <input type="hidden" name="ticket_types" value="" id="ticket-types">
+            <input type="hidden" name="ticket_quantity" value="" id="ticket-quantity">
+            <input type="hidden" name="total_amount" value="" id="total-amount">
+            <input type="hidden" name="food_names" value="" id="food-names">
+        
             <section class="detail ">
                 <div class="grid">
+                    
                     <div class="detail-wr">
+                   
                         <div class="detail-row row">
                         
                             <?php   
@@ -121,7 +133,7 @@ if ($showtime_id > 0) {
                             $result = $conn ->query($sql);
                             if(  $result ->num_rows > 0 ){
                                 while( $row = $result -> fetch_assoc() ){
-
+                                    echo '<input type="hidden" name="movie_name" value="' . htmlspecialchars($row['title']) . '" id="movie-name">';
                                     echo '<div class="detail-left col col-5">';
                                         echo '<div class="web-movie-box">';
                                             echo '<div class="image">';
@@ -144,6 +156,7 @@ if ($showtime_id > 0) {
                                     echo '<div class="detail-right col col-7">';
                                         echo '<div class="detail-ct">';
                                             echo '<div class="detail-ct-h">';
+                                               
                                                 echo '<h1 class="heading" style="line-height: 48px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
                                                 echo '<ul class="info-detail">';
                                                     echo '<li class="info-item">';
@@ -195,6 +208,7 @@ if ($showtime_id > 0) {
                                     echo '</div>';
                                 }
                             }
+                            
                             ?>
                         
                         </div>
@@ -216,6 +230,7 @@ if ($showtime_id > 0) {
                                     <?php
                                     $sql_1 = "SELECT * FROM showtimes WHERE movie_id = $movie_id";
                                     $result_1 = $conn ->query($sql_1);
+                                  
                                     if ($result_1->num_rows > 0) {
                                         while($row = $result_1->fetch_assoc()) {
                                             $showDate = $row['show_date'];
@@ -239,6 +254,18 @@ if ($showtime_id > 0) {
                                                 echo '</div>';
                                             echo '</div>';
                                         }
+                                    }else {
+                                        echo '<p style="font-size:32px; color:#F3EA28;" >Hiện chưa có lịch chiếu</p>';
+                                        echo '<script>
+                                                document.addEventListener("DOMContentLoaded", function() {
+                                                    // Ẩn các phần tử có class cần ẩn
+                                                    const elementsToHide = document.querySelectorAll(".shtime-heading, .shtime-body, .shtime-ft, .sec-ticket, .sec-seat, .sec-dt-food, .sec-bill");
+                                                    elementsToHide.forEach(function(element) {
+                                                        element.style.display = "none";
+                                                    });
+                                                });
+                                            </script>';
+
                                     }
                                     ?>
 
@@ -261,166 +288,41 @@ if ($showtime_id > 0) {
                         <div class="shtime-ft">
                             <!-- rạp mỹ đình -->
                             <ul class="cinema-list">
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Mỹ Đình</h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                <?php 
-                                                if (!empty($screening_times)) {
-                                                    foreach ($screening_times as $time) {
-                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                    }
-                                                } else {
-                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                }
+                                <?php
+                                $cinemas = [
+                                        ['name' => '4SCinema Mỹ Đình', 'address' => 'Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội'],
+                                        ['name' => '4SCinema Tây Hồ', 'address' => 'Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội'],
+                                        ['name' => '4SCinema Thanh Xuân', 'address' => 'Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội'],
+                                        ['name' => '4SCinema Hai Bà Trưng', 'address' => 'Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội'],
+                                        ['name' => '4SCinema Cầu Giấy', 'address' => 'Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội'],
+                                        ['name' => '4SCinema Long Biên', 'address' => 'Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội']
+                                    ];
 
-                                                ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <!-- rạp tây hồ -->
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Tây Hồ</h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                <?php 
-                                                if (!empty($screening_times)) {
-                                                    foreach ($screening_times as $time) {
-                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                    }
-                                                } else {
-                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                }
-
-                                                ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <!-- rạp thanh xuân -->
-                                    <li class="cinema-item">
-                                        <div class="cinema-heading">
-                                            <h4 class="title">4SCinema Thanh Xuân</h4>
-                                        </div>
-                                        <div class="cinema-body">
-                                            <p class="addr">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
-                                            <ul class="list-info">
-                                                <li class="item-info">
-                                                    <div class="tt">Standard</div>
-                                                    <ul class="list-time">
-                                                    <?php 
-                                                    if (!empty($screening_times)) {
-                                                        foreach ($screening_times as $time) {
-                                                            echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                        }
-                                                    } else {
-                                                        echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                    }
-
-                                                    ?>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-
-                                <!-- rạp hai bà trưng -->
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Hai Bà trưng</h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                <?php 
-                                                if (!empty($screening_times)) {
-                                                    foreach ($screening_times as $time) {
-                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                    }
-                                                } else {
-                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                }
-
-                                                ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <!-- rạp cầu giấy -->
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Cầu Giấy</h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                <?php 
-                                                if (!empty($screening_times)) {
-                                                    foreach ($screening_times as $time) {
-                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                    }
-                                                } else {
-                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                }
-
-                                                ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-
-                                <!-- rạp long biên -->
-                                <li class="cinema-item">
-                                    <div class="cinema-heading">
-                                        <h4 class="title">4SCinema Long Biên<nav></nav></h4>
-                                    </div>
-                                    <div class="cinema-body">
-                                        <p class="addr">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
-                                        <ul class="list-info">
-                                            <li class="item-info">
-                                                <div class="tt">Standard</div>
-                                                <ul class="list-time">
-                                                <?php 
-                                                if (!empty($screening_times)) {
-                                                    foreach ($screening_times as $time) {
-                                                        echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
-                                                    }
-                                                } else {
-                                                    echo '<li class="item-time">Không có lịch chiếu nào.</li>';
-                                                }
-
-                                                ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                    foreach ($cinemas as $cinema) {
+                                        echo '<li class="cinema-item">';
+                                        echo '    <div class="cinema-heading">';
+                                        echo '        <h4 class="title">' . htmlspecialchars($cinema['name']) . '</h4>';
+                                        echo '    </div>';
+                                        echo '    <div class="cinema-body">';
+                                        echo '        <p class="addr">' . htmlspecialchars($cinema['address']) . '</p>';
+                                        echo '        <ul class="list-info">';
+                                        echo '            <li class="item-info">';
+                                        echo '                <div class="tt">Standard</div>';
+                                        echo '                <ul class="list-time">';
+                                        if (!empty($screening_times)) {
+                                            foreach ($screening_times as $time) {
+                                                echo '<li class="item-time">' . htmlspecialchars($time) . '</li>';
+                                            }
+                                        } else {
+                                            echo '<li class="item-time">Không có lịch chiếu nào.</li>';
+                                        }
+                                        echo '                </ul>';
+                                        echo '            </li>';
+                                        echo '        </ul>';
+                                        echo '    </div>';
+                                        echo '</li>';
+                                    }
+                                    ?>
                             </ul>
                         </div>
                     </div>
@@ -1197,11 +1099,11 @@ if ($showtime_id > 0) {
                                 <li class="item">
                                     <span class="txt"></span>
                                 </li>
-                                <li class="item">
+                                <!-- <li class="item">
                                     <span class="txt">Phòng chiếu:</span>
                                     <span class="txt" id="seat-name"></span>
                                     <span class="txt"> | <span id="showtime"></span></span>
-                                </li>
+                                </li> -->
                                 <li class="item">
                                     <span class="txt"></span>
                                 </li>
@@ -1212,12 +1114,13 @@ if ($showtime_id > 0) {
                                 <span class="txt">Tạm tính:</span>
                                 <span class="total-price">0 VNĐ</span>
                             </div>
-                            <button class="btn btn-ticket opacity-100">Thanh toán</button>
+                            <button class="btn btn-ticket opacity-100" type="submit" id="pay-button">Thanh toán</button>
                         </div>
                     </div>
                 </div>
 
             </section>
+            </form>
         </main>
         
         
