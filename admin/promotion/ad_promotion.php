@@ -2,6 +2,8 @@
 include '../../user/db_connection.php';
 
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addpromotion'])) {
     
 
@@ -57,7 +59,7 @@ if (isset($_GET['delete'])) {
 // sửa
 $editData = null;
 
-// Lấy thông tin phim nếu có ID trong URL
+// Lấy thông tin ưu đãi nếu có ID trong URL
 if (isset($_GET['edit'])) {
     $id = intval($_GET['edit']);
     $query = "SELECT * FROM promotion WHERE id = ?";

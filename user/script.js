@@ -225,6 +225,11 @@ document.querySelectorAll('.box-time').forEach(function(box) {
         // Thêm hoặc cập nhật showtime_id
         searchParams.set('showtime_id', showtimeId);
         currentUrl.search = searchParams.toString();
+
+           // Lấy ngày chiếu từ .date
+        const showDate = this.querySelector('.date') ? this.querySelector('.date').textContent : ''; // Kiểm tra phần tử có tồn tại không
+        document.getElementById('show-date').value = showDate; // Cập nhật vào input show-date
+         console.log(showDate);
         
         // Thay đổi URL mà không làm mới trang
         history.pushState(null, '', currentUrl);
@@ -273,8 +278,12 @@ document.querySelectorAll('.item-time').forEach(function(item) {
             selectedCinemaItem.style.display = 'block';
         }
         
+       
+
         // Cập nhật suất chiếu đã chọn
         selectedShowtime = this.textContent; 
+        document.getElementById('screening-time').value = selectedShowtime; // Cập nhật vào input screening_time
+        console.log("Screening Time:", selectedShowtime);
         updateTicketDetails(); // Cập nhật thông tin vé
     });
 });
@@ -294,9 +303,18 @@ document.querySelectorAll('.combo-item.ticket').forEach(function(ticket) {
             } else if (this.classList.contains('count-minus')) {
                 countNumber = Math.max(0, countNumber - 1);
             }
-
-            countNumberElement.textContent = countNumber;
             ticketDetails[ticketKey] = countNumber; 
+             // Tạo một danh sách các loại vé đã chọn (chỉ lấy các vé có số lượng lớn hơn 0)
+             const selectedTicketTypes = Object.keys(ticketDetails).filter(key => ticketDetails[key] > 0);
+
+             // Cập nhật số lượng vé vào input hidden
+             const totalTicketQuantity = Object.values(ticketDetails).reduce((acc, val) => acc + val, 0);
+             document.getElementById('ticket-quantity').value = totalTicketQuantity; // Cập nhật vào input ticket_quantity
+
+              // Cập nhật loại vé vào input hidden ticket_types
+            document.getElementById('ticket-types').value = selectedTicketTypes.join(', ');
+            countNumberElement.textContent = countNumber;
+          
             updateTicketDetails(); // Cập nhật thông tin vé
         });
     });
@@ -312,18 +330,37 @@ document.querySelectorAll('.combo-item.food').forEach(function(food) {
 
             const comboKey = topNameElement.textContent;
 
+            // Tăng hoặc giảm số lượng
             if (this.classList.contains('count-plus')) {
                 countNumber++;
             } else if (this.classList.contains('count-minus')) {
                 countNumber = Math.max(0, countNumber - 1);
             }
 
+            // Cập nhật số lượng trong phần tử giao diện
             countNumberElement.textContent = countNumber;
-            ticketDetails[comboKey] = countNumber; 
-            updateTicketDetails(); // Cập nhật thông tin vé
+
+            // Chỉ cập nhật ticketDetails nếu đây là một combo thực sự
+            if (countNumber > 0) {
+                ticketDetails[comboKey] = countNumber; // Lưu số lượng combo
+            } else {
+                delete ticketDetails[comboKey]; // Xóa nếu số lượng là 0
+            }
+
+            // Cập nhật input hidden cho các món ăn
+            const foodNamesInput = document.getElementById('food-names');
+            const excludedItems = ["Người lớn - Đơn", "HSSV - Người Cao Tuổi - Đơn", "Người lớn - Đôi"];
+            const filteredItems = Object.keys(ticketDetails)
+                .filter(key => !excludedItems.includes(key)); // Lọc bỏ các mục không cần thiết
+
+            foodNamesInput.value = filteredItems.join(', '); // Nối các tên món ăn đã lọc bằng dấu phẩy
+
+            // Cập nhật thông tin vé
+            updateTicketDetails();
         });
     });
 });
+
 
 // Hàm cập nhật thông tin vé
 function updateTicketDetails() {
@@ -387,7 +424,11 @@ function updateTotalPrice() {
             totalPrice += pricePerTicket * count;
         }
     }
-
+     // Cập nhật tổng số tiền vào input ẩn
+     const totalAmountInput = document.getElementById('total-amount');
+     if (totalAmountInput) {
+         totalAmountInput.value = totalPrice; // Gán giá trị tổng tiền vào input
+     }
     const totalElement = document.querySelector('.total-price');
     if (totalElement) {
         totalElement.textContent = totalPrice + ' VNĐ'; // Hiển thị tổng tiền
@@ -397,21 +438,42 @@ function updateTotalPrice() {
 
 // Sự kiện chọn ghế
 document.addEventListener('DOMContentLoaded', function() {
-    // Đoạn mã của bạn ở đây
+    const selectedSeats = []; // Mảng lưu ghế đã chọn
+    const seatNumbersElement = document.getElementById('seat-numbers'); // Lấy phần tử input cho ghế
+    const maxTicketsElement = document.getElementById('ticket-quantity'); // Lấy phần tử input cho số lượng vé
+
     document.querySelectorAll('.seat-td').forEach(function(seat) {
         seat.addEventListener('click', function() {
-            // Xóa class 'choosing' khỏi tất cả các seat-td
-            document.querySelectorAll('.seat-td').forEach(function(s) {
-                s.classList.remove('choosing');
-            });
+            // Lấy tên ghế đã chọn
+            const seatName = this.querySelector('.seat-name').textContent;
 
-            // Thêm class 'choosing' vào seat-td được chọn
-            this.classList.add('choosing');
-            selectedSeat = this.querySelector('.seat-name').textContent; // Lưu ghế đã chọn
-            
+            // Kiểm tra xem ghế đã được chọn hay chưa
+            if (this.classList.contains('choosing')) {
+                // Nếu đã chọn, xóa ghế khỏi danh sách và bỏ class 'choosing'
+                const index = selectedSeats.indexOf(seatName);
+                if (index !== -1) {
+                    selectedSeats.splice(index, 1); // Xóa ghế khỏi danh sách
+                    this.classList.remove('choosing'); // Bỏ class 'choosing'
+                }
+            } else {
+                // Nếu chưa chọn, kiểm tra số lượng ghế đã chọn so với số lượng vé
+                const totalTicketQuantity = parseInt(maxTicketsElement.value) || 0; // Lấy số lượng vé đã chọn
+                if (selectedSeats.length < totalTicketQuantity) {
+                    selectedSeats.push(seatName); // Thêm ghế vào danh sách
+                    this.classList.add('choosing'); // Thêm class 'choosing'
+                } else {
+                    alert(`Bạn đã chọn đủ số ghế (${totalTicketQuantity}). Không thể chọn thêm ghế!`);
+                }
+            }
+
+            // Cập nhật thông tin ghế đã chọn vào input
+            if (seatNumbersElement) {
+                seatNumbersElement.value = selectedSeats.join(', '); // Cập nhật danh sách ghế vào input
+            }
+
             const seatNameElement = document.getElementById('seat-name');
             if (seatNameElement) {
-                seatNameElement.textContent = selectedSeat; // Cập nhật tên ghế
+                seatNameElement.textContent = selectedSeats.join(', '); // Cập nhật tên ghế
             }
 
             // Cập nhật thông tin vé bao gồm suất chiếu và ghế
@@ -419,6 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 
 

@@ -2,6 +2,7 @@
 include '../db_connection.php';
 session_start();
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
+$customerId = $_SESSION['user_id']; 
 ?>
 
 <!DOCTYPE html>
@@ -106,20 +107,57 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                     <h1> Lịch sử đặt vé</h1>
                 </div>
                 <table class="tb-history">
-                    <thead>
+                    <thead style="font-size: 20px;">
                         <tr>
                             <th>Mã giao dịch</th>
                             <th>Tên phim </th>
-                            <th>Khách hàng</th>
-                            <th>Loại vé</th>
-                            <th>Số lượng </th>
-                            <th>Ngày đặt</th>
+                            <th>Số lượng vé </th>
                             <th>Tổng tiền</th>
+                            <th>Ngày đặt</th>
                             
                         </tr>
                     </thead>
-                    <tbody id="customerList">
+                    <tbody id="customerList" style="color: #f3ea28;font-size: 18px;">
+                       <?php
+                       $stmt = $conn->prepare("
+                       SELECT tb.id, tb.movie_name, tb.ticket_quantity, tb.total_price, tb.booking_date 
+                       FROM ticketbookings tb
+                       WHERE tb.customer_id = ?
+                   "); 
+                   
+                   if ($stmt) {
+                       // Liên kết tham số
+                       $stmt->bind_param("i", $customerId);
                        
+                       // Thực hiện truy vấn
+                       $stmt->execute();
+                       $result = $stmt->get_result();
+                       
+                       // Kiểm tra nếu có kết quả trả về
+                       if ($result->num_rows > 0) {
+                           // Duyệt qua từng dòng kết quả và hiển thị trong bảng
+                           while ($row = $result->fetch_assoc()) {
+                               echo "<tr>";
+                               echo "<td>" . $row['id'] . "</td>";
+                               echo "<td>" . $row['movie_name'] . "</td>";
+                               echo "<td>" . $row['ticket_quantity'] . "</td>";
+                               echo "<td>" . number_format($row['total_price'], 0, ',', '.') . " VND</td>";
+                               echo "<td>" . $row['booking_date'] . "</td>";
+                               echo "</tr>";
+                           }
+                       } else {
+                           echo "<tr><td colspan='5'>Không có dữ liệu</td></tr>";
+                       }
+                       
+                       // Đóng câu lệnh
+                       $stmt->close();
+                   } else {
+                       echo "<tr><td colspan='6'>Lỗi trong việc chuẩn bị truy vấn: " . $conn->error . "</td></tr>";
+                   }
+                        
+                        // Đóng kết nối
+                        $conn->close();
+                       ?>
                     </tbody>
 
                 </table>
