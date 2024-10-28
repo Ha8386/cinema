@@ -2,17 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
-<<<<<<< HEAD
--- Host: 127.0.0.1
--- Generation Time: Oct 15, 2024 at 10:43 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
-=======
 -- Máy chủ: 127.0.0.1
 -- Thời gian đã tạo: Th10 26, 2024 lúc 03:30 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
->>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -192,13 +185,10 @@ CREATE TABLE `screenings` (
 --
 
 INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUES
-<<<<<<< HEAD
-=======
 (84, 97, '13:26:00'),
 (85, 97, '15:26:00'),
 (86, 97, '18:26:00'),
 (87, 97, '12:32:00'),
->>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
 (88, 98, '13:28:00'),
 (89, 98, '15:29:00'),
 (90, 98, '00:29:00'),

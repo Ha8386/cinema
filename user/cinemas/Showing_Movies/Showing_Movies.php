@@ -1,17 +1,6 @@
 <?php
 session_start();
-$servername = "localhost";
-$username = "root";
-$password = "anhhadeptrai";
-$dbname = "quanly_4scinema";
-
-// Kết nối đến MySQL
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
+include '../../db_connection.php';
 
 // Truy vấn để lấy danh sách phim
 $sql = "SELECT title, image_url, trailer_url FROM movies";
@@ -125,11 +114,11 @@ $result = $conn->query($sql);
                         // Lặp qua từng dòng dữ liệu
                         while($row = $result->fetch_assoc()) {
                             echo '<div class="showing__movie-item">';
-                                echo '<a href="">';
+                                echo '<a href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                     echo '<img class="rest-poster-img" src="../../../assets/img/' . $row["image_url"] .'">';
                                 echo '</a>';
                                 echo '<div class="rest-poster-infor">';
-                                    echo '<a href="" class="rest-poster-name">' . $row['title'] . '</a>';
+                                    echo '<a class="rest-poster-name" href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">' . $row['title'] . '</a>';
                                     echo '<div class="trailer-and-order-ticket">';
                                         echo '<div class="trailer-container">';
                                             echo '<a class="trailer-link" href="../../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">'; 
@@ -137,7 +126,7 @@ $result = $conn->query($sql);
                                             echo '</a>';
                                             echo '<a class="trailer-link-text" href="../../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">Xem Trailer</a>';
                                         echo '</div>';
-                                        echo '<a href="">';
+                                        echo '<a href="../../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                             echo '<button class="btn btn-ticket">Đặt vé</button>';
                                         echo '</a>';                                                                       
                                     echo '</div>';
@@ -152,26 +141,6 @@ $result = $conn->query($sql);
             </main>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Footer -->
         <footer class="footer">
             <div class="grid">
@@ -181,17 +150,19 @@ $result = $conn->query($sql);
                     <div class="footer-top">
                         <!-- Khối footer nhỏ bên trái                     -->
                         <div class="footer-top-left">
-                            <div class="footer-left-logo"><img class="footer__logo-img" src="../../..../../../assets/img/logo4S-footer.png" alt=""></div>
+                            <div class="footer-left-logo"><img class="footer__logo-img" src="../../../assets/img/logo4S-footer.png" alt=""></div>
                             <div class="footer-left-slogan">Your satisfaction is our joy !</div>
                             <div class="btn-order">
                                 <button class="btn ticket">Đặt vé</button>
                                 <button class="btn food">Đặt bắp nước</button>
                             </div>
                             <div class="footer-left-contact">
-                                <a href="https://www.facebook.com/chotung.mrt"><i class="fa-brands fa-facebook"></i></a>
-                                <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
-                                <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
+                                <p class="contact-us">Liên hệ với chúng tôi: </p>
+                                <div class="contact_block">
+                                    <a href="https://www.facebook.com/profile.php?id=61567620087932"><i class="fa-brands fa-facebook"></i></a>
+                                    <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
+                                    <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
+                                </div>
                             </div>
                         </div>
         
@@ -201,9 +172,8 @@ $result = $conn->query($sql);
                                 <div class="footer-menu-column footer-column-account">
                                     <ul class="footer-menu-list">
                                         <p class="footer-column-title">Tài khoản</p>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng nhập</li></a>
-                                        <a class="footer-column-link" href="/login.php"><li class="footer-column-menu">Đăng ký</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Membership</li></a>
+                                        <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng nhập</li></a>
+                                        <a class="footer-column-link" href="../../login.php"><li class="footer-column-menu">Đăng ký</li></a>
                                     </ul>
                                 </div>
                             </div>    
@@ -213,54 +183,40 @@ $result = $conn->query($sql);
                                         <p class="footer-column-title">Xem phim</p>
                                         <a class="footer-column-link" href="Showing_Movies.php"><li class="footer-column-menu">Phim đang chiếu</li></a>
                                         <a class="footer-column-link" href="Upcoming_Movies.php"><li class="footer-column-menu">Phim sắp chiếu</li></a>
-                                        <a class="footer-column-link" href=""><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
+                                        <a class="footer-column-link" href="Special_Showtimes.php"><li class="footer-column-menu">Suất chiếu đặc biệt</li></a>
                                     </ul>
                                 </div>
                             </div>
-        
+
                             <div class="footer-column">
-                                <div class="footer-menu-column footer-column-my-cinemas">
+                                <div class="footer-menu-column footer-column-cinemas-system">
                                     <ul class="footer-menu-list">
-                                        <p class="footer-column-title">4SCinema</p>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Giới thiệu</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Liên hệ</li></a>
-                                <a class="footer-column-link" href=""><li class="footer-column-menu">Tuyển dụng</li></a>
-                            </ul>
+                                        <p class="footer-column-title">Hệ thống rạp</p>
+                                        <a class="footer-column-link" href="4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
+                                        <a class="footer-column-link" href="4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
+                                        <a class="footer-column-link" href="4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
+                                        <a class="footer-column-link" href="4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
+                                        <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
+                                        <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="footer-column">
-                        <div class="footer-menu-column footer-column-cinemas-system">
-                            <ul class="footer-menu-list">
-                                <p class="footer-column-title">Hệ thống rạp</p>
-                                <a class="footer-column-link" href="4SCinema_CauGiay.php"><li class="footer-column-menu">4SCinema Cầu Giấy</li></a>
-                                <a class="footer-column-link" href="4SCinema_HaiBaTrung.php"><li class="footer-column-menu">4SCinema Hai Bà Trưng</li></a>
-                                <a class="footer-column-link" href="4SCinema_LongBien.php"><li class="footer-column-menu">4SCinema Long Biên</li></a>
-                                <a class="footer-column-link" href="4SCinema_MyDinh.php"><li class="footer-column-menu">4SCinema Mỹ Đình</li></a>
-                                <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Tây Hồ</li></a>
-                                <a class="footer-column-link" href="4SCinema_TayHo.php"><li class="footer-column-menu">4SCinema Thanh Xuân</li></a>          
-                            </ul>
+                    <div class="footer-bottom">
+                        <div class="footer-bottom-left">
+                            <i class="fa-regular fa-copyright"></i>
+                            <p class="copyright">2024 4SCinema. All rights reserved.</p>
+                        </div>
+
+                        <div class="footer-bottom-right">
+                            <a class="footer-bottom-right-items" href="../../../user/policy.php">Chính sách bảo mật</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="footer-bottom">
-                <div class="footer-bottom-left">
-                    <i class="fa-regular fa-copyright"></i>
-                    <p class="copyright">2024 4SCinema. All rights reserved.</p>
-                </div>
-
-                <div class="footer-bottom-right">
-                    <a class="footer-bottom-right-items" href="../../../user/policy.php">Chính sách bảo mật</a>
-                    <a class="footer-bottom-right-items" href="">Tin điện ảnh</a>
-                    <a class="footer-bottom-right-items" href="">Hỏi và đáp</a>
-                </div>
-            </div>
-        </div>
-            </div>
-
-    </footer>
+        </footer>
     </div>
     <script src="/script.js"></script>    
 </body>

@@ -489,6 +489,223 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     
+// Cập nhật ngày theo thời gian thực cho khối chọn ngày trong showtimes.php
+// Hàm cập nhật ngày theo thời gian thực cho khối chọn ngày trong showtimes.php
+function updateDateOptions() {
+    const select = document.getElementById("date-select");
+    select.innerHTML = ""; // Xóa tất cả tùy chọn hiện có
+
+    const today = new Date();
+    const optionsCount = 5; // Số lượng tùy chọn
+    const dayNames = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+
+    for (let i = 0; i < optionsCount; i++) {
+        const optionDate = new Date(today);
+        optionDate.setDate(today.getDate() + i); // Cộng thêm số ngày tương ứng
+
+        const dayName = dayNames[optionDate.getDay()]; // Lấy tên ngày
+        const day = optionDate.getDate(); // Lấy số ngày
+        const month = optionDate.getMonth() + 1; // Lấy số tháng (bắt đầu từ 0)
+        const year = optionDate.getFullYear(); // Lấy năm
+
+        // Đảm bảo tháng và ngày luôn có 2 chữ số
+        const formattedDay = day < 10 ? '0' + day : day;
+        const formattedMonth = month < 10 ? '0' + month : month;
+
+        const optionText = `${dayName}, ${formattedDay}/${formattedMonth}`; // Văn bản hiển thị
+        const optionValue = `${year}/${formattedMonth}/${formattedDay}`; // Giá trị tùy chọn định dạng YYYY/MM/DD
+
+        const option = document.createElement("option");
+        option.value = optionValue; // Giá trị tùy chọn
+        option.textContent = optionText; // Văn bản hiển thị
+
+        select.appendChild(option); // Thêm tùy chọn vào select
+    }
+}
+
+// Gọi hàm để cập nhật tùy chọn khi DOM đã được tải
+document.addEventListener("DOMContentLoaded", function() {
+    updateDateOptions(); // Gọi hàm để cập nhật tùy chọn
+});
+
+// Lắng nghe sự kiện khi chọn ngày
+document.getElementById("date-select").addEventListener("change", function () {
+    const selectedDate = this.value;
+
+    // Gửi yêu cầu AJAX
+    fetch("getMoviesByDate.php?date=" + selectedDate)
+        .then(response => response.json())
+        .then(data => {
+            // Xóa các nội dung phim và suất chiếu hiện tại
+            document.querySelector(".movie-information-container").innerHTML = "";
+
+            // Cập nhật dropdown tên phim
+            const phimSelect = document.getElementById('phim');
+            phimSelect.innerHTML = '<option value="">Chọn phim</option>'; // Reset dropdown
+            console.log(data);
+            // Lặp qua danh sách phim và suất chiếu để hiển thị
+            Object.values(data).forEach(movie => {
+                const movieDiv = document.createElement("div");
+                movieDiv.classList.add("movie-information-content");
+                movieDiv.setAttribute("data-movie-id", movie.movie_id); // Thêm ID cho phép xác định phim
+
+                // Thêm nội dung phim (title, genre, v.v.)
+                movieDiv.innerHTML = `
+                    <div class="movie-information-column">
+                        <a href="movies/movie.php?id=${movie.movie_id}">
+                            <img class="poster" src="../assets/img/${movie.image_url}" alt="Movie Poster">
+                        </a>
+                        <div class="poster-infor">
+                            <p class="list-title">${movie.title}</p>
+                            <ul class="poster-infor-list">
+                                <div class="poster-label">
+                                    <i class="fas fa-solid fa-tag"></i>
+                                    <li class="list-content">${movie.genre}</li>
+                                </div>
+                                <div class="poster-label">
+                                    <i class="fas fa-regular fa-clock"></i>
+                                    <li class="list-content">${movie.duration}</li>
+                                </div>
+                                <div class="poster-label">
+                                    <i class="fas fa-solid fa-earth-americas"></i>
+                                    <li class="list-content">${movie.country}</li>
+                                </div>
+                                <div class="poster-label">
+                                    <i class="fas fa-regular fa-closed-captioning"></i>
+                                    <li class="list-content">${movie.vietsub}</li>
+                                </div>
+                                <div class="poster-label">
+                                    <i class="fas fa-regular fa-user"></i>
+                                    <li class="list-content">Phim dành cho khán giả từ ${movie.age_rating} trở lên</li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="movie-information-row">
+                        <div class="information-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Cầu Giấy</p>
+                                <p class="row-cinemas-address">Số 321, Đường Trần Duy Hưng, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+
+                        <div class="information-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Hai Bà Trưng</p>
+                                <p class="row-cinemas-address">Số 789, Đường Lạc Trung, Phường Vĩnh Tuy, Quận Hai Bà Trưng, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+
+                        <div class="information-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Long Biên</p>
+                                <p class="row-cinemas-address">Số 123, Đường Hoa Mai, Phường Phúc Lợi, Quận Long Biên, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+
+                        <div class="information-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Mỹ Đình</p>
+                                <p class="row-cinemas-address">Số 123, Đường Hòa Bình, Khu đô thị Mỹ Đình 1, Nam Từ Liêm, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+
+                        <div class="information-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Tây Hồ</p>
+                                <p class="row-cinemas-address">Số 45, Đường Hoa Sen, Phường Nhật Tân, Quận Tây Hồ, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+
+                        <div class="information-row sixth-row">
+                            <div class="location-row">
+                                <p class="row-cinemas">4SCinema</p>
+                                <p class="row-cinemas-district">Thanh Xuân</p>
+                                <p class="row-cinemas-address">Số 456, Đường Hoa Phượng, Phường Nhân Chính, Quận Thanh Xuân, Hà Nội</p>
+                            </div>
+                            <div class="showtimes-row">
+                                <div class="showtimes-title">Standard</div>
+                                <div class="showtimes-box">
+                                    ${movie.showtimes.map(time => `<a class="showtimes-hour" href="movies/movie.php?id=${movie.movie_id}">${time.substring(0, 5)}</a>`).join('')}
+                                </div> 
+                            </div> 
+                        </div>
+                    </div>
+                `;
+
+                // Thêm thông tin phim vào container
+                document.querySelector(".movie-information-container").appendChild(movieDiv);
+
+                // Cập nhật dropdown cho tên phim
+                console.log('Đối tượng phim:', movie); // In ra toàn bộ đối tượng phim
+                const option = document.createElement("option");
+                option.value = movie.movie_id; // ID phim
+                option.textContent = movie.title; // Tên phim
+                phimSelect.appendChild(option); // Thêm option vào dropdown
+
+                console.log('ID phim được thêm vào dropdown:', movie.movie_id);
+            });
+        })
+        .catch(error => console.error("Lỗi khi lấy dữ liệu phim:", error));
+        
+});
+
+// Lắng nghe sự kiện khi chọn phim
+document.getElementById('phim').addEventListener('change', function () {
+    var selectedMovie = this.value;  // Lấy giá trị phim đã chọn (movie_id)
+    console.log('ID phim đã chọn:', selectedMovie); // In ra ID phim đã chọn để kiểm tra
+
+    // Ẩn tất cả các phần thông tin phim
+    var allMovies = document.querySelectorAll('.movie-information-content');
+    allMovies.forEach(function (movie) {
+        movie.style.display = 'none'; // Ẩn tất cả thông tin phim
+    });
+
+    // Hiển thị phim đã chọn
+    if (selectedMovie) {
+        var selectedMovieInfo = document.querySelector('.movie-information-content[data-movie-id="' + selectedMovie + '"]');
+        if (selectedMovieInfo) {
+            selectedMovieInfo.style.display = 'flex'; // Hiển thị thông tin của phim đã chọn
+        }
+    }
+});
+
+
 
 
 

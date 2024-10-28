@@ -148,6 +148,13 @@
 }
 
 .showing__movies-img{
+    width: 100%;
+    height: auto;
+    max-height: 510px;
+    border-radius: 8px;
+}
+
+.showing__movies-img-link{
     width: 53%;
     height: auto;
     max-height: 510px;
@@ -163,7 +170,8 @@
     font-size: 24px;
     font-family: var(--font-title);
     text-transform: uppercase;
-    
+    text-decoration: none;
+    color: var(--white-color);  
 }
 
 .showing__movies-attribute{
@@ -318,10 +326,12 @@
 }
 
 .upcoming__movies-img{
-    width: 53%;
+    width: 100%;
     height: auto;
+    max-height: 510px;
     border-radius: 8px;
 }
+
 
 /* Khối thông tin phim */
 .upcoming__movies-infor{
@@ -333,6 +343,8 @@
     margin-bottom: 10px;
     font-family: var(--font-title);
     text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white-color);
     
 }
 
