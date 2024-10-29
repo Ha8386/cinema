@@ -269,14 +269,22 @@
     text-align: center;
     padding: 5px;
     margin:0 3px 5px; 
+    transition: border 0.3s ease ; 
+}
 
+.movies__time-box:hover{
+    border-color: yellow;
 }
 
 .movies__box-link{
     text-decoration: none;
     color: var(--white-color);
+    transition: color 0.3s ease;
 }
 
+.movies__box-link:hover{
+    color: yellow;
+}
 /*Hiệu ứng thu gọn suất chiếu*/
 .rotated {
     transform: rotate(180deg);
@@ -444,12 +452,21 @@
     text-align: center;
     padding: 5px;
     margin:0 4px 5px; 
+    transition: border 0.3s ease ; 
+}
 
+.movies__time-box:hover{
+    border-color: yellow;
 }
 
 .movies__box-link{
     text-decoration: none;
     color: var(--white-color);
+    transition: color 0.3s ease;
+}
+
+.movies__box-link:hover{
+    color: yellow;
 }
 
 /*Suất chiếu đặc biệt*/

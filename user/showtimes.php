@@ -319,10 +319,6 @@
                         */?>
                     </div>
                     <!-- *******************Hết******************* -->  
-
-                    <div class="btn-showtimes">
-                        <button class="btn-more btn-show">Xem tất cả lịch chiếu</button>
-                    </div>
                     <section class="movie-slide">
                     <div class="swiper-container">                       
                         <div class="movie-rest-container">

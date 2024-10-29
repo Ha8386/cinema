@@ -113,11 +113,11 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                         // Lặp qua từng dòng dữ liệu
                         while($row = $result->fetch_assoc()) {
                             echo '<div class="showing__movie-item">';
-                                echo '<a href="">';
+                                echo '<a href="../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                     echo '<img class="rest-poster-img" src="../../assets/img/' . $row["image_url"] .'">';
                                 echo '</a>';
                                 echo '<div class="rest-poster-infor">';
-                                    echo '<a href="" class="rest-poster-name">' . $row['title'] . '</a>';
+                                    echo '<a class="rest-poster-name" href="../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">' . $row['title'] . '</a>';
                                     echo '<div class="trailer-and-order-ticket">';
                                         echo '<div class="trailer-container">';
                                             echo '<a class="trailer-link" href="../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">'; 
@@ -125,7 +125,7 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                                             echo '</a>';
                                             echo '<a class="trailer-link-text" href="../../assets/trailer/' . $row["trailer_url"] .'" target="_blank">Xem Trailer</a>';
                                         echo '</div>';
-                                        echo '<a href="">';
+                                        echo '<a href="../movies/movie.php?id=' . htmlspecialchars($row['movie_id']) . '">';
                                             echo '<button class="btn btn-ticket">Đặt vé</button>';
                                         echo '</a>';                                                                       
                                     echo '</div>';
