@@ -158,7 +158,7 @@ if ($showtime_id > 0) {
                                         echo '<div class="detail-ct">';
                                             echo '<div class="detail-ct-h">';
                                                
-                                                echo '<h1 class="heading" style="line-height: 48px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
+                                                echo '<h1 class="heading" style="line-height: 65px; word-wrap: break-word; margin: 0">'.htmlspecialchars($row['title']).' </h1>';
                                                 echo '<ul class="info-detail">';
                                                     echo '<li class="info-item">';
                                                         echo '<span class="ic"><i class="fa-solid fa-tag"></i></span>';
