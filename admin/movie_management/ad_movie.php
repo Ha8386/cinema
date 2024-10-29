@@ -266,7 +266,7 @@ if (isset($_POST['updatemovie'])) {
                     <div class="ad_nav_item">
 
                         <button class="add" id="createMovieBtn">
-                            <i class="fas fa-plus"></i> 
+                          
                             Tạo phim
                         </button>
                         <a href="ad_movie.php" class="reset-button">
@@ -394,11 +394,11 @@ if (isset($_POST['updatemovie'])) {
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="description">* Mô tả</label>
+                            <label for="description">* Nội dung phim</label>
                             <textarea name="description" placeholder="Enter description"></textarea>
                         </div>
                         <div class="form-group half-width">
-                            <label for="description">* Nội dung phim</label>
+                            <label for="description">* Mô tả</label>
                             <textarea name="subtitle" placeholder="Enter subtitle"></textarea>
                         </div>
                         
@@ -481,11 +481,11 @@ if (isset($_POST['updatemovie'])) {
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="description">* Mô tả</label>
+                            <label for="description">* Nội dung phim</label>
                             <textarea name="edit_description" placeholder="Enter description"><?php echo $editData ? htmlspecialchars($editData['description_mv']) : ''; ?></textarea>
                         </div>
                         <div class="form-group half-width">
-                            <label for="description">* Nội dung phim</label>
+                            <label for="description">* Mô tả</label>
                             <textarea name="edit_subtitle" placeholder="Enter subtitle"><?php echo $editData ? htmlspecialchars($editData['subtitle']) : ''; ?></textarea>
                         </div>
                         

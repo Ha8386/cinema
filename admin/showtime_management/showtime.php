@@ -210,7 +210,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editshowtime'])) {
                     <div class="ad_nav_item">
 
                         <button class="add" id="createMovieBtn">
-                            <i class="fas fa-plus"></i> 
                             Tạo lịch chiếu
                         </button>
                         <a href="showtime.php" class="reset-button">

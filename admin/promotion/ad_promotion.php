@@ -228,7 +228,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editpromotion'])) {
                     <div class="ad_nav_item">
 
                         <button class="add" id="createMovieBtn">
-                            <i class="fas fa-plus"></i> 
                             Tạo ưu đãi
                         </button>
                         <a href="ad_promotion.php" class="reset-button">

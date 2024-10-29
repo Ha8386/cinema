@@ -1534,7 +1534,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-weight: 500;
-    letter-spacing: -1px; 
 }
 .seat-cupple {
     flex: 2 !important; 
@@ -2137,4 +2136,31 @@
 }
 .tb-history {
     font-size: 16px;
+}
+
+
+
+.main-forgot {
+    margin: 0 auto;
+    max-width: 44.8rem;
+}
+.main-forgot .heading {
+    padding-top: 40px;
+    padding-bottom: 21px;
+    margin-left: 93px;
+}
+.main-forgot .desc-forgot {
+    text-align: center;
+    font-size: 18px;
+    line-height: 28px;
+}
+.form-forgot {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 160px;
+}
+.form-forgot input {
+    height: 40px;
+    font-size: 18px;
 }

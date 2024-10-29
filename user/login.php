@@ -211,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label>
                                 <input type="checkbox"> Lưu mật khẩu đăng nhập
                             </label>
-                            <a href="#">Quên mật khẩu</a>
+                            <a href="forgot_pw.php">Quên mật khẩu</a>
                         </div>
                         <button class="btn" name="login">ĐĂNG NHẬP</button>
                         <div class="register-link">
@@ -250,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="remember-forgot">
                             <label>
-                                <input type="checkbox"> Khách hàng đồng ý với các <a href="/policy.html" >điều khoản và chính sách bảo mật</a>
+                                <input type="checkbox"> Khách hàng đồng ý với các <a href="policy.php" >điều khoản và chính sách bảo mật</a>
                                 của 4SCinema
                             </label>
                         </div>

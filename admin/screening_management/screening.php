@@ -202,7 +202,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
                     <div class="ad_nav_item">
 
                         <button class="add" id="createMovieBtn">
-                            <i class="fas fa-plus"></i> 
                             Tạo suất chiếu
                         </button>
                         <a href="screening.php" class="reset-button">
