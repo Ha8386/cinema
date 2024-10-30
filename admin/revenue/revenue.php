@@ -134,27 +134,19 @@ include '../../user/db_connection.php';
             <div class="revenue_select">
                 <select name="revenue_as_movie" id="">
                     <?php
-                    $sql_movie = 'SELECT id, movie_name FROM ticketbookings';
+                    $sql_movie = 'SELECT movie_id, title FROM movies WHERE status_mv = "Đang chiếu"';
                     $result = $conn->query($sql_movie);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<option value="">' .$row['movie_name'].'</option>';
+                            echo '<option value="date">' .$row['title'].'</option>';
                         }
                     }
                     ?>
                 </select>
     
-                <select name="revenue_as_time" id="">
-                <?php
-                    $sql_movie = 'SELECT id, booking_date FROM ticketbookings';
-                    $result = $conn->query($sql_movie);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="">' .substr($row['booking_date'], 0, 10).'</option>';
-                        }
-                    }
-                    ?>
-                </select>
+                <div class="revenue_as_time">
+                    <input type="date" id="date" name="date">
+                </div>
             </div>
 
             <div id="myfirstchart" style="height: 250px">

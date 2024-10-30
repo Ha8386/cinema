@@ -123,3 +123,11 @@ body {
     text-align: center;
     line-height: 4rem;
 }
+
+.revenue_select{
+    display: flex;
+}
+
+.revenue_as_time{
+    margin-left: 2rem;
+}
