@@ -115,3 +115,11 @@ body {
     border-radius: 5px; 
     
 }
+
+/* revenue css */
+.revenue_title{
+    text-transform: uppercase;
+    font-size: 3rem;
+    text-align: center;
+    line-height: 4rem;
+}

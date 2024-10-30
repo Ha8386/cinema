@@ -246,6 +246,16 @@ window.onload = function() {
     }
 };
 
+//Doanh thu
+document.addEventListener("DOMContentLoaded", function() {
+    new Morris.Bar({
+        element: 'myfirstchart',
+        data: data,
+        xkey: 'year',
+        ykeys: ['value'],
+        labels: ['Value']
+    });
+});
 
 
 

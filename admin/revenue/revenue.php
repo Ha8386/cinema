@@ -1,12 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
 
-    
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -22,10 +16,10 @@ include '../../user/db_connection.php';
     <link rel="stylesheet" href="/4scinema/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 </head>
 <body>
 <div class="sidebar">
@@ -120,66 +114,56 @@ include '../../user/db_connection.php';
     </div>
     <div class="content">
         <div class="container">
-            <div class="main-header">
-                <h1> Báo cáo doanh thu</h1>
-
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Thời gian </th>
-                        <th>Số lượng vé</th>
-                        <th>Doanh thu </th>
-                        
-                        
-                    </tr>
-                </thead>
-                <tbody id="revenueList">
+            <div class="revenue_title">Bảng thống kê doanh thu</div>
+            <div class="revenue_select">
+                <select name="revenue_as_movie" id="">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                   // Truy vấn để lấy doanh thu và số lượng vé theo tháng
-                    $query = "
-                        SELECT 
-                            DATE_FORMAT(booking_date, '%Y-%m') AS month_year,
-                            SUM(ticket_quantity) AS total_tickets,
-                            SUM(total_price) AS total_revenue
-                        FROM 
-                            ticketbookings
-                        GROUP BY 
-                            month_year
-                        ORDER BY 
-                            month_year
-                    "; 
-                    $result = $conn->query($query);
-                    $count = 1;
-
-                    // Kiểm tra và hiển thị dữ liệu
+                    $sql_movie = 'SELECT id, movie_name FROM ticketbookings';
+                    $result = $conn->query($sql_movie);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ . '</td>';
-                            echo '<td>' . $row['month_year'] . '</td>';
-                            echo '<td>' . $row['total_tickets'] . '</td>';
-                            echo '<td>' . number_format($row['total_revenue'], 2) . ' VND</td>'; // Định dạng doanh thu
-                            echo '</tr>';
+                            echo '<option value="">' .$row['movie_name'].'</option>';
                         }
-                    } else {
-                        echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
-                </tbody>
+                </select>
+    
+                <select name="revenue_as_time" id="">
+                <?php
+                    $sql_movie = 'SELECT id, booking_date FROM ticketbookings';
+                    $result = $conn->query($sql_movie);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="">' .substr($row['booking_date'], 0, 10).'</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
 
-            </table>
+            <div id="myfirstchart" style="height: 250px">
+                <?php
+                $sql = 'SELECT * FROM ticketbookings';
+                $result = $conn->query($sql);
+
+                $data = array();
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $data[] = $row;
+                    }
+                }
+                $conn->close();
+                $data_json = json_encode($data);
+                ?>
+            </div>
             
         </div>
     </div>
            
      
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="../js/admin.js"></script>
-
-    
 </body>
 </html>
