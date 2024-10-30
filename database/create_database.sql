@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 26, 2024 lúc 03:30 PM
+-- Thời gian đã tạo: Th10 30, 2024 lúc 10:17 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -41,11 +41,13 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `customer_name`, `email`, `phone`, `username`, `password_cs`) VALUES
-(4, 'Nguyễn Đức Hà', 'haxyz04@gmail.com', '0373187183', 'anhha', '$2y$10$qICq0U.Ibx0UmtmJfCm09.UPFbCd7r1nerXKCdDgcKe9KzzQaS3he'),
 (5, 'Nguyễn Đức Hà Vân', 'abc123@gmail.com', '0373187182', '22111061137', '$2y$10$SYSPi2jQXMUNnIPH07bjruigy3kKLiNW.wofztEdCi56.7Hgi0GJu'),
-(8, 'Nam Anh', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
+(8, 'Đặng Nam Anh ', 'haxyz4@gmail.com', '12345', 'namanh', '$2y$10$itaR/Hz4fYmyWIM3lpYTc.w2jdKEwDEnHBXW3zYWeecFDvUIrh1Vi'),
 (12, 'Hoàng Linh', 'Linhxinh@gmail.com', '0373187182', 'linhlinh', '$2y$10$ZslXz1z96U3UjA1hYTQpRepZhnkSL3EMcz1DliGYISsocYCC6Xj3O'),
-(13, 'Phạm Văn Huy', 'huy@gmail.com', '12345678', 'phamvanhuy', '$2y$10$Spoc.buJBhE21UuTNnEMi.H.KHQ8N1f3lwkdCACX0ynfdPk8Pazri');
+(13, 'Phạm Văn Huy', 'huy@gmail.com', '12345678', 'phamvanhuy', '$2y$10$Spoc.buJBhE21UuTNnEMi.H.KHQ8N1f3lwkdCACX0ynfdPk8Pazri'),
+(14, 'Anh Hà Đẹp Trai', 'haxyz04@gmail.com', '0373187182', 'anhhadeptrai', '$2y$10$o/sTPpYdburiq3/hFGQhlOstQ.SJB9t/xWvZTJS8WcRsJu8w2Yqma'),
+(15, 'Hoàng Rạng Linh', 'linkk2105@gmail.com', '0123456789', 'linhxinh', '$2y$10$pwX6CTploNBMICd5MRKuS.lL2Q8e4IuoiqyqZh7rgxo7eoImWlmna'),
+(16, 'Nam Anh Anh', 'namanhdang0905@gmail.com', '123345', 'namanh123', '$2y$10$Iq/VulxUnO1ABQ1IKHMxbeo0MZCpCCXHDgQpRYBTqKpomZIz49I4y');
 
 -- --------------------------------------------------------
 
@@ -193,17 +195,9 @@ INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUE
 (89, 98, '15:29:00'),
 (90, 98, '00:29:00'),
 (91, 98, '06:29:00'),
-<<<<<<< HEAD
-=======
 (92, 99, '14:41:00'),
 (93, 99, '17:46:00'),
 (94, 99, '20:41:00'),
-<<<<<<< HEAD
->>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
-(100, 105, '13:44:00'),
-(101, 105, '17:43:00'),
-=======
->>>>>>> b0044f551fc92c70a1afb6c6350943880c87f51d
 (102, 106, '13:45:00'),
 (103, 106, '16:43:00'),
 (104, 107, '13:45:00'),
@@ -223,7 +217,87 @@ INSERT INTO `screenings` (`screening_id`, `showtime_id`, `screening_time`) VALUE
 (118, 110, '11:17:00'),
 (119, 110, '11:17:00'),
 (120, 110, '11:17:00'),
-(121, 110, '11:17:00');
+(121, 110, '11:17:00'),
+(127, 130, '21:00:00'),
+(128, 130, '22:30:00'),
+(129, 130, '23:30:00'),
+(130, 130, '12:45:00'),
+(132, 134, '22:00:00'),
+(133, 134, '23:40:00'),
+(134, 134, '12:20:00'),
+(138, 135, '22:00:00'),
+(139, 135, '23:00:00'),
+(140, 135, '12:30:00'),
+(141, 130, '01:20:00'),
+(142, 134, '01:45:00'),
+(143, 134, '02:30:00'),
+(144, 134, '04:30:00'),
+(145, 137, '22:30:00'),
+(146, 137, '23:40:00'),
+(147, 137, '12:30:00'),
+(148, 137, '01:15:00'),
+(149, 138, '22:30:00'),
+(150, 138, '23:30:00'),
+(151, 138, '12:30:00'),
+(152, 138, '13:40:00'),
+(153, 138, '15:20:00'),
+(154, 138, '16:00:00'),
+(155, 139, '22:30:00'),
+(156, 139, '23:30:00'),
+(157, 140, '22:00:00'),
+(158, 140, '23:30:00'),
+(159, 140, '12:45:00'),
+(160, 141, '22:00:00'),
+(161, 141, '23:40:00'),
+(162, 141, '12:20:00'),
+(163, 141, '13:45:00'),
+(171, 145, '04:00:00'),
+(172, 145, '18:45:00'),
+(173, 145, '22:00:00'),
+(174, 148, '22:45:00'),
+(175, 148, '23:45:00'),
+(176, 148, '12:30:00'),
+(177, 148, '01:45:00'),
+(178, 148, '14:30:00'),
+(179, 146, '22:45:00'),
+(180, 146, '23:50:00'),
+(181, 146, '12:30:00'),
+(182, 146, '13:40:00'),
+(183, 146, '14:30:00'),
+(190, 150, '16:10:00'),
+(191, 150, '17:30:00'),
+(192, 150, '19:00:00'),
+(193, 150, '20:40:00'),
+(194, 150, '22:15:00'),
+(195, 150, '23:45:00'),
+(196, 150, '00:30:00'),
+(197, 151, '21:00:00'),
+(198, 151, '13:30:00'),
+(199, 151, '15:45:00'),
+(201, 151, '18:00:00'),
+(202, 152, '22:00:00'),
+(203, 152, '23:30:00'),
+(204, 152, '01:45:00'),
+(205, 152, '03:45:00'),
+(206, 153, '21:00:00'),
+(207, 153, '22:45:00'),
+(208, 153, '12:15:00'),
+(209, 153, '01:30:00'),
+(210, 153, '03:20:00'),
+(211, 154, '22:00:00'),
+(212, 154, '00:30:00'),
+(213, 155, '22:10:00'),
+(214, 155, '12:20:00'),
+(215, 155, '01:45:00'),
+(216, 155, '03:30:00'),
+(217, 156, '14:00:00'),
+(218, 156, '19:00:00'),
+(219, 156, '22:30:00'),
+(220, 156, '00:00:00'),
+(221, 157, '03:30:00'),
+(222, 157, '22:30:00'),
+(223, 157, '00:45:00'),
+(224, 157, '20:40:00');
 
 -- --------------------------------------------------------
 
@@ -242,17 +316,9 @@ CREATE TABLE `showtimes` (
 --
 
 INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
-<<<<<<< HEAD
-(98, 21, '2024-10-23'),
-=======
 (97, 20, '2024-10-15'),
 (98, 21, '2024-10-23'),
 (99, 20, '2024-10-01'),
-<<<<<<< HEAD
->>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
-(105, 22, '2024-10-11'),
-=======
->>>>>>> b0044f551fc92c70a1afb6c6350943880c87f51d
 (106, 23, '2024-10-24'),
 (107, 24, '2024-11-01'),
 (108, 25, '2024-10-23'),
@@ -269,7 +335,28 @@ INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
 (119, 50, '2024-11-02'),
 (120, 51, '2024-10-23'),
 (121, 52, '2024-10-24'),
-(122, 23, '2024-10-19');
+(122, 23, '2024-10-19'),
+(130, 21, '2024-10-30'),
+(134, 24, '2024-10-30'),
+(135, 25, '2024-10-30'),
+(137, 39, '2024-10-30'),
+(138, 42, '2024-10-30'),
+(139, 43, '2024-10-30'),
+(140, 44, '2024-10-30'),
+(141, 45, '2024-10-30'),
+(144, 19, '2024-10-30'),
+(145, 19, '2024-10-29'),
+(146, 21, '2024-10-29'),
+(147, 51, '2024-10-29'),
+(148, 52, '2024-10-29'),
+(150, 21, '2024-10-31'),
+(151, 22, '2024-10-31'),
+(152, 24, '2024-10-31'),
+(153, 25, '2024-10-31'),
+(154, 39, '2024-10-31'),
+(155, 42, '2024-10-31'),
+(156, 43, '2024-10-31'),
+(157, 44, '2024-10-31');
 
 -- --------------------------------------------------------
 
@@ -278,35 +365,29 @@ INSERT INTO `showtimes` (`showtime_id`, `movie_id`, `show_date`) VALUES
 --
 
 CREATE TABLE `ticketbookings` (
-  `ticket_id` int(11) NOT NULL,
-  `movie_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `movie_name` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `showtime_id` int(11) NOT NULL,
-  `screening_id` int(11) NOT NULL,
-  `ticket_type` varchar(50) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `booking_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `ticketprices`
---
-
-CREATE TABLE `ticketprices` (
-  `ticket_type` varchar(50) NOT NULL,
-  `price` int(11) NOT NULL
+  `ticket_quantity` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `screening_time` time NOT NULL,
+  `booking_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `ticketprices`
+-- Đang đổ dữ liệu cho bảng `ticketbookings`
 --
 
-INSERT INTO `ticketprices` (`ticket_type`, `price`) VALUES
-('HSSV', 45000),
-('Đôi', 145000),
-('Đơn', 70000);
+INSERT INTO `ticketbookings` (`id`, `movie_name`, `customer_id`, `ticket_quantity`, `total_price`, `screening_time`, `booking_date`) VALUES
+(8, 'Hố đen tử thần', 8, 1, 70000.00, '13:50:00', '2024-10-28 11:33:57'),
+(9, 'Quá nhanh quá nguy hiểm 8', 8, 3, 210000.00, '15:45:00', '2024-10-28 11:34:50'),
+(10, 'Hereditaty', 8, 2, 140000.00, '13:48:00', '2024-10-28 15:30:00'),
+(11, 'Avatar: Dòng chảy của nước', 12, 2, 140000.00, '22:30:00', '2024-10-29 13:18:25'),
+(12, 'Logan', 12, 2, 255000.00, '23:30:00', '2024-10-29 15:14:45'),
+(13, 'Despicable Me', 12, 2, 140000.00, '16:43:00', '2024-10-29 20:13:20'),
+(14, 'Avatar: Dòng chảy của nước', 14, 3, 210000.00, '23:30:00', '2024-10-29 20:18:21'),
+(15, 'Avatar: Dòng chảy của nước', 15, 2, 140000.00, '15:29:00', '2024-10-29 20:25:50'),
+(16, 'Quá nhanh quá nguy hiểm 8', 16, 2, 140000.00, '15:45:00', '2024-10-29 20:28:27');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -360,18 +441,8 @@ ALTER TABLE `showtimes`
 -- Chỉ mục cho bảng `ticketbookings`
 --
 ALTER TABLE `ticketbookings`
-  ADD PRIMARY KEY (`ticket_id`),
-  ADD KEY `movie_id` (`movie_id`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `ticket_type` (`ticket_type`),
-  ADD KEY `fk1_showtime` (`showtime_id`),
-  ADD KEY `fk1_screening` (`screening_id`);
-
---
--- Chỉ mục cho bảng `ticketprices`
---
-ALTER TABLE `ticketprices`
-  ADD PRIMARY KEY (`ticket_type`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -381,7 +452,7 @@ ALTER TABLE `ticketprices`
 -- AUTO_INCREMENT cho bảng `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `employees`
@@ -393,7 +464,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT cho bảng `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
@@ -411,19 +482,19 @@ ALTER TABLE `revenue`
 -- AUTO_INCREMENT cho bảng `screenings`
 --
 ALTER TABLE `screenings`
-  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `screening_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT cho bảng `showtimes`
 --
 ALTER TABLE `showtimes`
-  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `showtime_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT cho bảng `ticketbookings`
 --
 ALTER TABLE `ticketbookings`
-  MODIFY `ticket_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -441,19 +512,12 @@ ALTER TABLE `screenings`
 --
 ALTER TABLE `showtimes`
   ADD CONSTRAINT `showtimes_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`) ON DELETE CASCADE;
-<<<<<<< HEAD
-=======
 
 --
 -- Các ràng buộc cho bảng `ticketbookings`
 --
 ALTER TABLE `ticketbookings`
-  ADD CONSTRAINT `fk1_screening` FOREIGN KEY (`screening_id`) REFERENCES `screenings` (`screening_id`),
-  ADD CONSTRAINT `fk1_showtime` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`),
-  ADD CONSTRAINT `ticketbookings_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`),
-  ADD CONSTRAINT `ticketbookings_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `ticketbookings_ibfk_3` FOREIGN KEY (`ticket_type`) REFERENCES `ticketprices` (`ticket_type`);
->>>>>>> f0845ff36ef3b4966dabdd769d06988c4b8ab814
+  ADD CONSTRAINT `ticketbookings_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
