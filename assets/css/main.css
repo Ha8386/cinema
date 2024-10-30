@@ -1534,7 +1534,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-weight: 500;
-    letter-spacing: -1px; 
 }
 .seat-cupple {
     flex: 2 !important; 

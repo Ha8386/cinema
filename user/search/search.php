@@ -9,11 +9,12 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ưu đãi đặc biệt</title>
+    <title>Kết quả tìm kiếm</title>
     <link rel="icon" href="../assets/img/logo4S-onlyic.png" type="x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="icon" href="../../assets/img/logo4S-onlyic.png" type="x-icon">
     <link rel="stylesheet" href="../cinemas/Showing_Movies/showing_movies.css">
     <link rel="stylesheet" href="../../assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
