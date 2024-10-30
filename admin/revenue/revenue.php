@@ -143,11 +143,11 @@ include '../../user/db_connection.php';
                    // Truy vấn để lấy doanh thu và số lượng vé theo tháng
                     $query = "
                         SELECT 
-                            DATE_FORMAT(order_date, '%Y-%m') AS month_year,
-                            SUM(quantity) AS total_tickets,
-                            SUM(price) AS total_revenue
+                            DATE_FORMAT(booking_date, '%Y-%m') AS month_year,
+                            SUM(ticket_quantity) AS total_tickets,
+                            SUM(total_price) AS total_revenue
                         FROM 
-                            ticket_orders
+                            ticketbookings
                         GROUP BY 
                             month_year
                         ORDER BY 

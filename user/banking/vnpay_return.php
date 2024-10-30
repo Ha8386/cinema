@@ -2,6 +2,10 @@
 session_start(); // Khởi động session
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '../../vendor/autoload.php';
+
 // Khai báo thông tin VNPay
 $vnp_HashSecret = "QCBIKPJDQ5NTRTDNNZDJU3QOVJIQ518Z"; // Chuỗi bí mật
 
@@ -35,6 +39,7 @@ if ($vnp_SecureHash === $vnp_SecureHashCalculated) {
 
         preg_match('/Số vé:\s*(\d+)/', $orderInfo, $ticketMatches);
         
+        preg_match('/Số ghế:\s*([^+-]+)/', $orderInfo, $seatMatches);
         // Kiểm tra nếu tìm thấy tên phim
         if (isset($movieMatches[1])) {
             $movieName = trim($movieMatches[1]); // Lấy tên phim và loại bỏ khoảng trắng thừa
@@ -54,6 +59,12 @@ if ($vnp_SecureHash === $vnp_SecureHashCalculated) {
         } else {
             $ticketQuantity = 0; // Nếu không tìm thấy, đặt giá trị mặc định là 0
         }
+        if (isset($seatMatches[1])) {
+            $seatNumber = trim($seatMatches[1]); // Lấy số ghế và loại bỏ khoảng trống
+        }else {
+            $seatNumber = null;
+        }
+
 
         // Các giá trị khác
         $totalAmount = $_GET['vnp_Amount'] / 100; // VNPay trả về số tiền theo đơn vị tiền tệ
@@ -62,16 +73,53 @@ if ($vnp_SecureHash === $vnp_SecureHashCalculated) {
 
        include '../db_connection.php';
 
+       $emailQuery = $conn->prepare("SELECT email FROM customers WHERE id = ?");
+       $emailQuery->bind_param("i", $customerId);
+       $emailQuery->execute();
+       $emailQuery->bind_result($customerEmail);
+       $emailQuery->fetch();
+       $emailQuery->close();
+
         // Chuẩn bị và thực hiện câu truy vấn
         $stmt = $conn->prepare("INSERT INTO ticketbookings (movie_name, customer_id, ticket_quantity,  total_price, screening_time, booking_date) VALUES (?, ?, ?, ?, ?, NOW())");
         $stmt->bind_param("siids", $movieName, $customerId, $ticketQuantity, $totalAmount, $screeningTime);
         
         if ($stmt->execute()) {
+            $mail = new PHPMailer(true);
+            try {
+                // SMTP settings
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'khangduy006@gmail.com';
+                $mail->Password = 'ijgi brbb llhm ruxl';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                // Recipient and content
+                $mail->setFrom('khangduy006@gmail.com', '4SCinema');
+                $mail->addAddress($customerEmail);
+                $mail->isHTML(true);
+              
+                $mail->Body = "
+                    <h3>Chúc mừng bạn đã đặt vé thành công!</h3>
+                    <p><b>Phim:</b> $movieName</p>
+                    <p><b>Thời gian chiếu:</b> $screeningTime</p>
+                    <p><b>Số lượng vé:</b> $ticketQuantity</p>
+                    <p><b>Số ghế:</b> $seatNumber</p>
+                    <p><b>Tổng số tiền:</b> " . number_format($totalAmount, 0, ',', '.') . " VND</p>
+                    <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+                ";
+
+                $mail->send();
             echo "<script>
             alert('Giao dịch thành công! Dữ liệu đã được lưu vào cơ sở dữ liệu.');
             window.location.href = '../account/history.php'; 
           </script>";
-        } else {
+        } catch (Exception $e) {
+            echo "Không thể gửi email: {$mail->ErrorInfo}";
+        }
+     } else {
             echo "Lỗi: " . $stmt->error;
         }
 

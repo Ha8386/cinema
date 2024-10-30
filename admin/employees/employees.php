@@ -230,7 +230,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
                     <div class="ad_nav_item">
 
                         <button class="add" id="createMovieBtn">
-                            <i class="fas fa-plus"></i> 
                             Tạo nhân viên
                         </button>
                         <a href="employees.php" class="reset-button">
@@ -317,13 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
                 </tbody>
 
             </table>
-            <div class="pagination">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-            </div>
+           
         </div>
     </div>
            
