@@ -126,8 +126,14 @@ body {
 
 .revenue_select{
     display: flex;
+    font-size: 1.6rem;
+    line-height: 3rem;
 }
 
 .revenue_as_time{
     margin-left: 2rem;
+}
+
+.select{
+    padding: 0.3rem 1rem;
 }

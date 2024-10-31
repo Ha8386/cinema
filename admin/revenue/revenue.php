@@ -109,30 +109,14 @@ include '../../user/db_connection.php';
         </div>
         <div class="user-info">
             <img src="/4scinema/assets/img/admin.jpg" alt="admin">
-            <span>Nguyen Duc Ha</span>
+            <span>Nam Anh</span>
         </div>
     </div>
     <div class="content">
         <div class="container">
-        <?php
-        $query = "
-            SELECT 
-                DATE_FORMAT(booking_date, '%Y-%m') AS month_year,
-                SUM(ticket_quantity) AS total_tickets,
-                SUM(total_price) AS total_revenue
-            FROM 
-                ticketbookings
-            GROUP BY 
-                month_year
-            ORDER BY 
-                month_year
-        "; 
-        $result = $conn->query($query);
-        $count = 1;
-        ?>
             <div class="revenue_title">Bảng thống kê doanh thu</div>
             <div class="revenue_select">
-                <select name="revenue_as_movie" id="">
+                <select name="select revenue_as_movie" id="">
                     <?php
                     $sql_movie = 'SELECT movie_id, title FROM movies WHERE status_mv = "Đang chiếu"';
                     $result = $conn->query($sql_movie);
@@ -144,14 +128,29 @@ include '../../user/db_connection.php';
                     ?>
                 </select>
     
-                <div class="revenue_as_time">
-                    <input type="date" id="date" name="date">
-                </div>
+                <select class="select revenue_as_time">
+                    <option value="7days" selected>7 ngày gần nhất</option>
+                    <option value="30days">30 ngày gần nhất</option>
+                    <option value="6months">6 tháng gần nhất</option>
+                    <option value="year">Năm nay</option>
+                </select>
             </div>
 
-            <div id="myfirstchart" style="height: 250px">
-                <?php
-                $sql = 'SELECT * FROM ticketbookings';
+            <div id="BieuDo" style="height: 500px">
+            <?php
+                $sql = "
+                SELECT 
+                    DATE_FORMAT(booking_date, '%d-%m-%Y') AS day,
+                    SUM(ticket_quantity) AS total_tickets,
+                    SUM(total_price) AS total_revenue,
+                    ticket_quantity
+                FROM 
+                    ticketbookings
+                GROUP BY 
+                    day
+                ORDER BY 
+                    booking_date
+                "; 
                 $result = $conn->query($sql);
 
                 $data = array();
@@ -162,7 +161,8 @@ include '../../user/db_connection.php';
                 }
                 $conn->close();
                 $data_json = json_encode($data);
-                ?>
+            ?>
+
             </div>
             
         </div>
@@ -172,6 +172,9 @@ include '../../user/db_connection.php';
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        var data = <?php echo $data_json; ?>;
+    </script>
     <script src="../js/admin.js"></script>
 </body>
 </html>
