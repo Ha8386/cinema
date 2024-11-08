@@ -122,7 +122,7 @@ include '../../user/db_connection.php';
                     $result = $conn->query($sql_movie);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<option value="date">' .$row['title'].'</option>';
+                            echo '<option value="' . $row['title'] . '">' . $row['title'] . '</option>';
                         }
                     }
                     ?>
@@ -131,8 +131,6 @@ include '../../user/db_connection.php';
                 <select class="select revenue_as_time">
                     <option value="7days" selected>7 ngày qua</option>
                     <option value="30days">30 ngày qua</option>
-                    <!-- <option value="6months">6 tháng qua</option>
-                    <option value="year">Năm nay</option> -->
                 </select>
             </div>
 
@@ -142,8 +140,7 @@ include '../../user/db_connection.php';
                 SELECT 
                     DATE_FORMAT(booking_date, '%d-%m-%Y') AS day,
                     SUM(ticket_quantity) AS total_tickets,
-                    SUM(total_price) AS total_revenue,
-                    ticket_quantity
+                    SUM(total_price) AS total_revenue
                 FROM 
                     ticketbookings
                 GROUP BY 
@@ -159,8 +156,32 @@ include '../../user/db_connection.php';
                         $data[] = $row;
                     }
                 }
+
+                $sql_movie = "
+                SELECT 
+                    movie_name,
+                    DATE_FORMAT(booking_date, '%d-%m-%Y') AS day,
+                    SUM(ticket_quantity) AS total_tickets,
+                    SUM(total_price) AS total_revenue
+                FROM 
+                    ticketbookings
+                GROUP BY 
+                    movie_name, day
+                ORDER BY 
+                    booking_date";
+
+                $result_movie = $conn->query($sql_movie);
+
+                $data_movie = array();
+                if ($result_movie->num_rows > 0) {
+                    while ($row_movie = $result_movie->fetch_assoc()) {
+                        $data_movie[] = $row_movie;
+                    }
+                }
+
                 $conn->close();
                 $data_json = json_encode($data);
+                $data_movie_json = json_encode($data_movie);
             ?>
 
             </div>
@@ -174,7 +195,9 @@ include '../../user/db_connection.php';
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script>
         var data = <?php echo $data_json; ?>;
+        var data_movie = <?php echo $data_movie_json; ?>;
     </script>
     <script src="../js/admin.js"></script>
 </body>
 </html>
+

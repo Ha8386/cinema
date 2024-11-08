@@ -267,8 +267,20 @@ document.addEventListener("DOMContentLoaded", function () {
         chart.setData(filteredData);
     }
     updateChart('7days');
+
+    function updateChartByMovie(movieTitle) {
+        // Lọc dữ liệu dựa trên tên phim đã chọn
+        var filteredData = data_movie.filter(item => item.movie_name === movieTitle);
+        chart.setData(filteredData);
+    }
+
     document.querySelector('.revenue_as_time').addEventListener('change', function () {
         updateChart(this.value);
+    });
+
+    document.querySelector('select[name="select revenue_as_movie"]').addEventListener('change', function () {
+        var selectedMovie = this.options[this.selectedIndex].text; // Lấy tên phim
+        updateChartByMovie(selectedMovie);
     });
 });
 
