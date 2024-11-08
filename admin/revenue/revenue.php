@@ -129,10 +129,10 @@ include '../../user/db_connection.php';
                 </select>
     
                 <select class="select revenue_as_time">
-                    <option value="7days" selected>7 ngày gần nhất</option>
-                    <option value="30days">30 ngày gần nhất</option>
-                    <option value="6months">6 tháng gần nhất</option>
-                    <option value="year">Năm nay</option>
+                    <option value="7days" selected>7 ngày qua</option>
+                    <option value="30days">30 ngày qua</option>
+                    <!-- <option value="6months">6 tháng qua</option>
+                    <option value="year">Năm nay</option> -->
                 </select>
             </div>
 

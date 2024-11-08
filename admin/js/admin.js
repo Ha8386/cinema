@@ -248,8 +248,7 @@ window.onload = function() {
 
 //Doanh thu
 document.addEventListener("DOMContentLoaded", function () {
-    // Khởi tạo biểu đồ doanh thu mặc định
-    var chart = new Morris.Bar({
+    var chart = new Morris.Bar  ({
         element: 'BieuDo',
         data: data,
         xkey: 'day',
@@ -257,28 +256,17 @@ document.addEventListener("DOMContentLoaded", function () {
         labels: ['Doanh thu']
     });
 
-    // Hàm cập nhật dữ liệu biểu đồ dựa trên khoảng thời gian
     function updateChart(range) {
         var filteredData = data;
-        
-        // Lọc dữ liệu theo khoảng thời gian chọn
         if (range === '7days') {
-            filteredData = data.slice(-7); // 7 ngày gần nhất
-        } else if (range === '30days') {
-            filteredData = data.slice(-30); // 30 ngày gần nhất
-        } else if (range === '6months') {
-            filteredData = getDataByMonths(6);
-        } else if (range === 'year') {
-            filteredData = getDataByMonths(12);
-        }
-
-        // Cập nhật biểu đồ với dữ liệu đã lọc
+            filteredData = data.slice(-7);
+        } 
+        else if (range === '30days') {
+            filteredData = data.slice(-30); 
+        } 
         chart.setData(filteredData);
     }
-
     updateChart('7days');
-
-    // Thêm sự kiện `change` cho dropdown chọn thời gian
     document.querySelector('.revenue_as_time').addEventListener('change', function () {
         updateChart(this.value);
     });
