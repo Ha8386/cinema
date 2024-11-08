@@ -246,6 +246,33 @@ window.onload = function() {
     }
 };
 
+//Doanh thu
+document.addEventListener("DOMContentLoaded", function () {
+    var chart = new Morris.Bar  ({
+        element: 'BieuDo',
+        data: data,
+        xkey: 'day',
+        ykeys: ['total_revenue'],
+        labels: ['Doanh thu']
+    });
+
+    function updateChart(range) {
+        var filteredData = data;
+        if (range === '7days') {
+            filteredData = data.slice(-7);
+        } 
+        else if (range === '30days') {
+            filteredData = data.slice(-30); 
+        } 
+        chart.setData(filteredData);
+    }
+    updateChart('7days');
+    document.querySelector('.revenue_as_time').addEventListener('change', function () {
+        updateChart(this.value);
+    });
+});
+
+
 
 
 

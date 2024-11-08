@@ -83,6 +83,11 @@
                                     Đăng nhập
                                 <?php endif; ?>
                             </a>
+                            <div class="hd-login-item">
+                                <a class="hd__local-link" href="../../account/profile.php">Cập nhật thông tin</a>
+                                <a class="hd__local-link" href="../../account/history.php">Lịch sử đặt vé</a>
+                                <a class="hd__local-link" href="../../logout.php">Đăng xuất</a>
+                            </div>
                         </li>
                         <div class="hd-login-item">
                                 <a class="hd__local-link" href="../account/profile.php">Cập nhật thông tin</>

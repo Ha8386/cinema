@@ -264,23 +264,18 @@ if (isset($_POST['updatemovie'])) {
                 <h1> Danh sách phim</h1>
                 <div class="ad_nav">
                     <div class="ad_nav_item">
-
-                        <button class="add" id="createMovieBtn">
-                          
+                        <button class="add" id="createMovieBtn">              
                             Tạo phim
                         </button>
                         <a href="ad_movie.php" class="reset-button">
                             <button>Hiển thị tất cả</button>
                         </a>
-                    </div>
-                    
+                    </div>        
                     <form action="ad_movie.php" method="get">
                         <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
                         <input type="submit" name="ok" value="search" />
-                    </form>
-                    
-                </div>
-                
+                    </form>                   
+                </div>                
             </div>
             <table>
                 <thead>

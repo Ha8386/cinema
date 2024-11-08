@@ -1,12 +1,6 @@
 <?php 
 include '../../user/db_connection.php';
 
-    
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +8,7 @@ include '../../user/db_connection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>Doanh thu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../assets/css/base.css">
     <link rel="stylesheet" href="../css/mainadmin.css">
@@ -22,10 +16,10 @@ include '../../user/db_connection.php';
     <link rel="stylesheet" href="/4scinema/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 </head>
 <body>
 <div class="sidebar">
@@ -115,71 +109,72 @@ include '../../user/db_connection.php';
         </div>
         <div class="user-info">
             <img src="/4scinema/assets/img/admin.jpg" alt="admin">
-            <span>Nguyen Duc Ha</span>
+            <span>Nam Anh</span>
         </div>
     </div>
     <div class="content">
         <div class="container">
-            <div class="main-header">
-                <h1> Báo cáo doanh thu</h1>
-
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Thời gian </th>
-                        <th>Số lượng vé</th>
-                        <th>Doanh thu </th>
-                        
-                        
-                    </tr>
-                </thead>
-                <tbody id="revenueList">
+            <div class="revenue_title">Bảng thống kê doanh thu</div>
+            <div class="revenue_select">
+                <select name="select revenue_as_movie" id="">
                     <?php
-                    // Kết nối và truy xuất dữ liệu như đã mô tả ở trên
-                    include '../../user/db_connection.php'; // Đường dẫn đến file kết nối cơ sở dữ liệu
-
-                   // Truy vấn để lấy doanh thu và số lượng vé theo tháng
-                    $query = "
-                        SELECT 
-                            DATE_FORMAT(booking_date, '%Y-%m') AS month_year,
-                            SUM(ticket_quantity) AS total_tickets,
-                            SUM(total_price) AS total_revenue
-                        FROM 
-                            ticketbookings
-                        GROUP BY 
-                            month_year
-                        ORDER BY 
-                            month_year
-                    "; 
-                    $result = $conn->query($query);
-                    $count = 1;
-
-                    // Kiểm tra và hiển thị dữ liệu
+                    $sql_movie = 'SELECT movie_id, title FROM movies WHERE status_mv = "Đang chiếu"';
+                    $result = $conn->query($sql_movie);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . $count++ . '</td>';
-                            echo '<td>' . $row['month_year'] . '</td>';
-                            echo '<td>' . $row['total_tickets'] . '</td>';
-                            echo '<td>' . number_format($row['total_revenue'], 2) . ' VND</td>'; // Định dạng doanh thu
-                            echo '</tr>';
+                            echo '<option value="date">' .$row['title'].'</option>';
                         }
-                    } else {
-                        echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
                     }
                     ?>
-                </tbody>
+                </select>
+    
+                <select class="select revenue_as_time">
+                    <option value="7days" selected>7 ngày qua</option>
+                    <option value="30days">30 ngày qua</option>
+                    <!-- <option value="6months">6 tháng qua</option>
+                    <option value="year">Năm nay</option> -->
+                </select>
+            </div>
 
-            </table>
+            <div id="BieuDo" style="height: 500px">
+            <?php
+                $sql = "
+                SELECT 
+                    DATE_FORMAT(booking_date, '%d-%m-%Y') AS day,
+                    SUM(ticket_quantity) AS total_tickets,
+                    SUM(total_price) AS total_revenue,
+                    ticket_quantity
+                FROM 
+                    ticketbookings
+                GROUP BY 
+                    day
+                ORDER BY 
+                    booking_date
+                "; 
+                $result = $conn->query($sql);
+
+                $data = array();
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $data[] = $row;
+                    }
+                }
+                $conn->close();
+                $data_json = json_encode($data);
+            ?>
+
+            </div>
             
         </div>
     </div>
            
      
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        var data = <?php echo $data_json; ?>;
+    </script>
     <script src="../js/admin.js"></script>
-
-    
 </body>
 </html>
