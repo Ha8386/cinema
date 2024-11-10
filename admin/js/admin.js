@@ -48,10 +48,6 @@ function deleteMovie(movie_id) {
     }
 }
 
-// sửa phim
-
-
-
 // xoá rạp
 function deleteCinemas(cinema_id) {
     if (confirm("Bạn có chắc chắn muốn xóa rạp này không?")) {
