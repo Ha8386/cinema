@@ -2075,6 +2075,7 @@
 /* ------------------------------------sửa thông tin cá nhân-------------------------------------------- */
 .app-profile {
     background: radial-gradient(rgb(120, 95, 203) 0%, rgba(15,23,42,1) 70%, rgb(2, 2, 37) 100%);
+    min-height: 500px;
 }
 .app-profile .sec-heading {
     margin-top: 0;

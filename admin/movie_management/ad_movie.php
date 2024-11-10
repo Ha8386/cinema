@@ -1,18 +1,7 @@
 <?php 
 include '../../user/db_connection.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
-function handleFileUpload($file, $destination) {
-    if (isset($file) && $file['error'] == UPLOAD_ERR_OK) {
-        $tmp_name = $file['tmp_name'];
-        $file_name = basename($file['name']);
-        move_uploaded_file($tmp_name, $destination . $file_name);
-        return $file_name;
-    }
-    return null;
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
     $title = $_POST['title'];
@@ -49,20 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
 
 // Xoá phim
 if (isset($_GET['delete'])) {
-    $id_to_delete = intval($_GET['delete']);
-
-    // xoá lịch chiếu liên quan
+    $id_to_delete = $_GET['delete'];
     $stmt_showtimes = $conn->prepare("DELETE FROM showtimes WHERE movie_id = ?");
-
-    if ($stmt_showtimes === false) {
-        die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
-    }
-
     $stmt_showtimes->bind_param("i", $id_to_delete);
     if (!$stmt_showtimes->execute()) {
         echo "Lỗi xóa lịch chiếu: " . $stmt_showtimes->error;
     }
-
     $stmt_showtimes->close();
 
     //  xóa phim
@@ -85,7 +66,7 @@ $editData = null;
 
 // Lấy thông tin phim nếu có ID trong URL
 if (isset($_GET['edit'])) {
-    $movie_id = intval($_GET['edit']);
+    $movie_id = $_GET['edit'];
     $query = "SELECT * FROM movies WHERE movie_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $movie_id);
@@ -93,13 +74,12 @@ if (isset($_GET['edit'])) {
     $result = $stmt->get_result();  
     if ($row = $result->fetch_assoc()) {
         $editData = $row;
-        
         $current_trailer = $editData['trailer_url'];
         $current_image = $editData['image_url'];
         $status_mv = $editData['status_mv'];
-      
+
     }
-   
+
     $stmt->close();
 }
 if (isset($_POST['updatemovie'])) {
@@ -115,19 +95,18 @@ if (isset($_POST['updatemovie'])) {
     $duration = $_POST['edit_duration'];
     $country = $_POST['edit_country'];
 
-    // Xử lý upload file (nếu có)
-    if (isset($_FILES['edit_trailer_url']) && $_FILES['edit_trailer_url']['error'] == UPLOAD_ERR_OK) {
+    if (isset($_FILES['edit_trailer_url'])) {
         $trailer_url = $_FILES['edit_trailer_url']['name'];
         move_uploaded_file($_FILES['edit_trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
     } else {
-        $trailer_url = $editData['trailer_url']; // Giữ lại trailer cũ nếu không có file mới
+        $trailer_url = $editData['trailer_url'];
     }
 
-    if (isset($_FILES['edit_image_url']) && $_FILES['edit_image_url']['error'] == UPLOAD_ERR_OK) {
+    if (isset($_FILES['edit_image_url'])) {
         $image_url = $_FILES['edit_image_url']['name'];
         move_uploaded_file($_FILES['edit_image_url']['tmp_name'], "../../assets/img/" . $image_url);
     } else {
-        $image_url = $editData['image_url']; // Giữ lại image cũ nếu không có file mới
+        $image_url = $editData['image_url'];
     }
 
     // Cập nhật thông tin phim
@@ -262,23 +241,18 @@ if (isset($_POST['updatemovie'])) {
                 <h1> Danh sách phim</h1>
                 <div class="ad_nav">
                     <div class="ad_nav_item">
-
-                        <button class="add" id="createMovieBtn">
-                          
+                        <button class="add" id="createMovieBtn">              
                             Tạo phim
                         </button>
                         <a href="ad_movie.php" class="reset-button">
                             <button>Hiển thị tất cả</button>
                         </a>
-                    </div>
-                    
+                    </div>        
                     <form action="ad_movie.php" method="get">
                         <input type="text" name="search" required placeholder="Nhập dữ liệu"  value="<?php echo htmlspecialchars($search); ?>"/>
                         <input type="submit" name="ok" value="search" />
-                    </form>
-                    
-                </div>
-                
+                    </form>                   
+                </div>                
             </div>
             <table>
                 <thead>
@@ -448,50 +422,50 @@ if (isset($_POST['updatemovie'])) {
 
                         <div class="form-group half-width">
                             <label for="name">* Tên phim</label>
-                            <input type="text" name="edit_title" placeholder="Enter name" value="<?php echo $editData ? htmlspecialchars($editData['title']) : ''; ?>">
+                            <input type="text" name="edit_title" placeholder="Enter name" value="<?php echo $editData['title']; ?>">
                         </div>
                         <div class="form-group half-width">
                             <label for="age">* Độ tuổi xem phim</label>
-                            <input type="text" name="edit_age_rating" placeholder="Enter age"  value="<?php echo $editData ? htmlspecialchars($editData['age_rating']) : ''; ?>">
+                            <input type="text" name="edit_age_rating" placeholder="Enter age"  value="<?php echo $editData['age_rating']; ?>">
                         </div>
                     </div>  
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="trailer">* Trailer</label>
                             <input type="file" name="edit_trailer_url">
-                            <p id="current_trailer">Trailer hiện tại: <?php echo htmlspecialchars($current_trailer); ?></p>
+                            <p id="current_trailer">Trailer hiện tại: <?php echo $current_trailer; ?></p>
                         </div>
                         <div class="form-group half-width">
                             <label for="date">* Ngày chiếu</label>
-                            <input type="date" name="edit_release_date" value="<?php echo $editData ? $editData['release_date'] : ''; ?>">
+                            <input type="date" name="edit_release_date" value="<?php echo$editData['release_date']; ?>">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="image">* Ảnh</label>
                             <input type="file" name="edit_image_url">
-                            <p id="current_image">Ảnh hiện tại: <?php echo htmlspecialchars($current_image); ?></p>
+                            <p id="current_image">Ảnh hiện tại: <?php echo$current_image; ?></p>
                         </div>
                         <div class="form-group half-width">
                             <label for="vietsub">Phụ đề</label>
-                            <input type="text" name="edit_vietsub" placeholder="Enter sub" value="<?php echo $editData ? htmlspecialchars($editData['vietsub']) : ''; ?>">
+                            <input type="text" name="edit_vietsub" placeholder="Enter sub" value="<?php echo$editData['vietsub']; ?>">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="description">* Nội dung phim</label>
-                            <textarea name="edit_description" placeholder="Enter description"><?php echo $editData ? htmlspecialchars($editData['description_mv']) : ''; ?></textarea>
+                            <textarea name="edit_description" placeholder="Enter description"><?php echo$editData['description_mv']; ?></textarea>
                         </div>
                         <div class="form-group half-width">
                             <label for="description">* Mô tả</label>
-                            <textarea name="edit_subtitle" placeholder="Enter subtitle"><?php echo $editData ? htmlspecialchars($editData['subtitle']) : ''; ?></textarea>
+                            <textarea name="edit_subtitle" placeholder="Enter subtitle"><?php echo$editData['subtitle']; ?></textarea>
                         </div>
                         
                     </div>
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="genres">Thể loại</label>
-                            <input type="text" name="edit_genre" id="editGenre" placeholder="Enter genres" value="<?php echo $editData ? $editData['genre'] : ''; ?>">
+                            <input type="text" name="edit_genre" id="editGenre" placeholder="Enter genres" value="<?php echo$editData['genre']; ?>">
                         </div>
                         <div class="form-group half-width">
                             <label for="status">* Trạng thái</label>
@@ -505,11 +479,11 @@ if (isset($_POST['updatemovie'])) {
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label for="duration">* Thời lượng phim (phút)</label>
-                            <input type="text" name="edit_duration" placeholder="Enter duration" value="<?php echo $editData ? $editData['duration'] : ''; ?>">
+                            <input type="text" name="edit_duration" placeholder="Enter duration" value="<?php echo$editData['duration']; ?>">
                         </div>
                         <div class="form-group half-width">
                             <label for="country">* Quốc gia</label>
-                            <input type="text" name="edit_country" placeholder="Enter country" value="<?php echo $editData ? $editData['country'] : ''; ?>">
+                            <input type="text" name="edit_country" placeholder="Enter country" value="<?php echo $editData['country']; ?>">
                         </div>
                     </div>
                     <div class="form-group">

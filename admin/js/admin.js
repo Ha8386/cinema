@@ -48,10 +48,6 @@ function deleteMovie(movie_id) {
     }
 }
 
-// sửa phim
-
-
-
 // xoá rạp
 function deleteCinemas(cinema_id) {
     if (confirm("Bạn có chắc chắn muốn xóa rạp này không?")) {
@@ -245,6 +241,45 @@ window.onload = function() {
         };
     }
 };
+
+//Doanh thu
+document.addEventListener("DOMContentLoaded", function () {
+    var chart = new Morris.Bar  ({
+        element: 'BieuDo',
+        data: data,
+        xkey: 'day',
+        ykeys: ['total_revenue'],
+        labels: ['Doanh thu']
+    });
+
+    function updateChart(range) {
+        var filteredData = data;
+        if (range === '7days') {
+            filteredData = data.slice(-7);
+        } 
+        else if (range === '30days') {
+            filteredData = data.slice(-30); 
+        } 
+        chart.setData(filteredData);
+    }
+    updateChart('7days');
+
+    function updateChartByMovie(movieTitle) {
+        // Lọc dữ liệu dựa trên tên phim đã chọn
+        var filteredData = data_movie.filter(item => item.movie_name === movieTitle);
+        chart.setData(filteredData);
+    }
+
+    document.querySelector('.revenue_as_time').addEventListener('change', function () {
+        updateChart(this.value);
+    });
+
+    document.querySelector('select[name="select revenue_as_movie"]').addEventListener('change', function () {
+        var selectedMovie = this.options[this.selectedIndex].text; // Lấy tên phim
+        updateChartByMovie(selectedMovie);
+    });
+});
+
 
 
 

@@ -91,6 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editshowtime'])) {
     }
 }
 
+$sql_old = "DELETE FROM showtimes WHERE show_date < CURDATE()";
+if ($conn->query($sql_old) === TRUE) {
+    echo "Deleted old schedules successfully";
+} else {
+    echo "Error: " . $conn->error;
+}
 ?>
 
 <!DOCTYPE html>
@@ -329,7 +335,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editshowtime'])) {
                                     <option value="">Chọn phim</option>
                                     <?php
                                     // Lấy danh sách phim  từ cơ sở dữ liệu
-                                    $movieQuery = "SELECT * FROM movies";
+                                    $movieQuery = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
                                     $movieResult = $conn->query($movieQuery);
                                     if ($movieResult->num_rows > 0) {
                                         while ($movieRow = $movieResult->fetch_assoc()) {

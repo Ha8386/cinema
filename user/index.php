@@ -337,7 +337,6 @@
                                     <a href="https://www.facebook.com/profile.php?id=61567620087932"><i class="fa-brands fa-facebook"></i></a>
                                     <a href="https://www.tiktok.com/@nguyenducha264"><i class="fa-brands fa-tiktok"></i></a>
                                     <a href="https://www.instagram.com/bo0.905/"><i class="fa-brands fa-instagram"></i></a>
-                                    <a href="https://discord.gg/tvpEumX9"><i class="fa-brands fa-discord"></i></a>
                                 </div>
                             </div>
                         </div>

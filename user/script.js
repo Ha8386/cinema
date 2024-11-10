@@ -521,6 +521,8 @@ function updateDateOptions() {
 
         select.appendChild(option); // Thêm tùy chọn vào select
     }
+    select.selectedIndex = 0; // Chọn tùy chọn đầu tiên
+    select.dispatchEvent(new Event('change')); // Gọi sự kiện change
 }
 
 // Gọi hàm để cập nhật tùy chọn khi DOM đã được tải
@@ -680,6 +682,10 @@ document.getElementById("date-select").addEventListener("change", function () {
 
                 console.log('ID phim được thêm vào dropdown:', movie.movie_id);
             });
+            if (data.length > 0) {
+                phimSelect.value = data[0].movie_id; // Chọn phim đầu tiên
+                phimSelect.dispatchEvent(new Event('change')); // Gọi sự kiện change để hiển thị thông tin phim
+            }
         })
         .catch(error => console.error("Lỗi khi lấy dữ liệu phim:", error));
         
