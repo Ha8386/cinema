@@ -68,9 +68,7 @@ if (isset($_GET['delete'])) {
     //  xóa phim
     $stmt_movie = $conn->prepare("DELETE FROM movies WHERE movie_id = ?");
 
-    if ($stmt_movie === false) {
-        die('Lỗi câu lệnh SQL: ' . htmlspecialchars($conn->error));
-    }
+   
 
     $stmt_movie->bind_param("i", $id_to_delete);
     if ($stmt_movie->execute()) {

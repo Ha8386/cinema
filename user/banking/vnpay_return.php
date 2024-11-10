@@ -113,7 +113,7 @@ if ($vnp_SecureHash === $vnp_SecureHashCalculated) {
 
                 $mail->send();
             echo "<script>
-            alert('Giao dịch thành công! Dữ liệu đã được lưu vào cơ sở dữ liệu.');
+            alert('Giao dịch thành công! Hóa đơn đã được gửi đến gmail của bạn.');
             window.location.href = '../account/history.php'; 
           </script>";
         } catch (Exception $e) {
