@@ -279,12 +279,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editpromotion'])) {
                             echo '<tr><td colspan="8">Không có dữ liệu nào.</td></tr>';
                         }
                     }else {
-
                         // Lấy danh sách ưu đãi
                         $query = "SELECT * FROM promotion"; 
                         $result = $conn->query($query);
                         $count = 1;
-    
                         // Kiểm tra và hiển thị dữ liệu
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {

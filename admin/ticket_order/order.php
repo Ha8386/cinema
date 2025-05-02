@@ -167,8 +167,6 @@ $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
                             echo '<tr><td colspan="6">Không có dữ liệu nào.</td></tr>';
                         }
                      }else {
-
-                        
                          $query = " SELECT tb.id, tb.movie_name, c.customer_name, tb.ticket_quantity, tb.total_price, tb.booking_date 
                                     FROM ticketbookings tb
                                     JOIN customers c ON tb.customer_id = c.id";

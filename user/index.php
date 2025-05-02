@@ -121,15 +121,12 @@
                     </div>
 
                 </section>
-
                 <!-- phim đang chiếu -->
                  <section class="movie-slide">
                     <div class="movie-slide-hd">
                         <h1>Phim đang chiếu</h1>
                     </div>
-
                     <div class="swiper-container">
-                        
                         <div class="movie-rest-container">
                             <div class="movie-rest">
                                 <?php 
@@ -161,9 +158,6 @@
                                     }
                                 }
                                 ?>
-
-                                
-
                             </div>
                         </div>   
 

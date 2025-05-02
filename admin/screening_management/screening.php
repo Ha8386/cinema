@@ -367,7 +367,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
 
     
 
-    <!-- Sửa phim -->
+    <!-- Sửa suất chiếu -->
     <form action="screening.php" method="POST" enctype="multipart/form-data">
         <div id="editModal" class="modal">
             <div class="modal-content">

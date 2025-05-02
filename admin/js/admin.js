@@ -37,7 +37,52 @@ if (btn) {
 }
 // When the user clicks on <span> (x), close the modal
 
+//Bắt lỗi thêm phim
+document.getElementById('addMovieForm').addEventListener('submit', function (event) {
+    const fields = document.querySelectorAll('#addMovieForm input[required], #addMovieForm textarea[required], #addMovieForm select[required]');
+    let isValid = true;
 
+    fields.forEach(field => {
+        const errorMessage = field.nextElementSibling;
+        if (!field.value.trim()) {
+            errorMessage.textContent = 'Vui lòng điền thông tin!';
+            isValid = false;
+        } else {
+            errorMessage.textContent = '';
+        }
+    });
+
+    const durationField = document.querySelector('input[name="duration"]');
+    const duration = durationField.value.trim();
+    if (duration && (isNaN(duration) || duration < 0 || duration > 300)) {
+        isValid = false;
+        durationField.nextElementSibling.textContent = 'Thời lượng phim phải là một số và không vượt quá 300 phút!';
+    } else {
+        durationField.nextElementSibling.textContent = '';
+    }
+
+    const ageField = document.querySelector('input[name="age_rating"]');
+    const age = ageField.value.trim();
+    if (age && (isNaN(age) || age < 0 || age > 18)) {
+        isValid = false;
+        ageField.nextElementSibling.textContent = 'Độ tuổi phải là một số hợp lệ và trong phạm vi từ 0 đến 18!';
+    } else {
+        ageField.nextElementSibling.textContent = '';
+    }
+
+    // Kiểm tra tên phim chỉ chứa ký tự chữ và số
+    const titleField = document.querySelector('input[name="title"]');
+    if (!/^[a-zA-Z0-9\s]+$/.test(titleField.value)) {
+        isValid = false;
+        titleField.nextElementSibling.textContent = 'Tên phim chỉ được phép chứa ký tự chữ và số!';
+    } else {
+        titleField.nextElementSibling.textContent = '';
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
 
 
 
@@ -95,6 +140,17 @@ function addScreeningInput() {
     inputGroup.innerHTML = `<input style="width:100px" type="time" name="screening_time[]" required>`;
     container.appendChild(inputGroup);
 }
+
+function validateAddShowtime() {
+        const movie_id = document.getElementById('movie_id').value;
+        const show_date = document.getElementById('show_date').value;
+
+        if (!movie_id || !show_date) {
+            alert("Vui lòng chọn đầy đủ thông tin: Phim chiếu và Ngày chiếu.");
+            return false;  // Ngừng việc gửi form nếu không hợp lệ
+        }
+        return true;
+    }
 
 // sửa phim
 function editMovie(movieId) {

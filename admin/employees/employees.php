@@ -348,10 +348,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
                                 <input type="text" name="address_nv" required></input>
                             </div>
                         </div>
-
-
-                        
-
                         <div class="form-row">
                             <div class="form-group half-width">
                                 <label >* Phân quyền</label>
@@ -363,14 +359,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
                             </div>
                         </div>
                         <div class="form-row">
-                            
                             <div class="form-group half-width">
                                 <label for="end_time">* Tiền lương</label>
                                 <input type="number" name="salary" required>
                             </div>
                         </div>
-
-                        
                         <div class="form-group">
                             <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
                         </div>

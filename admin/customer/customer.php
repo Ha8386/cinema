@@ -199,7 +199,7 @@ if (isset($_GET['delete'])) {
                         }
                     }else {
 
-                        // Lấy danh sách ưu đãi
+                        // Lấy danh sách khách hàng
                         $query = "SELECT * FROM customers"; 
                         $result = $conn->query($query);
                         $count = 1;
