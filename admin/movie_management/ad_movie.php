@@ -47,10 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addmovie'])) {
         echo "<script>alert('Lỗi DB: " . addslashes($stmt->error) . "');</script>";
     }
 
-    $stmt->close();
-}
-
-
+        $stmt->close();
+    }
 
 // Xoá phim
 if (isset($_GET['delete'])) {
@@ -79,6 +77,7 @@ if (isset($_GET['delete'])) {
 
 // sửa phim
 $editData = null;
+$errors = [];
 
 if (isset($_GET['edit'])) {
     $movie_id = $_GET['edit'];
@@ -96,7 +95,9 @@ if (isset($_GET['edit'])) {
     $stmt->close();
 }
 
+
 if (isset($_POST['updatemovie'])) {
+    // Lấy dữ liệu từ form
     // Lấy dữ liệu từ form
     $title = $_POST['edit_title'];
     $age_rating = $_POST['edit_age_rating'];
@@ -302,9 +303,9 @@ if (isset($_POST['updatemovie'])) {
                                 echo '<td><a href="../../assets/trailer/' . $row['trailer_url'] . '">Xem Trailer</a></td>';
                                 echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
                                 echo '<td><button class="edit" onclick="editMovie(' . $row['movie_id'] . ')">Sửa</button>
-                                      <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
+                                    <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
-                            } 
+                            }
                         } else {
                             echo '<tr><td colspan="8">Không tìm thấy kết quả!</td></tr>';
                         }
@@ -325,7 +326,7 @@ if (isset($_POST['updatemovie'])) {
                                 echo '<td><a href="../../assets/trailer/' . $row['trailer_url'] . '">Xem Trailer</a></td>';
                                 echo '<td><img src="../../assets/img/' . $row['image_url'] . '" alt="Image" width="60"></td>';
                                 echo '<td><button class="edit" onclick="editMovie(' . $row['movie_id'] . ')">Sửa</button>
-                                      <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
+                                    <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
                             }
                         } else {
@@ -333,6 +334,7 @@ if (isset($_POST['updatemovie'])) {
                         }
                     }
                     ?>
+
                 </tbody>
 
             </table>
@@ -497,6 +499,7 @@ if (isset($_POST['updatemovie'])) {
                             >
                         </div>
 
+
                         <div class="form-group half-width">
                             <label>* Độ tuổi xem phim</label>
                             <input
@@ -512,12 +515,14 @@ if (isset($_POST['updatemovie'])) {
                         </div>
                     </div>  
 
+
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label>* Trailer</label>
                             <input type="file" name="edit_trailer_url" accept="video/*">
                             <p>Trailer hiện tại: <?= htmlspecialchars($current_trailer); ?></p>
                         </div>
+
 
                         <div class="form-group half-width">
                             <label>* Ngày chiếu</label>
@@ -532,12 +537,14 @@ if (isset($_POST['updatemovie'])) {
                         </div>
                     </div>
 
+
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label>* Ảnh</label>
                             <input type="file" name="edit_image_url" accept="image/*">
                             <p>Ảnh hiện tại: <?= htmlspecialchars($current_image); ?></p>
                         </div>
+
 
                         <div class="form-group half-width">
                             <label>Phụ đề</label>
@@ -549,6 +556,7 @@ if (isset($_POST['updatemovie'])) {
                             >
                         </div>
                     </div>
+
 
                     <div class="form-row">
                         <div class="form-group half-width">
@@ -562,6 +570,7 @@ if (isset($_POST['updatemovie'])) {
                             ><?= htmlspecialchars($editData['description_mv']); ?></textarea>
                         </div>
 
+
                         <div class="form-group half-width">
                             <label>* Mô tả</label>
                             <textarea
@@ -574,6 +583,7 @@ if (isset($_POST['updatemovie'])) {
                         </div>
                     </div>
 
+
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label>Thể loại</label>
@@ -584,6 +594,7 @@ if (isset($_POST['updatemovie'])) {
                                 value="<?= htmlspecialchars($editData['genre']); ?>"
                             >
                         </div>
+
 
                         <div class="form-group half-width">
                             <label>* Trạng thái</label>
@@ -597,8 +608,12 @@ if (isset($_POST['updatemovie'])) {
                                 <option value="Đang chiếu" <?= ($editData['status_mv'] === 'Đang chiếu') ? 'selected' : ''; ?>>Đang chiếu</option>
                                 <option value="Sắp chiếu" <?= ($editData['status_mv'] === 'Sắp chiếu') ? 'selected' : ''; ?>>Sắp chiếu</option>
                             </select>
+                            <?php if (isset($errors['edit_status'])): ?>
+                                <div class="error"><?php echo $errors['edit_status']; ?></div>
+                            <?php endif; ?>
                         </div>
                     </div>
+
 
                     <div class="form-row">
                         <div class="form-group half-width">
@@ -615,6 +630,7 @@ if (isset($_POST['updatemovie'])) {
                             >
                         </div>
 
+
                         <div class="form-group half-width">
                             <label>* Quốc gia</label>
                             <input
@@ -628,6 +644,7 @@ if (isset($_POST['updatemovie'])) {
                             >
                         </div>
                     </div>
+
 
                     <div class="form-group">
                         <button class="submit-btn" name="updatemovie">Cập nhật</button>

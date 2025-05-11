@@ -31,13 +31,11 @@
                     Quản lý phim
                 </li>
             </a>
-            
             <li class="active" onclick="toggleSubmenu(this)">
                 <i class="fas fa-cube"></i>
                 Quản lý rạp phim
                 <i class="fas fa-chevron-right" style="position: absolute; right: 20px;"></i>
             </li>
-           
             <a href="./showtime_management/showtime.php">
                 <li class="submenu-item">
                     <i class="fas fa-caret-right"></i>

@@ -285,7 +285,6 @@ if ($conn->query($sql_old) === TRUE) {
                         echo '<tr><td colspan="4">Không có dữ liệu nào.</td></tr>';
                     }
                    }else {
-
                        // Lấy danh sách lịch chiếu
                        $query = "SELECT movies.movie_id, movies.title,  GROUP_CONCAT(DISTINCT showtimes.show_date ORDER BY showtimes.show_date SEPARATOR ', ') AS show_dates 
                                 FROM showtimes 
@@ -297,7 +296,6 @@ if ($conn->query($sql_old) === TRUE) {
                         die("Query failed: " . $conn->error); // Kiểm tra lỗi
                     }
                        $count = 1;
-   
                        // Kiểm tra và hiển thị dữ liệu
                        if ($result->num_rows > 0) {
                            while ($row = $result->fetch_assoc()) {
@@ -322,12 +320,9 @@ if ($conn->query($sql_old) === TRUE) {
                    }
                     ?>
                 </tbody>
-
             </table>
-           
         </div>
     </div>
-           
      <!-- The Modal -->
      <form action="showtime.php" method="POST" enctype="multipart/form-data" onsubmit="return validateAddShowtime()">
         <div id="myModal" class="modal">
@@ -370,7 +365,7 @@ if ($conn->query($sql_old) === TRUE) {
 
     
 
-    <!-- Sửa phim -->
+    <!-- Sửa lịch chiếu -->
     <form action="showtime.php" method="POST" enctype="multipart/form-data">
         <div id="editModal" class="modal">
             <div class="modal-content">
