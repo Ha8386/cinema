@@ -3,31 +3,59 @@ include '../../user/db_connection.php';
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addemployee'])) {
-    
+    // Lấy giá trị từ form
+    $employee_name = $_POST['employee_name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address_nv'];
+    $position = $_POST['position'];
+    $hire_date = $_POST['hire_date'];
+    $salary = $_POST['salary'];
 
-     $employee_name = $_POST['employee_name'];
-     $email = $_POST['email'];
-     $phone = $_POST['phone'];
-     $address = $_POST['address_nv'];
-     $position = $_POST['position'];
-     $hire_date = $_POST['hire_date'];
-     $salary = $_POST['salary'];
- 
-     // Chuẩn bị câu lệnh SQL để thêm nhân viên
-     $stmt = $conn->prepare("INSERT INTO employees (employee_name, email, phone, address_nv, position, hire_date, salary) VALUES (?, ?, ?, ?, ?, ?, ?)");
-     $stmt->bind_param("ssssssi", $employee_name, $email, $phone, $address, $position, $hire_date, $salary); // "ssssssi" là định dạng cho các tham số
- 
-     // Thực thi câu lệnh và kiểm tra
-     if ($stmt->execute()) {
-         echo "Nhân viên đã được thêm thành công!";
-     } else {
-         echo "Lỗi: " . $stmt->error;
-     }
+    // Kiểm tra xem các trường dữ liệu có bị bỏ trống không
+    if (empty($employee_name)) {
+        echo "Vui lòng nhập tên nhân viên.";
+        return; // Dừng việc xử lý tiếp theo nếu có lỗi
+    }
+    if (empty($email)) {
+        echo "Vui lòng nhập email.";
+        return;
+    }
+    if (empty($phone)) {
+        echo "Vui lòng nhập số điện thoại.";
+        return;
+    }
+    if (empty($address)) {
+        echo "Vui lòng nhập địa chỉ.";
+        return;
+    }
+    if (empty($position)) {
+        echo "Vui lòng nhập phân quyền.";
+        return;
+    }
+    if (empty($hire_date)) {
+        echo "Vui lòng nhập ngày vào làm.";
+        return;
+    }
+    if (empty($salary)) {
+        echo "Vui lòng nhập tiền lương.";
+        return;
+    }
 
-        $stmt->close();
-        
-    
+    // Chuẩn bị câu lệnh SQL để thêm nhân viên
+    $stmt = $conn->prepare("INSERT INTO employees (employee_name, email, phone, address_nv, position, hire_date, salary) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssi", $employee_name, $email, $phone, $address, $position, $hire_date, $salary); // "ssssssi" là định dạng cho các tham số
+
+    // Thực thi câu lệnh và kiểm tra
+    if ($stmt->execute()) {
+        echo "Nhân viên đã được thêm thành công!";
+    } else {
+        echo "Lỗi: " . $stmt->error;
+    }
+
+    $stmt->close();
 }
+
 // xoá ưu đãi
 if (isset($_GET['delete'])) {
     $id_to_delete = intval(trim($_GET['delete']));
@@ -321,63 +349,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editemployee'])) {
     </div>
            
      <!-- The Modal -->
-        <form action="employees.php" method="POST" enctype="multipart/form-data">
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1>Thêm nhân viên</h1>
-                    <div class="container">
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Tên nhân viên</label>
-                                <input type="text" name="employee_name" required>
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Email</label>
-                                <input type="email" name="email"  required>
-                            </div>
+     <form action="employees.php" method="POST" enctype="multipart/form-data">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Thêm nhân viên</h1>
+                <div class="container">
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label >* Tên nhân viên</label>
+                            <input type="text" name="employee_name" required>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Số điện thoại</label>
-                                <input type="text" name="phone" required></input>
-                            </div>
-                            <div class="form-group half-width">
-                                <label >* Địa chỉ</label>
-                                <input type="text" name="address_nv" required></input>
-                            </div>
+                        <div class="form-group half-width">
+                            <label >* Email</label>
+                            <input type="email" name="email" required>
                         </div>
+                    </div>
 
-
-                        
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label >* Phân quyền</label>
-                                <input type="text" name="position" required>
-                            </div>
-                            <div class="form-group half-width">
-                                <label for="end_time">* Ngày vào làm</label>
-                                <input type="date" name="hire_date" required>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label >* Số điện thoại</label>
+                            <input type="text" name="phone" required>
                         </div>
-                        <div class="form-row">
-                            
-                            <div class="form-group half-width">
-                                <label for="end_time">* Tiền lương</label>
-                                <input type="number" name="salary" required>
-                            </div>
+                        <div class="form-group half-width">
+                            <label >* Địa chỉ</label>
+                            <input type="text" name="address_nv" required>
                         </div>
+                    </div>
 
-                        
-                        <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addemployee">Thêm nhân viên</button>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label >* Phân quyền</label>
+                            <input type="text" name="position" required>
                         </div>
+                        <div class="form-group half-width">
+                            <label for="end_time">* Ngày vào làm</label>
+                            <input type="date" name="hire_date" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="end_time">* Tiền lương</label>
+                            <input type="number" name="salary" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="submit-btn" id="addMovieBtn" name="addemployee">Thêm nhân viên</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
+
 
         <!-- sửa  -->
         <form action="employees.php?edit=<?php echo $editData ? $editData['id'] : ''; ?>" method="POST" enctype="multipart/form-data">

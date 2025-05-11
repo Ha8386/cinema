@@ -127,6 +127,7 @@
                             </div>
 
                             <select class="chon" name="cinemas" id="rap">
+                                <option value="" disabled selected>Chọn rạp</option>
                                 <option value="">4SCinema Long Biên</option>
                                 <option value="">4SCinema Tây Hồ</option>
                                 <option value="">4SCinema Thanh Xuân</option>

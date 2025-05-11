@@ -3,11 +3,29 @@ include '../../user/db_connection.php';
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addscreen'])) {
+    // Lấy giá trị từ form
     $showtime_id = $_POST['showtime_id'];
-    $screening_times = $_POST['screening_time']; // Lưu ý đây là một mảng
+    $screening_times = $_POST['screening_time']; // Mảng các suất chiếu
+
+    // Kiểm tra nếu trường Lịch chiếu và Suất chiếu bị bỏ trống
+    if (empty($showtime_id)) {
+        echo "Vui lòng chọn lịch chiếu.";
+        return; // Dừng việc xử lý tiếp theo
+    }
+
+    if (empty($screening_times) || count($screening_times) == 0) {
+        echo "Vui lòng thêm ít nhất một suất chiếu.";
+        return; // Dừng việc xử lý tiếp theo
+    }
 
     // Lặp qua từng suất chiếu và thêm vào cơ sở dữ liệu
     foreach ($screening_times as $screening_time) {
+        // Kiểm tra nếu suất chiếu trống
+        if (empty($screening_time)) {
+            echo "Suất chiếu không được để trống.";
+            return; // Dừng việc xử lý tiếp theo
+        }
+
         // Chuẩn bị câu truy vấn SQL
         $stmt = $conn->prepare("INSERT INTO screenings (showtime_id, screening_time) VALUES (?, ?)");
         $stmt->bind_param("is", $showtime_id, $screening_time);
@@ -15,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addscreen'])) {
         // Thực hiện câu truy vấn
         if (!$stmt->execute()) {
             echo "Lỗi: " . $stmt->error;
+            return; // Dừng việc xử lý tiếp theo nếu có lỗi
         }
     }
 
     echo "Thêm suất chiếu thành công!";
     $stmt->close();
 }
-
 
 // Xoá phim
 if (isset($_GET['delete'])) {
@@ -312,60 +330,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editscreening'])) {
         </div>
     </div>
            
-     <!-- The Modal -->
-        <form action="screening.php" method="POST" enctype="multipart/form-data">
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1>Thêm suất chiếu</h1>
-                    <div class="container">
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label for="showtime">* Lịch chiếu</label>
-                                <select name="showtime_id" required>
-                                    <option value="">Chọn </option>
-                                    <?php
-                                    // Lấy danh sách lịch  từ cơ sở dữ liệu
-                                    $movieQuery = "SELECT showtimes.showtime_id, showtimes.show_date, movies.title 
-                                                    FROM showtimes 
-                                                    INNER JOIN movies ON showtimes.movie_id = movies.movie_id";
-                                    $movieResult = $conn->query($movieQuery);
-                                    if ($movieResult->num_rows > 0) {
-                                        while ($movieRow = $movieResult->fetch_assoc()) {
-                                            echo '<option value="' . $movieRow['showtime_id'] . '">' . $movieRow['show_date'] . ' - ' . $movieRow['title'] . '</option>'; 
-                                        }
-                                    } else {
-                                        echo '<option value="">Không có lịch chiếu nào.</option>';
+    <!-- The Modal -->
+    <form action="screening.php" method="POST" enctype="multipart/form-data">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Thêm suất chiếu</h1>
+                <div class="container">
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="showtime">* Lịch chiếu</label>
+                            <select name="showtime_id" required>
+                                <option value="">Chọn </option>
+                                <?php
+                                // Lấy danh sách lịch từ cơ sở dữ liệu
+                                $movieQuery = "SELECT showtimes.showtime_id, showtimes.show_date, movies.title 
+                                            FROM showtimes 
+                                            INNER JOIN movies ON showtimes.movie_id = movies.movie_id";
+                                $movieResult = $conn->query($movieQuery);
+                                if ($movieResult->num_rows > 0) {
+                                    while ($movieRow = $movieResult->fetch_assoc()) {
+                                        echo '<option value="' . $movieRow['showtime_id'] . '">' . $movieRow['show_date'] . ' - ' . $movieRow['title'] . '</option>'; 
                                     }
-                                    ?>
-                                </select>
-                            
-                            </div>
+                                } else {
+                                    echo '<option value="">Không có lịch chiếu nào.</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <div class="form-row">
-
-                            <div class="form-group half-width">
-                                <div id="screeningInputs">
-                                    <div class="screen-hd">
-                                        * Suất chiếu
-                                        <button style="width: 120px; height:60px; " type="button" onclick="addScreeningInput()">Thêm suất chiếu</button>
-                                    </div>
-                                    
-                                        <input style="width:100px" type="time" name="screening_time[]" required>
-                                    
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <div id="screeningInputs">
+                                <div class="screen-hd">
+                                    * Suất chiếu
+                                    <button style="width: 120px; height:60px;" type="button" onclick="addScreeningInput()">Thêm suất chiếu</button>
                                 </div>
+                                <input style="width:100px" type="time" name="screening_time[]" required>
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addscreen">Thêm suất chiếu</button>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="submit-btn" id="addMovieBtn" name="addscreen">Thêm suất chiếu</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-    
 
     <!-- Sửa phim -->
     <form action="screening.php" method="POST" enctype="multipart/form-data">

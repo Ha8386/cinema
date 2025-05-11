@@ -35,10 +35,6 @@ if (btn) {
         modal.style.display = "block";
     }
 }
-// When the user clicks on <span> (x), close the modal
-
-
-
 
 
 //  xoá phim
@@ -95,6 +91,17 @@ function addScreeningInput() {
     inputGroup.innerHTML = `<input style="width:100px" type="time" name="screening_time[]" required>`;
     container.appendChild(inputGroup);
 }
+
+function validateAddShowtime() {
+        const movie_id = document.getElementById('movie_id').value;
+        const show_date = document.getElementById('show_date').value;
+
+        if (!movie_id || !show_date) {
+            alert("Vui lòng chọn đầy đủ thông tin: Phim chiếu và Ngày chiếu.");
+            return false;  // Ngừng việc gửi form nếu không hợp lệ
+        }
+        return true;
+    }
 
 // sửa phim
 function editMovie(movieId) {

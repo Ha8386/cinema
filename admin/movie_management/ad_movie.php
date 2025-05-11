@@ -3,38 +3,54 @@ include '../../user/db_connection.php';
 
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addmovie'])) {
-    $title = $_POST['title'];
-    $age_rating = $_POST['age_rating'];
-    $trailer_url = $_FILES['trailer_url']['name'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addmovie'])) {
+    // 1. Lấy dữ liệu
+    $title        = $_POST['title'];
+    $age_rating   = $_POST['age_rating'];
     $release_date = $_POST['release_date'];
-    $image_url = $_FILES['image_url']['name'];
-    $description_mv = $_POST['description'];
-    $genre = $_POST['genre'];
-    $status_mv = $_POST['status'];
-    $subtitle = $_POST['subtitle'];
-    $country = $_POST['country'];
-    $duration = $_POST['duration'];
-    $vietsub  = $_POST['vietsub'];
+    $description  = $_POST['description'];
+    $genre        = $_POST['genre'];
+    $status_mv    = $_POST['status'];
+    $subtitle     = $_POST['subtitle'];
+    $country      = $_POST['country'];
+    $duration     = $_POST['duration'];
+    $vietsub      = $_POST['vietsub'];
 
+    // 2. Chuẩn bị tên file (nếu có) và upload
+    $trailer_url = $_FILES['trailer_url']['name'] ?: null;
+    if ($trailer_url) {
+        move_uploaded_file($_FILES['trailer_url']['tmp_name'], "../../assets/trailer/$trailer_url");
+    }
+    $image_url = $_FILES['image_url']['name'] ?: null;
+    if ($image_url) {
+        move_uploaded_file($_FILES['image_url']['tmp_name'], "../../assets/img/$image_url");
+    }
 
-    // Xử lý upload file (trailer và image)
-    move_uploaded_file($_FILES['trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
-    move_uploaded_file($_FILES['image_url']['tmp_name'], "../../assets/img/" . $image_url);
-    
-    // Chuẩn bị câu truy vấn SQL
-    $stmt = $conn->prepare("INSERT INTO movies (title, genre, age_rating, release_date, country, subtitle, status_mv, description_mv, trailer_url, image_url, duration, vietsub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssssssss", $title, $genre, $age_rating, $release_date, $country, $subtitle, $status_mv, $description_mv, $trailer_url, $image_url, $duration, $vietsub);
+    // 3. Insert vào DB
+    $stmt = $conn->prepare("
+        INSERT INTO movies
+        (title, genre, age_rating, release_date, country, subtitle, status_mv, description_mv, trailer_url, image_url, duration, vietsub)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param(
+        "ssssssssssss",
+        $title, $genre, $age_rating, $release_date, $country,
+        $subtitle, $status_mv, $description, $trailer_url,
+        $image_url, $duration, $vietsub
+    );
 
-    // Thực hiện câu truy vấn
     if ($stmt->execute()) {
-        echo "Thêm phim thành công!";
+        echo "<script>alert('Thêm phim thành công!');</script>";
+        // nếu muốn reset form:
+        $_POST = [];
     } else {
-        echo "Lỗi: " . $stmt->error;
+        echo "<script>alert('Lỗi DB: " . addslashes($stmt->error) . "');</script>";
     }
 
     $stmt->close();
 }
+
+
 
 // Xoá phim
 if (isset($_GET['delete'])) {
@@ -64,7 +80,6 @@ if (isset($_GET['delete'])) {
 // sửa phim
 $editData = null;
 
-// Lấy thông tin phim nếu có ID trong URL
 if (isset($_GET['edit'])) {
     $movie_id = $_GET['edit'];
     $query = "SELECT * FROM movies WHERE movie_id = ?";
@@ -77,13 +92,12 @@ if (isset($_GET['edit'])) {
         $current_trailer = $editData['trailer_url'];
         $current_image = $editData['image_url'];
         $status_mv = $editData['status_mv'];
-
     }
-
     $stmt->close();
 }
+
 if (isset($_POST['updatemovie'])) {
-    
+    // Lấy dữ liệu từ form
     $title = $_POST['edit_title'];
     $age_rating = $_POST['edit_age_rating'];
     $release_date = $_POST['edit_release_date'];
@@ -95,6 +109,7 @@ if (isset($_POST['updatemovie'])) {
     $duration = $_POST['edit_duration'];
     $country = $_POST['edit_country'];
 
+    // Tiến hành cập nhật thông tin phim
     if (isset($_FILES['edit_trailer_url'])) {
         $trailer_url = $_FILES['edit_trailer_url']['name'];
         move_uploaded_file($_FILES['edit_trailer_url']['tmp_name'], "../../assets/trailer/" . $trailer_url);
@@ -109,12 +124,11 @@ if (isset($_POST['updatemovie'])) {
         $image_url = $editData['image_url'];
     }
 
-    // Cập nhật thông tin phim
+    // Cập nhật thông tin phim vào cơ sở dữ liệu
     $stmt = $conn->prepare("UPDATE movies SET title = ?, age_rating = ?, release_date = ?, vietsub = ?, description_mv = ?, subtitle = ?, genre = ?, status_mv = ?, duration = ?, country = ?, trailer_url = ?, image_url = ? WHERE movie_id = ?");
     $stmt->bind_param("ssssssssssssi", $title, $age_rating, $release_date, $vietsub, $description_mv, $subtitle, $genre, $status_mv, $duration, $country, $trailer_url, $image_url, $movie_id);
 
     if ($stmt->execute()) {
-        $editData = null;
         echo "<script>alert('Cập nhật phim thành công!');</script>";
         header("Location: ad_movie.php");
         exit;
@@ -122,8 +136,8 @@ if (isset($_POST['updatemovie'])) {
         echo "<script>alert('Có lỗi xảy ra khi cập nhật phim. Vui lòng thử lại!');</script>";
     }
     $stmt->close();
-    
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -143,6 +157,7 @@ if (isset($_POST['updatemovie'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <div class="sidebar">
@@ -289,7 +304,7 @@ if (isset($_POST['updatemovie'])) {
                                 echo '<td><button class="edit" onclick="editMovie(' . $row['movie_id'] . ')">Sửa</button>
                                       <button class="delete" onclick="deleteMovie(' . $row['movie_id'] . ')">Xóa</button></td>';
                                 echo '</tr>';
-                            }
+                            } 
                         } else {
                             echo '<tr><td colspan="8">Không tìm thấy kết quả!</td></tr>';
                         }
@@ -325,184 +340,302 @@ if (isset($_POST['updatemovie'])) {
         </div>
     </div>
            
-     <!-- The Modal -->
-     <form  action="ad_movie.php" method="POST" enctype="multipart/form-data">
-         <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h1>Thêm phim</h1>
-                <div class="container">
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="name">* Tên phim</label>
-                            <input type="text" name="title" placeholder="Enter name" >
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="age">* Độ tuổi xem phim</label>
-                            <input type="text" name="age_rating" placeholder="Enter age">
-                        </div>
+    <!-- The Modal -->
+    <form action="ad_movie.php" method="POST" enctype="multipart/form-data" id="addMovieForm">
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Thêm phim</h1>
+            <div class="container">
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="name">* Tên phim</label>
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Enter name"
+                            required
+                            value="<?= htmlspecialchars($_POST['title'] ?? '') ?>"
+                        >
                     </div>
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="trailer">* Trailer</label>
-                            <input type="file" name="trailer_url">
-                            <p id="current_trailer"></p>
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="date">* Ngày chiếu</label>
-                            <input type="date" name="release_date">
-                        </div>
+                    
+                    <div class="form-group half-width">
+                        <label for="age">* Độ tuổi xem phim</label>
+                        <input
+                            type="number"
+                            name="age_rating"
+                            placeholder="Enter age"
+                            required
+                            min="0" max="18"
+                            oninvalid="this.setCustomValidity('Tuổi phải từ 0–18')"
+                            oninput="this.setCustomValidity('')"
+                            value="<?= htmlspecialchars($_POST['age_rating'] ?? '') ?>"
+                        >
                     </div>
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="image">* Ảnh</label>
-                            <input type="file" name="image_url">
-                            <p id="current_image"></p>
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="vietsub">Phụ đề</label>
-                            <input type="text" name="vietsub" placeholder="Enter sub">
-                        </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="trailer">Trailer</label>
+                        <input type="file" name="trailer_url" accept="video/*">
                     </div>
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="description">* Nội dung phim</label>
-                            <textarea name="description" placeholder="Enter description"></textarea>
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="description">* Mô tả</label>
-                            <textarea name="subtitle" placeholder="Enter subtitle"></textarea>
-                        </div>
-                        
+                    <div class="form-group half-width">
+                        <label for="date">* Ngày chiếu</label>
+                        <input
+                            type="date"
+                            name="release_date"
+                            
+                        >
                     </div>
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="genres">Thể loại</label>
-                            <input type="text" name="genre" id="editGenre" placeholder="Enter genres">
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="status">* Trạng thái</label>
-                            <select name="status">
-                                <option>Chọn trạng thái</option>
-                                <option>Đang chiếu</option>
-                                <option>Sắp chiếu</option>
-                            </select>
-                        </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="image">Ảnh</label>
+                        <input type="file" name="image_url" accept="image/*">
                     </div>
-                    <div class="form-row">
-                        <div class="form-group half-width">
-                            <label for="duration">* Thời lượng phim (phút)</label>
-                            <input type="text" name="duration" placeholder="Enter duration">
-                        </div>
-                        <div class="form-group half-width">
-                            <label for="country">* Quốc gia</label>
-                            <input type="text" name="country" placeholder="Enter country">
-                        </div>
+                    <div class="form-group half-width">
+                        <label for="vietsub">Phụ đề</label>
+                        <input
+                            type="text"
+                            name="vietsub"
+                            placeholder="Enter sub"
+                            value="<?= htmlspecialchars($_POST['vietsub'] ?? '') ?>"
+                        >
                     </div>
-                    <div class="form-group">
-                        <button class="submit-btn" id="addMovieBtn" name ="addmovie">Thêm phim</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="description">* Nội dung phim</label>
+                        <textarea
+                            name="description"
+                            placeholder="Enter description"
+                            required
+                        ><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
                     </div>
+                    <div class="form-group half-width">
+                        <label for="subtitle">* Mô tả</label>
+                        <textarea
+                            name="subtitle"
+                            placeholder="Enter subtitle"
+                            required
+                        ><?= htmlspecialchars($_POST['subtitle'] ?? '') ?></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="genres">Thể loại</label>
+                        <input
+                            type="text"
+                            name="genre"
+                            id="editGenre"
+                            placeholder="Enter genres"
+                            value="<?= htmlspecialchars($_POST['genre'] ?? '') ?>"
+                        >
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="status">* Trạng thái</label>
+                        <select name="status" required>
+                            <option value="">Chọn trạng thái</option>
+                            <option value="Đang chiếu" <?= (($_POST['status'] ?? '') == 'Đang chiếu' ? 'selected' : '') ?>>Đang chiếu</option>
+                            <option value="Sắp chiếu" <?= (($_POST['status'] ?? '') == 'Sắp chiếu' ? 'selected' : '') ?>>Sắp chiếu</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="duration">* Thời lượng phim (phút)</label>
+                        <input
+                            type="number"
+                            name="duration"
+                            placeholder="Enter duration"
+                            required
+                            min="1" max="300"
+                            oninvalid="this.setCustomValidity('Thời lượng 1–300 phút')"
+                            oninput="this.setCustomValidity('')"
+                            value="<?= htmlspecialchars($_POST['duration'] ?? '') ?>"
+                        >
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="country">* Quốc gia</label>
+                        <input
+                            type="text"
+                            name="country"
+                            placeholder="Enter country"
+                            required
+                            value="<?= htmlspecialchars($_POST['country'] ?? '') ?>"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="submit-btn" id="addMovieBtn" name="addmovie">Thêm phim</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
+
+
+
 
     <!-- sửa phim -->
-    
-    <form id="editMovieForm" action="ad_movie.php?edit=<?php echo $editData ? $editData['movie_id'] : ''; ?>" method="POST" enctype="multipart/form-data">
-        
-         <div id="editModal" class="modal">
+    <form id="editMovieForm" action="ad_movie.php?edit=<?php echo $editData['movie_id']; ?>" method="POST" enctype="multipart/form-data">
+        <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h1>Sửa phim</h1>
                 <div class="container">
                     <div class="form-row">
-                    <input type="hidden" name="movie_id" value="<?php echo   $movie_id ; ?>">
-
+                        <input type="hidden" name="movie_id" value="<?= htmlspecialchars($movie_id); ?>">
 
                         <div class="form-group half-width">
-                            <label for="name">* Tên phim</label>
-                            <input type="text" name="edit_title" placeholder="Enter name" value="<?php echo $editData['title']; ?>">
+                            <label>* Tên phim</label>
+                            <input
+                                type="text"
+                                name="edit_title"
+                                placeholder="Enter name"
+                                required
+                                value="<?= htmlspecialchars($editData['title']); ?>"
+                            >
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="age">* Độ tuổi xem phim</label>
-                            <input type="text" name="edit_age_rating" placeholder="Enter age"  value="<?php echo $editData['age_rating']; ?>">
+                            <label>* Độ tuổi xem phim</label>
+                            <input
+                                type="number"
+                                name="edit_age_rating"
+                                placeholder="Enter age"
+                                required
+                                min="0" max="18"
+                                oninvalid="this.setCustomValidity('Tuổi phải từ 0–18')"
+                                oninput="this.setCustomValidity('')"
+                                value="<?= htmlspecialchars($editData['age_rating']); ?>"
+                            >
                         </div>
                     </div>  
+
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="trailer">* Trailer</label>
-                            <input type="file" name="edit_trailer_url">
-                            <p id="current_trailer">Trailer hiện tại: <?php echo $current_trailer; ?></p>
+                            <label>* Trailer</label>
+                            <input type="file" name="edit_trailer_url" accept="video/*">
+                            <p>Trailer hiện tại: <?= htmlspecialchars($current_trailer); ?></p>
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="date">* Ngày chiếu</label>
-                            <input type="date" name="edit_release_date" value="<?php echo$editData['release_date']; ?>">
+                            <label>* Ngày chiếu</label>
+                            <input
+                                type="date"
+                                name="edit_release_date"
+                                required
+                                oninvalid="this.setCustomValidity('Vui lòng chọn ngày chiếu')"
+                                oninput="this.setCustomValidity('')"
+                                value="<?= htmlspecialchars($editData['release_date']); ?>"
+                            >
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="image">* Ảnh</label>
-                            <input type="file" name="edit_image_url">
-                            <p id="current_image">Ảnh hiện tại: <?php echo$current_image; ?></p>
+                            <label>* Ảnh</label>
+                            <input type="file" name="edit_image_url" accept="image/*">
+                            <p>Ảnh hiện tại: <?= htmlspecialchars($current_image); ?></p>
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="vietsub">Phụ đề</label>
-                            <input type="text" name="edit_vietsub" placeholder="Enter sub" value="<?php echo$editData['vietsub']; ?>">
+                            <label>Phụ đề</label>
+                            <input
+                                type="text"
+                                name="edit_vietsub"
+                                placeholder="Enter sub"
+                                value="<?= htmlspecialchars($editData['vietsub']); ?>"
+                            >
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="description">* Nội dung phim</label>
-                            <textarea name="edit_description" placeholder="Enter description"><?php echo$editData['description_mv']; ?></textarea>
+                            <label>* Nội dung phim</label>
+                            <textarea
+                                name="edit_description"
+                                placeholder="Enter description"
+                                required
+                                oninvalid="this.setCustomValidity('Vui lòng nhập nội dung phim')"
+                                oninput="this.setCustomValidity('')"
+                            ><?= htmlspecialchars($editData['description_mv']); ?></textarea>
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="description">* Mô tả</label>
-                            <textarea name="edit_subtitle" placeholder="Enter subtitle"><?php echo$editData['subtitle']; ?></textarea>
+                            <label>* Mô tả</label>
+                            <textarea
+                                name="edit_subtitle"
+                                placeholder="Enter subtitle"
+                                required
+                                oninvalid="this.setCustomValidity('Vui lòng nhập mô tả')"
+                                oninput="this.setCustomValidity('')"
+                            ><?= htmlspecialchars($editData['subtitle']); ?></textarea>
                         </div>
-                        
                     </div>
+
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="genres">Thể loại</label>
-                            <input type="text" name="edit_genre" id="editGenre" placeholder="Enter genres" value="<?php echo$editData['genre']; ?>">
+                            <label>Thể loại</label>
+                            <input
+                                type="text"
+                                name="edit_genre"
+                                placeholder="Enter genres"
+                                value="<?= htmlspecialchars($editData['genre']); ?>"
+                            >
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="status">* Trạng thái</label>
-                            <select name="edit_status">
-                                <option disabled selected >Chọn trạng thái</option>
-                                <option value="Đang chiếu" <?php echo (isset($status_mv) && $status_mv === 'Đang chiếu') ? 'selected' : ''; ?>>Đang chiếu</option>
-                                <option value="Sắp chiếu" <?php echo (isset($status_mv) && $status_mv === 'Sắp  chiếu') ? 'selected' : ''; ?>>Sắp chiếu</option>
+                            <label>* Trạng thái</label>
+                            <select
+                                name="edit_status"
+                                required
+                                oninvalid="this.setCustomValidity('Vui lòng chọn trạng thái')"
+                                oninput="this.setCustomValidity('')"
+                            >
+                                <option value="">Chọn trạng thái</option>
+                                <option value="Đang chiếu" <?= ($editData['status_mv'] === 'Đang chiếu') ? 'selected' : ''; ?>>Đang chiếu</option>
+                                <option value="Sắp chiếu" <?= ($editData['status_mv'] === 'Sắp chiếu') ? 'selected' : ''; ?>>Sắp chiếu</option>
                             </select>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group half-width">
-                            <label for="duration">* Thời lượng phim (phút)</label>
-                            <input type="text" name="edit_duration" placeholder="Enter duration" value="<?php echo$editData['duration']; ?>">
+                            <label>* Thời lượng phim (phút)</label>
+                            <input
+                                type="number"
+                                name="edit_duration"
+                                placeholder="Enter duration"
+                                required
+                                min="1" max="300"
+                                oninvalid="this.setCustomValidity('Thời lượng phải từ 1–300')"
+                                oninput="this.setCustomValidity('')"
+                                value="<?= htmlspecialchars($editData['duration']); ?>"
+                            >
                         </div>
+
                         <div class="form-group half-width">
-                            <label for="country">* Quốc gia</label>
-                            <input type="text" name="edit_country" placeholder="Enter country" value="<?php echo $editData['country']; ?>">
+                            <label>* Quốc gia</label>
+                            <input
+                                type="text"
+                                name="edit_country"
+                                placeholder="Enter country"
+                                required
+                                oninvalid="this.setCustomValidity('Vui lòng nhập quốc gia')"
+                                oninput="this.setCustomValidity('')"
+                                value="<?= htmlspecialchars($editData['country']); ?>"
+                            >
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <button class="submit-btn" id="addMovieBtn" name ="updatemovie">Cập nhật</button>
+                        <button class="submit-btn" name="updatemovie">Cập nhật</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-
-    
-
-    
-
-    
-
-    
-
-
 
 
     <script src="../js/admin.js"></script>

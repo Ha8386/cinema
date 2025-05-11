@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['login'])) {
         $username = $_POST['username'];
         $password_cs = $_POST['password_cs'];
-        if ($username == "admin" && $password_cs == "admin") {
+        if ($username == "admin" && $password_cs == "admin123") {
             // Redirect to admin.php in the 'admin' folder
             header('Location: ../admin/admin.php');
             exit();
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Kiểm tra nếu mật khẩu khớp
         if ($password_cs !== $confirm_password) {
-            $_SESSION['modal_to_show'] = "passwordMismatch Modal";
+            $_SESSION['modal_to_show'] = "passwordMismatchModal";
             
         }
          // Kiểm tra xem email đã tồn tại chưa
@@ -196,17 +196,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="login">
                 <div class="login-form login-form-login">
-                    <form action="login.php" method="post">
+                    <form id="loginForm" action="login.php" method="post">
                         <h1>Đăng nhập</h1>
                         <div class="input-box">
-    
-                            <input type="text" id="username" name="username" required placeholder="Tên đăng nhập">
-                            <i class="fa-solid fa-user"></i>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                required
+                                placeholder="Tên đăng nhập"
+                                minlength="6"
+                                maxlength="50"
+                                required
+                                oninvalid="this.setCustomValidity('Độ dài tên đăng nhập phải nằm trong khoảng 5-60 ký tự.')"
+                                oninput="this.setCustomValidity('')"
+                                value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"
+                            >
                         </div>
                         <div class="input-box">
-                            
-                            <input type="password" id="password" name="password_cs" required placeholder="Mật khẩu">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password_cs"
+                                required
+                                placeholder="Mật khẩu"
+                                minlength="6"
+                            >
                             <i class="fa-solid fa-lock"></i>
+                            <small class="error-message"></small>
                         </div>
                         <div class="remember-forgot">
                             <label>
@@ -214,15 +231,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </label>
                             <a href="forgot_pw.php">Quên mật khẩu</a>
                         </div>
-                        <button class="btn" name="login">ĐĂNG NHẬP</button>
+                        <button class="btn" type="submit" name="login">ĐĂNG NHẬP</button>
                         <div class="register-link">
-                            <p>Bạn chưa có tài khoản? <a href="#"  class="switch-to-register">Đăng ký</a></p>
+                            <p>Bạn chưa có tài khoản? <a href="#" class="switch-to-register">Đăng ký</a></p>
                         </div>
                     </form>
                 </div>
             
                 <div class="login-form login-form-register">
-
                     <form action="login.php" method="POST">
                         <h1>Đăng ký</h1>
                         <div class="input-box">
@@ -230,23 +246,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <i class="fa-solid fa-pen"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" name="phone" required placeholder="Số điện thoại">
+                            <input type="text" name="phone" required placeholder="Số điện thoại" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
                             <i class="fa-solid fa-phone"></i>
                         </div>
                         <div class="input-box">
-                            <input type="email" name="email" required placeholder="Email">
+                            <input type="email" name="email" required placeholder="Email"   onblur="validateEmail(this)">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" name="username" required placeholder="Tên đăng nhập">
+                            <input type="text" name="username" required placeholder="Tên đăng nhập" minlength="4">
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="input-box">
-                            <input type="password" name="password_cs" required placeholder="Mật khẩu">
+                            <input type="password" name="password_cs" required placeholder="Mật khẩu" minlength="6">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="input-box">
-                            <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu">
+                            <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="remember-forgot">
@@ -282,6 +298,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="modal-content">
                     <span class="close" onclick="closeModal('emailExistsModal')">&times;</span>
                     <p>Email đã tồn tại!</p>
+                    <script>
+
+                    </script>
+
                 </div>
             </div>
 
@@ -321,6 +341,92 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     
     <script src="../user/script.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const registerForm = document.querySelector(".login-form-register form");
+
+        registerForm.addEventListener("submit", function (e) {
+            const name = registerForm.customer_name.value.trim();
+            const phone = registerForm.phone.value.trim();
+            const email = registerForm.email.value.trim(); // Thêm dòng này
+            const username = registerForm.username.value.trim();
+            const password = registerForm.password_cs.value;
+            const confirmPassword = registerForm.confirm_password.value;
+
+            const nameRegex = /^[^\d!@#$%^&*()_+={}[\]|\\:;"'<>,.?/~`]+$/;
+            const phoneRegex = /^(84|0[3|5|7|8|9])+([0-9]{8})$/;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Thêm regex cho email
+            const usernameLength = username.length;
+
+            // Họ và tên không được chứa số hoặc ký tự đặc biệt
+            if (!nameRegex.test(name)) {
+                alert("Họ và tên không được chứa số hoặc ký tự đặc biệt.");
+                e.preventDefault();
+                return;
+            }
+
+            // Số điện thoại chỉ được chứa số, theo định dạng đã cho
+            if (!phoneRegex.test(phone)) {
+                alert("Số điện thoại không hợp lệ (phải bắt đầu bằng 84 hoặc 0x và có 10 chữ số).");
+                e.preventDefault();
+                return;
+            }
+
+            // Kiểm tra email hợp lệ
+            if (!emailRegex.test(email)) {
+                alert("Email không hợp lệ. Vui lòng nhập email có dạng example@domain.com");
+                e.preventDefault();
+                return;
+            }
+
+            // Tên đăng nhập từ 6 đến 50 ký tự
+            if (usernameLength < 6 || usernameLength > 50) {
+                alert("Tên đăng nhập phải từ 6 đến 50 ký tự.");
+                e.preventDefault();
+                return;
+            }
+
+            // Kiểm tra mật khẩu khớp
+            if (password !== confirmPassword) {
+                alert("Mật khẩu không khớp!");
+                e.preventDefault();
+                return;
+            }
+        });
+    });
+
+    // function validateUsername() {
+    //     const usernameInput = document.getElementById('username');
+    //     const username = usernameInput.value;
+
+    //     // Kiểm tra không nhập gì
+    //     if (username.trim() === "") {
+    //         alert('Tên đăng nhập không được để trống.');
+    //         usernameInput.focus();
+    //         return false;
+    //     }
+
+    //     // Kiểm tra khoảng trắng
+    //     if (/\s/.test(username)) {
+    //         alert('Tên đăng nhập không được chứa khoảng trắng.');
+    //         usernameInput.value = username.replace(/\s/g, ""); // Loại bỏ khoảng trắng
+    //         usernameInput.focus();
+    //         return false;
+    //     }
+
+    //     // Kiểm tra ký tự đặc biệt
+    //     if (!/^[a-zA-Z0-9]*$/.test(username)) {
+    //         alert('Tên đăng nhập không được chứa ký tự đặc biệt.');
+    //         usernameInput.value = username.replace(/[^a-zA-Z0-9]/g, ""); // Loại bỏ ký tự đặc biệt
+    //         usernameInput.focus();
+    //         return false;
+    //     }
+
+    //     return true;
+    // }
+    </script>
+
     <?php if (isset($_SESSION['modal_to_show'])): ?>
         <script>
             const modalToShow = "<?php echo $_SESSION['modal_to_show']; ?>";
@@ -334,4 +440,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </body>
 
-</html>
+</html>z

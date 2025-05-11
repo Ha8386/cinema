@@ -2,21 +2,28 @@
 include '../../user/db_connection.php';
 
 $search = isset($_GET['search']) ? addslashes($_GET['search']) : '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addshowtime'])) {
     $movie_id = trim($_POST['movie_id']); 
     $show_date = trim($_POST['show_date']);
+    
+    // Kiểm tra nếu có trường dữ liệu trống
+    if (empty($movie_id) || empty($show_date)) {
+        echo "Vui lòng điền đầy đủ thông tin: Phim chiếu và Ngày chiếu.";
+        return;
+    }
 
-   
+    // Kiểm tra xem lịch chiếu đã tồn tại chưa
     $checkQuery = "SELECT * FROM showtimes WHERE movie_id = ? AND show_date = ?";
     $checkStmt = $conn->prepare($checkQuery);
     $checkStmt->bind_param("is", $movie_id, $show_date);
     $checkStmt->execute();
     $checkResult = $checkStmt->get_result();
 
-if ($checkResult->num_rows > 0) {
-    echo "Lịch chiếu cho ngày này đã tồn tại.";
-    return;
-}
+    if ($checkResult->num_rows > 0) {
+        echo "Lịch chiếu cho ngày này đã tồn tại.";
+        return;
+    }
 
     // Chuẩn bị câu truy vấn SQL
     $stmt = $conn->prepare("INSERT INTO showtimes (movie_id, show_date) VALUES (?, ?)");
@@ -322,47 +329,44 @@ if ($conn->query($sql_old) === TRUE) {
     </div>
            
      <!-- The Modal -->
-        <form action="showtime.php" method="POST" enctype="multipart/form-data">
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h1>Thêm lịch chiếu</h1>
-                    <div class="container">
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label for="showtime">* Phim chiếu</label>
-                                <select name="movie_id" required>
-                                    <option value="">Chọn phim</option>
-                                    <?php
-                                    // Lấy danh sách phim  từ cơ sở dữ liệu
-                                    $movieQuery = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
-                                    $movieResult = $conn->query($movieQuery);
-                                    if ($movieResult->num_rows > 0) {
-                                        while ($movieRow = $movieResult->fetch_assoc()) {
-                                            echo '<option value="' . $movieRow['movie_id'] . '">' . $movieRow['title'] . '</option>'; 
-                                        }
-                                    } else {
-                                        echo '<option value="">Không có phim nào.</option>';
+     <form action="showtime.php" method="POST" enctype="multipart/form-data" onsubmit="return validateAddShowtime()">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Thêm lịch chiếu</h1>
+                <div class="container">
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="showtime">* Phim chiếu</label>
+                            <select name="movie_id" id="movie_id" required>
+                                <option value="">Chọn phim</option>
+                                <?php
+                                // Lấy danh sách phim từ cơ sở dữ liệu
+                                $movieQuery = "SELECT * FROM movies WHERE status_mv = 'Đang chiếu'";
+                                $movieResult = $conn->query($movieQuery);
+                                if ($movieResult->num_rows > 0) {
+                                    while ($movieRow = $movieResult->fetch_assoc()) {
+                                        echo '<option value="' . $movieRow['movie_id'] . '">' . $movieRow['title'] . '</option>'; 
                                     }
-                                    ?>
-                                </select>
-                            
-                            </div>
-                        
-                    
-                            <div class="form-group half-width">
-                                <label for="show_date">* Ngày chiếu</label>
-                                <input type="date" name="show_date" required>
-                            
-                            </div>
+                                } else {
+                                    echo '<option value="">Không có phim nào.</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <button class="submit-btn" id="addMovieBtn" name ="addshowtime">Thêm lịch chiếu</button>
+
+                        <div class="form-group half-width">
+                            <label for="show_date">* Ngày chiếu</label>
+                            <input type="date" name="show_date" id="show_date" required>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="submit-btn" id="addMovieBtn" name="addshowtime">Thêm lịch chiếu</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
     
 

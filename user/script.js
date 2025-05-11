@@ -490,7 +490,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 // Cập nhật ngày theo thời gian thực cho khối chọn ngày trong showtimes.php
-// Hàm cập nhật ngày theo thời gian thực cho khối chọn ngày trong showtimes.php
 function updateDateOptions() {
     const select = document.getElementById("date-select");
     select.innerHTML = ""; // Xóa tất cả tùy chọn hiện có

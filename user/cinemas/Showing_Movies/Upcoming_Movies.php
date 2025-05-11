@@ -12,7 +12,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4SCinema Cầu Giấy</title>
+    <title>Phim sắp chiếu</title>
     <link rel="icon" href="../../..../../..../../../assets/img/logo4S-onlyic.png" type="x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../../../assets/css/base.css">
