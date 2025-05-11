@@ -248,27 +248,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="input-box">
                             <input type="text" name="phone" required placeholder="Số điện thoại" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
-                            <input type="text" name="phone" required placeholder="Số điện thoại" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
                             <i class="fa-solid fa-phone"></i>
                         </div>
                         <div class="input-box">
-                            <input type="email" name="email" required placeholder="Email"   onblur="validateEmail(this)">
                             <input type="email" name="email" required placeholder="Email"   onblur="validateEmail(this)">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <div class="input-box">
                             <input type="text" name="username" required placeholder="Tên đăng nhập" minlength="4">
-                            <input type="text" name="username" required placeholder="Tên đăng nhập" minlength="4">
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="input-box">
                             <input type="password" name="password_cs" required placeholder="Mật khẩu" minlength="6">
-                            <input type="password" name="password_cs" required placeholder="Mật khẩu" minlength="6">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="input-box">
-                            <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
-                            <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
+                                <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="remember-forgot">
