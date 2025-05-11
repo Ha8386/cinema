@@ -445,5 +445,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </body>
 
-</html>z
-</html>z
+</html>
+</html>
