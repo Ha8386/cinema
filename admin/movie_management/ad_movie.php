@@ -435,6 +435,7 @@ if (isset($_POST['updatemovie'])) {
                             type="text"
                             name="genre"
                             id="editGenre"
+                            required
                             placeholder="Enter genres"
                             value="<?= htmlspecialchars($_POST['genre'] ?? '') ?>"
                         >
@@ -606,6 +607,7 @@ if (isset($_POST['updatemovie'])) {
                             <input
                                 type="text"
                                 name="edit_genre"
+                                required
                                 placeholder="Enter genres"
                                 value="<?= htmlspecialchars($editData['genre']); ?>"
                             >
