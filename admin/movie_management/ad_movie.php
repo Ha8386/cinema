@@ -378,7 +378,10 @@ if (isset($_POST['updatemovie'])) {
                 <div class="form-row">
                     <div class="form-group half-width">
                         <label for="trailer">Trailer</label>
-                        <input type="file" name="trailer_url" accept="video/*">
+                        <input type="file" 
+                                name="trailer_url" 
+                                required
+                                accept="video/*">
                     </div>
                     <div class="form-group half-width">
                         <label for="date">* Ngày chiếu</label>
@@ -392,7 +395,10 @@ if (isset($_POST['updatemovie'])) {
                 <div class="form-row">
                     <div class="form-group half-width">
                         <label for="image">Ảnh</label>
-                        <input type="file" name="image_url" accept="image/*">
+                        <input type="file" 
+                                name="image_url" 
+                                required
+                                accept="image/*">
                     </div>
                     <div class="form-group half-width">
                         <label for="vietsub">Phụ đề</label>
@@ -519,7 +525,12 @@ if (isset($_POST['updatemovie'])) {
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label>* Trailer</label>
-                            <input type="file" name="edit_trailer_url" accept="video/*">
+                            <input  
+                                type="file"     
+                                name="edit_trailer_url" 
+                                required
+                                accept="video/*"
+                            >
                             <p>Trailer hiện tại: <?= htmlspecialchars($current_trailer); ?></p>
                         </div>
 
@@ -541,7 +552,12 @@ if (isset($_POST['updatemovie'])) {
                     <div class="form-row">
                         <div class="form-group half-width">
                             <label>* Ảnh</label>
-                            <input type="file" name="edit_image_url" accept="image/*">
+                            <input 
+                                    type="file" 
+                                    name="edit_image_url" 
+                                    required
+                                    accept="image/*"
+                            >
                             <p>Ảnh hiện tại: <?= htmlspecialchars($current_image); ?></p>
                         </div>
 

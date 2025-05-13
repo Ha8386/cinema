@@ -206,10 +206,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 name="username"
                                 required
                                 placeholder="Tên đăng nhập"
-                                minlength="6"
+                                minlength="5"
                                 maxlength="50"
                                 required
-                                oninvalid="this.setCustomValidity('Độ dài tên đăng nhập phải nằm trong khoảng 5-60 ký tự.')"
+                                oninvalid="this.setCustomValidity('Độ dài tên đăng nhập phải nằm trong khoảng 5-50 ký tự.')"
                                 oninput="this.setCustomValidity('')"
                                 value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"
                             >
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <i class="fa-solid fa-pen"></i>
                         </div>
                         <div class="input-box">
-                            <input type="text" name="phone" required placeholder="Số điện thoại" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
+                            <input type="number" name="phone" required placeholder="Số điện thoại" pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
                             <i class="fa-solid fa-phone"></i>
                         </div>
                         <div class="input-box">
