@@ -1,6 +1,15 @@
 <?php
 // Kiểm tra xem form đã được gửi chưa
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (empty($_POST['screening_time']) || $_POST['screening_time'] === 'Chưa có thông tin') {
+        echo "<script>alert('Vui lòng chọn ngày chiếu và suất chiếu!'); window.history.back();</script>";
+        exit;
+    }
+    if ( empty($_POST['ticket_types']) || $_POST['ticket_types'] === 'Không có') {
+        echo "<script>alert('Vui lòng chọn loại ghế!'); window.history.back();</script>";
+        exit;
+    }
+    
     // Lấy dữ liệu từ form
     $movieName = isset($_POST['movie_name']) ? htmlspecialchars($_POST['movie_name']) : 'Chưa có thông tin';
     $showDate = isset($_POST['show_date']) ? htmlspecialchars($_POST['show_date']) : 'Chưa có thông tin';

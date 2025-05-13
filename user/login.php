@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="input-box">
-                            <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
+                                <input type="password" name="confirm_password" required placeholder="Xác thực mật khẩu" minlength="6">
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <div class="remember-forgot">
@@ -445,5 +445,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </body>
 
-</html>z
-</html>z
+</html>
+</html>
